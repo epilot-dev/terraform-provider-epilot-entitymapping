@@ -6,25 +6,14 @@ import (
 	"encoding/json"
 	"github.com/epilot-dev/terraform-provider-epilot-journey/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"math/big"
 )
 
 func (r *JourneyResourceModel) ToSharedJourneyCreationRequestV2() *shared.JourneyCreationRequestV2 {
-	var additionalProperties interface{}
-	if !r.AdditionalProperties.IsUnknown() && !r.AdditionalProperties.IsNull() {
-		_ = json.Unmarshal([]byte(r.AdditionalProperties.ValueString()), &additionalProperties)
-	}
 	brandID := new(string)
 	if !r.BrandID.IsUnknown() && !r.BrandID.IsNull() {
 		*brandID = r.BrandID.ValueString()
 	} else {
 		brandID = nil
-	}
-	createdBy := new(string)
-	if !r.CreatedBy.IsUnknown() && !r.CreatedBy.IsNull() {
-		*createdBy = r.CreatedBy.ValueString()
-	} else {
-		createdBy = nil
 	}
 	var design *shared.JourneyCreationRequestV2Design
 	if r.Design != nil {
@@ -74,12 +63,6 @@ func (r *JourneyResourceModel) ToSharedJourneyCreationRequestV2() *shared.Journe
 		})
 	}
 	name := r.Name.ValueString()
-	organizationID := new(string)
-	if !r.OrganizationID.IsUnknown() && !r.OrganizationID.IsNull() {
-		*organizationID = r.OrganizationID.ValueString()
-	} else {
-		organizationID = nil
-	}
 	var rules []shared.JourneyCreationRequestV2Rules = nil
 	for _, rulesItem := range r.Rules {
 		source := rulesItem.Source.ValueString()
@@ -173,12 +156,6 @@ func (r *JourneyResourceModel) ToSharedJourneyCreationRequestV2() *shared.Journe
 				Width:       width,
 			}
 		}
-		entityID := new(string)
-		if !r.Settings.EntityID.IsUnknown() && !r.Settings.EntityID.IsNull() {
-			*entityID = r.Settings.EntityID.ValueString()
-		} else {
-			entityID = nil
-		}
 		var entityTags []string = nil
 		for _, entityTagsItem := range r.Settings.EntityTags {
 			entityTags = append(entityTags, entityTagsItem.ValueString())
@@ -192,17 +169,6 @@ func (r *JourneyResourceModel) ToSharedJourneyCreationRequestV2() *shared.Journe
 			*mappingsAutomationID = r.Settings.MappingsAutomationID.ValueString()
 		} else {
 			mappingsAutomationID = nil
-		}
-		organizationSettings := make(map[string]bool)
-		for organizationSettingsKey, organizationSettingsValue := range r.Settings.OrganizationSettings {
-			organizationSettingsInst := organizationSettingsValue.ValueBool()
-			organizationSettings[organizationSettingsKey] = organizationSettingsInst
-		}
-		publicToken := new(string)
-		if !r.Settings.PublicToken.IsUnknown() && !r.Settings.PublicToken.IsNull() {
-			*publicToken = r.Settings.PublicToken.ValueString()
-		} else {
-			publicToken = nil
 		}
 		var runtimeEntities []shared.JourneyCreationRequestV2RuntimeEntities = nil
 		for _, runtimeEntitiesItem := range r.Settings.RuntimeEntities {
@@ -231,12 +197,9 @@ func (r *JourneyResourceModel) ToSharedJourneyCreationRequestV2() *shared.Journe
 			Description:               description,
 			DesignID:                  designID,
 			EmbedOptions:              embedOptions,
-			EntityID:                  entityID,
 			EntityTags:                entityTags,
 			FilePurposes:              filePurposes,
 			MappingsAutomationID:      mappingsAutomationID,
-			OrganizationSettings:      organizationSettings,
-			PublicToken:               publicToken,
 			RuntimeEntities:           runtimeEntities,
 			SafeModeAutomation:        safeModeAutomation,
 			TargetedCustomer:          targetedCustomer,
@@ -313,31 +276,20 @@ func (r *JourneyResourceModel) ToSharedJourneyCreationRequestV2() *shared.Journe
 		})
 	}
 	out := shared.JourneyCreationRequestV2{
-		AdditionalProperties: additionalProperties,
-		BrandID:              brandID,
-		CreatedBy:            createdBy,
-		Design:               design,
-		JourneyID:            journeyID,
-		Logics:               logics,
-		Name:                 name,
-		OrganizationID:       organizationID,
-		Rules:                rules,
-		Settings:             settings,
-		Steps:                steps,
+		BrandID:   brandID,
+		Design:    design,
+		JourneyID: journeyID,
+		Logics:    logics,
+		Name:      name,
+		Rules:     rules,
+		Settings:  settings,
+		Steps:     steps,
 	}
 	return &out
 }
 
-func (r *JourneyResourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
-	if resp.AdditionalProperties == nil {
-		r.AdditionalProperties = types.StringNull()
-	} else {
-		additionalPropertiesResult, _ := json.Marshal(resp.AdditionalProperties)
-		r.AdditionalProperties = types.StringValue(string(additionalPropertiesResult))
-	}
+func (r *JourneyResourceModel) RefreshFromSharedJourneyCreationRequestV2(resp *shared.JourneyCreationRequestV2) {
 	r.BrandID = types.StringPointerValue(resp.BrandID)
-	r.CreatedAt = types.StringValue(resp.CreatedAt)
-	r.CreatedBy = types.StringPointerValue(resp.CreatedBy)
 	if resp.Design == nil {
 		r.Design = nil
 	} else {
@@ -352,12 +304,11 @@ func (r *JourneyResourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
 		}
 	}
 	r.JourneyID = types.StringPointerValue(resp.JourneyID)
-	r.LastModifiedAt = types.StringValue(resp.LastModifiedAt)
 	if len(r.Logics) > len(resp.Logics) {
 		r.Logics = r.Logics[:len(resp.Logics)]
 	}
 	for logicsCount, logicsItem := range resp.Logics {
-		var logics1 Logics
+		var logics1 JourneyCreationRequestV2Logics
 		logics1.Actions = nil
 		for _, v := range logicsItem.Actions {
 			logics1.Actions = append(logics1.Actions, types.StringValue(v))
@@ -376,13 +327,11 @@ func (r *JourneyResourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
 		}
 	}
 	r.Name = types.StringValue(resp.Name)
-	r.OrganizationID = types.StringValue(resp.OrganizationID)
-	r.Revisions = types.NumberValue(big.NewFloat(float64(resp.Revisions)))
 	if len(r.Rules) > len(resp.Rules) {
 		r.Rules = r.Rules[:len(resp.Rules)]
 	}
 	for rulesCount, rulesItem := range resp.Rules {
-		var rules1 Rules
+		var rules1 JourneyCreationRequestV2Rules
 		rules1.Source = types.StringValue(rulesItem.Source)
 		rules1.SourceType = types.StringValue(string(rulesItem.SourceType))
 		rules1.Target = types.StringValue(rulesItem.Target)
@@ -402,7 +351,7 @@ func (r *JourneyResourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
 		r.Settings = &JourneyCreationRequestV2Settings{}
 		r.Settings.AddressSuggestionsFileURL = types.StringPointerValue(resp.Settings.AddressSuggestionsFileURL)
 		r.Settings.Description = types.StringPointerValue(resp.Settings.Description)
-		r.Settings.DesignID = types.StringValue(resp.Settings.DesignID)
+		r.Settings.DesignID = types.StringPointerValue(resp.Settings.DesignID)
 		if resp.Settings.EmbedOptions == nil {
 			r.Settings.EmbedOptions = nil
 		} else {
@@ -432,7 +381,6 @@ func (r *JourneyResourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
 			r.Settings.EmbedOptions.TopBar = types.BoolPointerValue(resp.Settings.EmbedOptions.TopBar)
 			r.Settings.EmbedOptions.Width = types.StringPointerValue(resp.Settings.EmbedOptions.Width)
 		}
-		r.Settings.EntityID = types.StringPointerValue(resp.Settings.EntityID)
 		r.Settings.EntityTags = nil
 		for _, v := range resp.Settings.EntityTags {
 			r.Settings.EntityTags = append(r.Settings.EntityTags, types.StringValue(v))
@@ -442,13 +390,6 @@ func (r *JourneyResourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
 			r.Settings.FilePurposes = append(r.Settings.FilePurposes, types.StringValue(v))
 		}
 		r.Settings.MappingsAutomationID = types.StringPointerValue(resp.Settings.MappingsAutomationID)
-		if len(resp.Settings.OrganizationSettings) > 0 {
-			r.Settings.OrganizationSettings = make(map[string]types.Bool)
-			for key1, value1 := range resp.Settings.OrganizationSettings {
-				r.Settings.OrganizationSettings[key1] = types.BoolValue(value1)
-			}
-		}
-		r.Settings.PublicToken = types.StringPointerValue(resp.Settings.PublicToken)
 		r.Settings.RuntimeEntities = nil
 		for _, v := range resp.Settings.RuntimeEntities {
 			r.Settings.RuntimeEntities = append(r.Settings.RuntimeEntities, types.StringValue(string(v)))
@@ -461,7 +402,7 @@ func (r *JourneyResourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
 		r.Steps = r.Steps[:len(resp.Steps)]
 	}
 	for stepsCount, stepsItem := range resp.Steps {
-		var steps1 Steps
+		var steps1 JourneyCreationRequestV2Steps
 		steps1.HideNextButton = types.BoolPointerValue(stepsItem.HideNextButton)
 		steps1.Name = types.StringValue(stepsItem.Name)
 		schemaResult, _ := json.Marshal(stepsItem.Schema)
@@ -491,5 +432,4 @@ func (r *JourneyResourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
 			r.Steps[stepsCount].Uischema = steps1.Uischema
 		}
 	}
-	r.Version = types.NumberValue(big.NewFloat(float64(resp.Version)))
 }

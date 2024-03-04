@@ -4,7 +4,7 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type Steps struct {
+type JourneyCreationRequestV2Steps struct {
 	HideNextButton    types.Bool   `tfsdk:"hide_next_button"`
 	Name              types.String `tfsdk:"name"`
 	Schema            types.String `tfsdk:"schema"`

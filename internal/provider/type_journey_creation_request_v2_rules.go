@@ -4,7 +4,7 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type Rules struct {
+type JourneyCreationRequestV2Rules struct {
 	Source     types.String `tfsdk:"source"`
 	SourceType types.String `tfsdk:"source_type"`
 	Target     types.String `tfsdk:"target"`

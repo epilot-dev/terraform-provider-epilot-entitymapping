@@ -6,23 +6,14 @@ import (
 	"encoding/json"
 	"github.com/epilot-dev/terraform-provider-epilot-journey/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"math/big"
 )
 
-func (r *JourneyDataSourceModel) RefreshFromSharedJourney(resp *shared.Journey) {
-	if resp.AdditionalProperties == nil {
-		r.AdditionalProperties = types.StringNull()
-	} else {
-		additionalPropertiesResult, _ := json.Marshal(resp.AdditionalProperties)
-		r.AdditionalProperties = types.StringValue(string(additionalPropertiesResult))
-	}
+func (r *JourneyDataSourceModel) RefreshFromSharedJourneyCreationRequestV2(resp *shared.JourneyCreationRequestV2) {
 	r.BrandID = types.StringPointerValue(resp.BrandID)
-	r.CreatedAt = types.StringValue(resp.CreatedAt)
-	r.CreatedBy = types.StringPointerValue(resp.CreatedBy)
 	if resp.Design == nil {
 		r.Design = nil
 	} else {
-		r.Design = &Design{}
+		r.Design = &JourneyCreationRequestV2Design{}
 		r.Design.LogoURL = types.StringPointerValue(resp.Design.LogoURL)
 		if len(resp.Design.Theme) > 0 {
 			r.Design.Theme = make(map[string]types.String)
@@ -33,12 +24,11 @@ func (r *JourneyDataSourceModel) RefreshFromSharedJourney(resp *shared.Journey) 
 		}
 	}
 	r.JourneyID = types.StringPointerValue(resp.JourneyID)
-	r.LastModifiedAt = types.StringValue(resp.LastModifiedAt)
 	if len(r.Logics) > len(resp.Logics) {
 		r.Logics = r.Logics[:len(resp.Logics)]
 	}
 	for logicsCount, logicsItem := range resp.Logics {
-		var logics1 Logics
+		var logics1 JourneyCreationRequestV2Logics
 		logics1.Actions = nil
 		for _, v := range logicsItem.Actions {
 			logics1.Actions = append(logics1.Actions, types.StringValue(v))
@@ -57,13 +47,11 @@ func (r *JourneyDataSourceModel) RefreshFromSharedJourney(resp *shared.Journey) 
 		}
 	}
 	r.Name = types.StringValue(resp.Name)
-	r.OrganizationID = types.StringValue(resp.OrganizationID)
-	r.Revisions = types.NumberValue(big.NewFloat(float64(resp.Revisions)))
 	if len(r.Rules) > len(resp.Rules) {
 		r.Rules = r.Rules[:len(resp.Rules)]
 	}
 	for rulesCount, rulesItem := range resp.Rules {
-		var rules1 Rules
+		var rules1 JourneyCreationRequestV2Rules
 		rules1.Source = types.StringValue(rulesItem.Source)
 		rules1.SourceType = types.StringValue(string(rulesItem.SourceType))
 		rules1.Target = types.StringValue(rulesItem.Target)
@@ -80,10 +68,10 @@ func (r *JourneyDataSourceModel) RefreshFromSharedJourney(resp *shared.Journey) 
 	if resp.Settings == nil {
 		r.Settings = nil
 	} else {
-		r.Settings = &Settings{}
+		r.Settings = &JourneyCreationRequestV2Settings{}
 		r.Settings.AddressSuggestionsFileURL = types.StringPointerValue(resp.Settings.AddressSuggestionsFileURL)
 		r.Settings.Description = types.StringPointerValue(resp.Settings.Description)
-		r.Settings.DesignID = types.StringValue(resp.Settings.DesignID)
+		r.Settings.DesignID = types.StringPointerValue(resp.Settings.DesignID)
 		if resp.Settings.EmbedOptions == nil {
 			r.Settings.EmbedOptions = nil
 		} else {
@@ -113,7 +101,6 @@ func (r *JourneyDataSourceModel) RefreshFromSharedJourney(resp *shared.Journey) 
 			r.Settings.EmbedOptions.TopBar = types.BoolPointerValue(resp.Settings.EmbedOptions.TopBar)
 			r.Settings.EmbedOptions.Width = types.StringPointerValue(resp.Settings.EmbedOptions.Width)
 		}
-		r.Settings.EntityID = types.StringPointerValue(resp.Settings.EntityID)
 		r.Settings.EntityTags = nil
 		for _, v := range resp.Settings.EntityTags {
 			r.Settings.EntityTags = append(r.Settings.EntityTags, types.StringValue(v))
@@ -123,13 +110,6 @@ func (r *JourneyDataSourceModel) RefreshFromSharedJourney(resp *shared.Journey) 
 			r.Settings.FilePurposes = append(r.Settings.FilePurposes, types.StringValue(v))
 		}
 		r.Settings.MappingsAutomationID = types.StringPointerValue(resp.Settings.MappingsAutomationID)
-		if len(resp.Settings.OrganizationSettings) > 0 {
-			r.Settings.OrganizationSettings = make(map[string]types.Bool)
-			for key1, value1 := range resp.Settings.OrganizationSettings {
-				r.Settings.OrganizationSettings[key1] = types.BoolValue(value1)
-			}
-		}
-		r.Settings.PublicToken = types.StringPointerValue(resp.Settings.PublicToken)
 		r.Settings.RuntimeEntities = nil
 		for _, v := range resp.Settings.RuntimeEntities {
 			r.Settings.RuntimeEntities = append(r.Settings.RuntimeEntities, types.StringValue(string(v)))
@@ -142,7 +122,7 @@ func (r *JourneyDataSourceModel) RefreshFromSharedJourney(resp *shared.Journey) 
 		r.Steps = r.Steps[:len(resp.Steps)]
 	}
 	for stepsCount, stepsItem := range resp.Steps {
-		var steps1 Steps
+		var steps1 JourneyCreationRequestV2Steps
 		steps1.HideNextButton = types.BoolPointerValue(stepsItem.HideNextButton)
 		steps1.Name = types.StringValue(stepsItem.Name)
 		schemaResult, _ := json.Marshal(stepsItem.Schema)
@@ -172,5 +152,4 @@ func (r *JourneyDataSourceModel) RefreshFromSharedJourney(resp *shared.Journey) 
 			r.Steps[stepsCount].Uischema = steps1.Uischema
 		}
 	}
-	r.Version = types.NumberValue(big.NewFloat(float64(resp.Version)))
 }

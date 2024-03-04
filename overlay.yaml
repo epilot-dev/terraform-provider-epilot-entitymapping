@@ -48,3 +48,17 @@ actions:
   - target: $["components"]["schemas"]["JourneyCreationRequestV2"]
     update:
       x-speakeasy-entity: Journey
+  - target: $["components"]["schemas"]["JourneyCreationRequestV2"]["properties"]["organizationId"]
+    remove: true
+  - target: $["components"]["schemas"]["JourneyCreationRequestV2"]["properties"]["createdBy"]
+    remove: true
+  - target: $["components"]["schemas"]["JourneyCreationRequestV2"]["properties"]["createdAt"]
+    remove: true
+  - target: $["components"]["schemas"]["JourneyCreationRequestV2"]["properties"]["lastModifiedAt"]
+    remove: true
+  - target: $["components"]["schemas"]["JourneyCreationRequestV2"]["properties"]["version"]
+    remove: true
+  - target: $["components"]["schemas"]["JourneyCreationRequestV2"]["properties"]["revisions"]
+    remove: true
+  - target: $["components"]["schemas"]["JourneyCreationRequestV2"]["properties"]["settings"]["properties"]["entityId"]
+    remove: true

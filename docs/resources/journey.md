@@ -14,8 +14,10 @@ Journey Resource
 
 ```terraform
 resource "epilot-journey_journey" "my_journey" {
-  name                  = "Dianne Kiehn"
-  skip_automation       = true
+  brand_id        = "...my_brand_id..."
+  journey_id      = "...my_journey_id..."
+  name            = "Dianne Kiehn"
+  skip_automation = true
   steps = [
     {
       hide_next_button    = false
@@ -44,23 +46,13 @@ resource "epilot-journey_journey" "my_journey" {
 
 ### Optional
 
-- `additional_properties` (String) Parsed as JSON.
 - `brand_id` (String)
-- `created_by` (String)
 - `design` (Attributes) (see [below for nested schema](#nestedatt--design))
 - `journey_id` (String) Journey ID
 - `logics` (Attributes List) (see [below for nested schema](#nestedatt--logics))
-- `organization_id` (String)
 - `rules` (Attributes List) (see [below for nested schema](#nestedatt--rules))
 - `settings` (Attributes) (see [below for nested schema](#nestedatt--settings))
 - `skip_automation` (String) skip creating an Automation (it takes Yn format "true, yes, 1, y"). Requires replacement if changed.
-
-### Read-Only
-
-- `created_at` (String)
-- `last_modified_at` (String)
-- `revisions` (Number)
-- `version` (Number)
 
 <a id="nestedatt--steps"></a>
 ### Nested Schema for `steps`
@@ -119,12 +111,9 @@ Optional:
 - `description` (String)
 - `design_id` (String)
 - `embed_options` (Attributes) (see [below for nested schema](#nestedatt--settings--embed_options))
-- `entity_id` (String)
 - `entity_tags` (List of String)
 - `file_purposes` (List of String)
 - `mappings_automation_id` (String)
-- `organization_settings` (Map of Boolean)
-- `public_token` (String)
 - `runtime_entities` (List of String)
 - `safe_mode_automation` (Boolean)
 - `targeted_customer` (String)

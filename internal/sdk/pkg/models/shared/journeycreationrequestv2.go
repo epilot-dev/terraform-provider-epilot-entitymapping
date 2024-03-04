@@ -5,7 +5,6 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/epilot-dev/terraform-provider-epilot-journey/internal/sdk/pkg/utils"
 )
 
 type JourneyCreationRequestV2Design struct {
@@ -335,12 +334,9 @@ type JourneyCreationRequestV2Settings struct {
 	Description               *string                                   `json:"description,omitempty"`
 	DesignID                  *string                                   `json:"designId,omitempty"`
 	EmbedOptions              *JourneyCreationRequestV2EmbedOptions     `json:"embedOptions,omitempty"`
-	EntityID                  *string                                   `json:"entityId,omitempty"`
 	EntityTags                []string                                  `json:"entityTags,omitempty"`
 	FilePurposes              []string                                  `json:"filePurposes,omitempty"`
 	MappingsAutomationID      *string                                   `json:"mappingsAutomationId,omitempty"`
-	OrganizationSettings      map[string]bool                           `json:"organizationSettings,omitempty"`
-	PublicToken               *string                                   `json:"publicToken,omitempty"`
 	RuntimeEntities           []JourneyCreationRequestV2RuntimeEntities `json:"runtimeEntities,omitempty"`
 	SafeModeAutomation        *bool                                     `json:"safeModeAutomation,omitempty"`
 	TargetedCustomer          *string                                   `json:"targetedCustomer,omitempty"`
@@ -375,13 +371,6 @@ func (o *JourneyCreationRequestV2Settings) GetEmbedOptions() *JourneyCreationReq
 	return o.EmbedOptions
 }
 
-func (o *JourneyCreationRequestV2Settings) GetEntityID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.EntityID
-}
-
 func (o *JourneyCreationRequestV2Settings) GetEntityTags() []string {
 	if o == nil {
 		return nil
@@ -401,20 +390,6 @@ func (o *JourneyCreationRequestV2Settings) GetMappingsAutomationID() *string {
 		return nil
 	}
 	return o.MappingsAutomationID
-}
-
-func (o *JourneyCreationRequestV2Settings) GetOrganizationSettings() map[string]bool {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationSettings
-}
-
-func (o *JourneyCreationRequestV2Settings) GetPublicToken() *string {
-	if o == nil {
-		return nil
-	}
-	return o.PublicToken
 }
 
 func (o *JourneyCreationRequestV2Settings) GetRuntimeEntities() []JourneyCreationRequestV2RuntimeEntities {
@@ -537,35 +512,14 @@ func (o *JourneyCreationRequestV2Steps) GetUischema() interface{} {
 }
 
 type JourneyCreationRequestV2 struct {
-	AdditionalProperties interface{}                       `additionalProperties:"true" json:"-"`
-	BrandID              *string                           `json:"brandId,omitempty"`
-	CreatedBy            *string                           `json:"createdBy,omitempty"`
-	Design               *JourneyCreationRequestV2Design   `json:"design,omitempty"`
-	JourneyID            *string                           `json:"journeyId,omitempty"`
-	Logics               []JourneyCreationRequestV2Logics  `json:"logics,omitempty"`
-	Name                 string                            `json:"name"`
-	OrganizationID       *string                           `json:"organizationId,omitempty"`
-	Rules                []JourneyCreationRequestV2Rules   `json:"rules,omitempty"`
-	Settings             *JourneyCreationRequestV2Settings `json:"settings,omitempty"`
-	Steps                []JourneyCreationRequestV2Steps   `json:"steps"`
-}
-
-func (j JourneyCreationRequestV2) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(j, "", false)
-}
-
-func (j *JourneyCreationRequestV2) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &j, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *JourneyCreationRequestV2) GetAdditionalProperties() interface{} {
-	if o == nil {
-		return nil
-	}
-	return o.AdditionalProperties
+	BrandID   *string                           `json:"brandId,omitempty"`
+	Design    *JourneyCreationRequestV2Design   `json:"design,omitempty"`
+	JourneyID *string                           `json:"journeyId,omitempty"`
+	Logics    []JourneyCreationRequestV2Logics  `json:"logics,omitempty"`
+	Name      string                            `json:"name"`
+	Rules     []JourneyCreationRequestV2Rules   `json:"rules,omitempty"`
+	Settings  *JourneyCreationRequestV2Settings `json:"settings,omitempty"`
+	Steps     []JourneyCreationRequestV2Steps   `json:"steps"`
 }
 
 func (o *JourneyCreationRequestV2) GetBrandID() *string {
@@ -573,13 +527,6 @@ func (o *JourneyCreationRequestV2) GetBrandID() *string {
 		return nil
 	}
 	return o.BrandID
-}
-
-func (o *JourneyCreationRequestV2) GetCreatedBy() *string {
-	if o == nil {
-		return nil
-	}
-	return o.CreatedBy
 }
 
 func (o *JourneyCreationRequestV2) GetDesign() *JourneyCreationRequestV2Design {
@@ -608,13 +555,6 @@ func (o *JourneyCreationRequestV2) GetName() string {
 		return ""
 	}
 	return o.Name
-}
-
-func (o *JourneyCreationRequestV2) GetOrganizationID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.OrganizationID
 }
 
 func (o *JourneyCreationRequestV2) GetRules() []JourneyCreationRequestV2Rules {

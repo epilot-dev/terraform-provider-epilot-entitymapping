@@ -28,21 +28,14 @@ type JourneyDataSource struct {
 
 // JourneyDataSourceModel describes the data model.
 type JourneyDataSourceModel struct {
-	AdditionalProperties types.String `tfsdk:"additional_properties"`
-	BrandID              types.String `tfsdk:"brand_id"`
-	CreatedAt            types.String `tfsdk:"created_at"`
-	CreatedBy            types.String `tfsdk:"created_by"`
-	Design               *Design      `tfsdk:"design"`
-	JourneyID            types.String `tfsdk:"journey_id"`
-	LastModifiedAt       types.String `tfsdk:"last_modified_at"`
-	Logics               []Logics     `tfsdk:"logics"`
-	Name                 types.String `tfsdk:"name"`
-	OrganizationID       types.String `tfsdk:"organization_id"`
-	Revisions            types.Number `tfsdk:"revisions"`
-	Rules                []Rules      `tfsdk:"rules"`
-	Settings             *Settings    `tfsdk:"settings"`
-	Steps                []Steps      `tfsdk:"steps"`
-	Version              types.Number `tfsdk:"version"`
+	BrandID   types.String                      `tfsdk:"brand_id"`
+	Design    *JourneyCreationRequestV2Design   `tfsdk:"design"`
+	JourneyID types.String                      `tfsdk:"journey_id"`
+	Logics    []JourneyCreationRequestV2Logics  `tfsdk:"logics"`
+	Name      types.String                      `tfsdk:"name"`
+	Rules     []JourneyCreationRequestV2Rules   `tfsdk:"rules"`
+	Settings  *JourneyCreationRequestV2Settings `tfsdk:"settings"`
+	Steps     []JourneyCreationRequestV2Steps   `tfsdk:"steps"`
 }
 
 // Metadata returns the data source type name.
@@ -56,17 +49,7 @@ func (r *JourneyDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 		MarkdownDescription: "Journey DataSource",
 
 		Attributes: map[string]schema.Attribute{
-			"additional_properties": schema.StringAttribute{
-				Computed:    true,
-				Description: `Parsed as JSON.`,
-			},
 			"brand_id": schema.StringAttribute{
-				Computed: true,
-			},
-			"created_at": schema.StringAttribute{
-				Computed: true,
-			},
-			"created_by": schema.StringAttribute{
 				Computed: true,
 			},
 			"design": schema.SingleNestedAttribute{
@@ -84,9 +67,6 @@ func (r *JourneyDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			"journey_id": schema.StringAttribute{
 				Required:    true,
 				Description: `Journey ID`,
-			},
-			"last_modified_at": schema.StringAttribute{
-				Computed: true,
 			},
 			"logics": schema.ListNestedAttribute{
 				Computed: true,
@@ -107,12 +87,6 @@ func (r *JourneyDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 				},
 			},
 			"name": schema.StringAttribute{
-				Computed: true,
-			},
-			"organization_id": schema.StringAttribute{
-				Computed: true,
-			},
-			"revisions": schema.NumberAttribute{
 				Computed: true,
 			},
 			"rules": schema.ListNestedAttribute{
@@ -182,9 +156,6 @@ func (r *JourneyDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 							},
 						},
 					},
-					"entity_id": schema.StringAttribute{
-						Computed: true,
-					},
 					"entity_tags": schema.ListAttribute{
 						Computed:    true,
 						ElementType: types.StringType,
@@ -194,13 +165,6 @@ func (r *JourneyDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 						ElementType: types.StringType,
 					},
 					"mappings_automation_id": schema.StringAttribute{
-						Computed: true,
-					},
-					"organization_settings": schema.MapAttribute{
-						Computed:    true,
-						ElementType: types.BoolType,
-					},
-					"public_token": schema.StringAttribute{
 						Computed: true,
 					},
 					"runtime_entities": schema.ListAttribute{
@@ -259,9 +223,6 @@ func (r *JourneyDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 						},
 					},
 				},
-			},
-			"version": schema.NumberAttribute{
-				Computed: true,
 			},
 		},
 	}
@@ -325,11 +286,11 @@ func (r *JourneyDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
-	if res.Journey == nil {
+	if res.JourneyCreationRequestV2 == nil {
 		resp.Diagnostics.AddError("unexpected response from API. No response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedJourney(res.Journey)
+	data.RefreshFromSharedJourneyCreationRequestV2(res.JourneyCreationRequestV2)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

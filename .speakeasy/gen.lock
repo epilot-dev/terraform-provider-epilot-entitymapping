@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 1afd37bc-cea9-4679-ac40-35ad5de414fc
 management:
-  docChecksum: f388cd5ec679b79a0e058210f52415d1
+  docChecksum: 1493050dbb39c56bd4106b166c7e9e32
   docVersion: 1.0.0
   speakeasyVersion: internal
   generationVersion: 2.230.1
-  releaseVersion: 0.2.5
-  configChecksum: f13c6e53770df0614f62a004e7be114c
+  releaseVersion: 0.2.6
+  configChecksum: f66951f3857748ab581230f8e8a632cb
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-journey.git
   repoSubDirectory: .
   published: true
@@ -106,14 +106,12 @@ generatedFiles:
   - internal/sdk/pkg/models/shared/journeycreationrequestv2.go
   - internal/sdk/pkg/models/shared/security.go
   - internal/provider/type_journey_creation_request_v2_design.go
-  - internal/provider/type_logics.go
-  - internal/provider/type_rules.go
+  - internal/provider/type_journey_creation_request_v2_logics.go
+  - internal/provider/type_journey_creation_request_v2_rules.go
   - internal/provider/type_journey_creation_request_v2_button.go
   - internal/provider/type_journey_creation_request_v2_embed_options.go
   - internal/provider/type_journey_creation_request_v2_settings.go
-  - internal/provider/type_steps.go
-  - internal/provider/type_design.go
-  - internal/provider/type_settings.go
+  - internal/provider/type_journey_creation_request_v2_steps.go
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf

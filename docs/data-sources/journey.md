@@ -27,20 +27,13 @@ data "epilot-journey_journey" "my_journey" {
 
 ### Read-Only
 
-- `additional_properties` (String) Parsed as JSON.
 - `brand_id` (String)
-- `created_at` (String)
-- `created_by` (String)
 - `design` (Attributes) (see [below for nested schema](#nestedatt--design))
-- `last_modified_at` (String)
 - `logics` (Attributes List) (see [below for nested schema](#nestedatt--logics))
 - `name` (String)
-- `organization_id` (String)
-- `revisions` (Number)
 - `rules` (Attributes List) (see [below for nested schema](#nestedatt--rules))
 - `settings` (Attributes) (see [below for nested schema](#nestedatt--settings))
 - `steps` (Attributes List) (see [below for nested schema](#nestedatt--steps))
-- `version` (Number)
 
 <a id="nestedatt--design"></a>
 ### Nested Schema for `design`
@@ -81,12 +74,9 @@ Read-Only:
 - `description` (String)
 - `design_id` (String)
 - `embed_options` (Attributes) (see [below for nested schema](#nestedatt--settings--embed_options))
-- `entity_id` (String)
 - `entity_tags` (List of String)
 - `file_purposes` (List of String)
 - `mappings_automation_id` (String)
-- `organization_settings` (Map of Boolean)
-- `public_token` (String)
 - `runtime_entities` (List of String)
 - `safe_mode_automation` (Boolean)
 - `targeted_customer` (String)
