@@ -15,8 +15,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -37,15 +35,14 @@ type JourneyResource struct {
 
 // JourneyResourceModel describes the resource data model.
 type JourneyResourceModel struct {
-	BrandID        types.String                      `tfsdk:"brand_id"`
-	Design         *JourneyCreationRequestV2Design   `tfsdk:"design"`
-	JourneyID      types.String                      `tfsdk:"journey_id"`
-	Logics         []JourneyCreationRequestV2Logics  `tfsdk:"logics"`
-	Name           types.String                      `tfsdk:"name"`
-	Rules          []JourneyCreationRequestV2Rules   `tfsdk:"rules"`
-	Settings       *JourneyCreationRequestV2Settings `tfsdk:"settings"`
-	SkipAutomation types.String                      `tfsdk:"skip_automation"`
-	Steps          []JourneyCreationRequestV2Steps   `tfsdk:"steps"`
+	BrandID   types.String                      `tfsdk:"brand_id"`
+	Design    *JourneyCreationRequestV2Design   `tfsdk:"design"`
+	JourneyID types.String                      `tfsdk:"journey_id"`
+	Logics    []JourneyCreationRequestV2Logics  `tfsdk:"logics"`
+	Name      types.String                      `tfsdk:"name"`
+	Rules     []JourneyCreationRequestV2Rules   `tfsdk:"rules"`
+	Settings  *JourneyCreationRequestV2Settings `tfsdk:"settings"`
+	Steps     []JourneyCreationRequestV2Steps   `tfsdk:"steps"`
 }
 
 func (r *JourneyResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -278,13 +275,6 @@ func (r *JourneyResource) Schema(ctx context.Context, req resource.SchemaRequest
 					},
 				},
 			},
-			"skip_automation": schema.StringAttribute{
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-				},
-				Optional:    true,
-				Description: `skip creating an Automation (it takes Yn format "true, yes, 1, y"). Requires replacement if changed. `,
-			},
 			"steps": schema.ListNestedAttribute{
 				Required: true,
 				NestedObject: schema.NestedAttributeObject{
@@ -392,17 +382,7 @@ func (r *JourneyResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 
-	journeyCreationRequestV2 := data.ToSharedJourneyCreationRequestV2()
-	skipAutomation := new(string)
-	if !data.SkipAutomation.IsUnknown() && !data.SkipAutomation.IsNull() {
-		*skipAutomation = data.SkipAutomation.ValueString()
-	} else {
-		skipAutomation = nil
-	}
-	request := operations.CreateJourneyV2Request{
-		JourneyCreationRequestV2: journeyCreationRequestV2,
-		SkipAutomation:           skipAutomation,
-	}
+	request := data.ToSharedJourneyCreationRequestV2()
 	res, err := r.client.JourneysV2.CreateJourneyV2(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
@@ -424,32 +404,6 @@ func (r *JourneyResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 	data.RefreshFromSharedJourneyCreationRequestV2(res.JourneyCreationRequestV2)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
-	id := data.JourneyID.ValueString()
-	request1 := operations.GetJourneyV2Request{
-		ID: id,
-	}
-	res1, err := r.client.JourneysV2.GetJourneyV2(ctx, request1)
-	if err != nil {
-		resp.Diagnostics.AddError("failure to invoke API", err.Error())
-		if res1 != nil && res1.RawResponse != nil {
-			resp.Diagnostics.AddError("unexpected http request/response", debugResponse(res1.RawResponse))
-		}
-		return
-	}
-	if res1 == nil {
-		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res1))
-		return
-	}
-	if res1.StatusCode != 200 {
-		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res1.StatusCode), debugResponse(res1.RawResponse))
-		return
-	}
-	if res1.JourneyCreationRequestV2 == nil {
-		resp.Diagnostics.AddError("unexpected response from API. No response body", debugResponse(res1.RawResponse))
-		return
-	}
-	data.RefreshFromSharedJourneyCreationRequestV2(res1.JourneyCreationRequestV2)
 	refreshPlan(ctx, plan, &data, resp.Diagnostics)
 
 	// Save updated data into Terraform state

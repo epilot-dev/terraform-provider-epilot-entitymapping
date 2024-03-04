@@ -62,3 +62,5 @@ actions:
     remove: true
   - target: $["components"]["schemas"]["JourneyCreationRequestV2"]["properties"]["settings"]["properties"]["entityId"]
     remove: true
+  - target: $["paths"]["/v2/journey/configuration"]["post"]["parameters"]
+    remove: true

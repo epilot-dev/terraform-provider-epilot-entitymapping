@@ -14,10 +14,9 @@ Journey Resource
 
 ```terraform
 resource "epilot-journey_journey" "my_journey" {
-  brand_id        = "...my_brand_id..."
-  journey_id      = "...my_journey_id..."
-  name            = "Dianne Kiehn"
-  skip_automation = true
+  brand_id   = "...my_brand_id..."
+  journey_id = "...my_journey_id..."
+  name       = "Dianne Kiehn"
   steps = [
     {
       hide_next_button    = false
@@ -52,7 +51,6 @@ resource "epilot-journey_journey" "my_journey" {
 - `logics` (Attributes List) (see [below for nested schema](#nestedatt--logics))
 - `rules` (Attributes List) (see [below for nested schema](#nestedatt--rules))
 - `settings` (Attributes) (see [below for nested schema](#nestedatt--settings))
-- `skip_automation` (String) skip creating an Automation (it takes Yn format "true, yes, 1, y"). Requires replacement if changed.
 
 <a id="nestedatt--steps"></a>
 ### Nested Schema for `steps`
