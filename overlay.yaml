@@ -1,6 +1,6 @@
 overlay: 1.0.0
 info:
-  title: Overlay epilot journey to make a journey resource
+  title: Overlay epilot entity mapping to make a entity mapping resource
   version: 0.0.1
 actions:
   - target: $

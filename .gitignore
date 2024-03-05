@@ -2,5 +2,4 @@
 .terraform*
 *.tfstate*
 .DS_Store
-journey_modified.yaml
 original.yaml
