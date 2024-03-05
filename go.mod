@@ -1,4 +1,4 @@
-module github.com/epilot-dev/terraform-provider-epilot-journey
+module github.com/epilot-dev/terraform-provider-epilot-entitymapping
 
 go 1.18
 

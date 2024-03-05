@@ -1,26 +1,24 @@
 lockVersion: 2.0.0
-id: 1afd37bc-cea9-4679-ac40-35ad5de414fc
+id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
-  docChecksum: 25eb21ef4a0c170c431dedb3401afc84
+  docChecksum: 9831faf457882e4b7bc0b7c48f868243
   docVersion: 1.0.0
   speakeasyVersion: internal
   generationVersion: 2.230.1
-  releaseVersion: 0.2.7
-  configChecksum: ba1909901d42d5999d4327d01df604d8
-  repoURL: https://github.com/epilot-dev/terraform-provider-epilot-journey.git
-  repoSubDirectory: .
-  published: true
+  releaseVersion: 0.3.0
+  configChecksum: c86e22175c75038e5929d5a1acdbd710
 features:
   terraform:
     additionalProperties: 0.1.2
     constsAndDefaults: 0.1.2
     core: 3.8.1
+    deprecations: 2.81.1
     globalSecurity: 2.81.2
     globalServerURLs: 2.82.1
     retries: 2.81.1
+    unions: 2.81.7
 generatedFiles:
-  - internal/sdk/journeys.go
-  - internal/sdk/journeysv2.go
+  - internal/sdk/mappings.go
   - internal/sdk/sdk.go
   - examples/README.md
   - go.mod
@@ -82,44 +80,72 @@ generatedFiles:
   - main.go
   - terraform-registry-manifest.json
   - tools/tools.go
-  - internal/sdk/pkg/models/operations/createjourney.go
-  - internal/sdk/pkg/models/operations/getjourney.go
-  - internal/sdk/pkg/models/operations/getjourneyproducts.go
-  - internal/sdk/pkg/models/operations/getjourneysbyorgid.go
-  - internal/sdk/pkg/models/operations/patchupdatejourney.go
-  - internal/sdk/pkg/models/operations/removejourney.go
-  - internal/sdk/pkg/models/operations/searchjourneys.go
-  - internal/sdk/pkg/models/operations/updatejourney.go
-  - internal/sdk/pkg/models/operations/createjourneyv2.go
-  - internal/sdk/pkg/models/operations/getjourneyv2.go
-  - internal/sdk/pkg/models/operations/patchupdatejourneyv2.go
-  - internal/sdk/pkg/models/operations/removejourneyv2.go
-  - internal/sdk/pkg/models/operations/updatejourneyv2.go
-  - internal/sdk/pkg/models/shared/journey.go
-  - internal/sdk/pkg/models/shared/journeycreationrequest.go
-  - internal/sdk/pkg/models/shared/journeyproductsresponse.go
-  - internal/sdk/pkg/models/shared/getjourneysresponse.go
-  - internal/sdk/pkg/models/shared/journeyresponse.go
-  - internal/sdk/pkg/models/shared/patchupdatejourneyrequest.go
-  - internal/sdk/pkg/models/shared/searchjourneysresponse.go
-  - internal/sdk/pkg/models/shared/searchjourneysqueryrequest.go
-  - internal/sdk/pkg/models/shared/journeycreationrequestv2.go
+  - internal/sdk/pkg/models/operations/deleteconfig.go
+  - internal/sdk/pkg/models/operations/executemapping.go
+  - internal/sdk/pkg/models/operations/executerelations.go
+  - internal/sdk/pkg/models/operations/getallversions.go
+  - internal/sdk/pkg/models/operations/getconfig.go
+  - internal/sdk/pkg/models/operations/getconfigversion.go
+  - internal/sdk/pkg/models/operations/querymappinghistory.go
+  - internal/sdk/pkg/models/operations/searchconfigs.go
+  - internal/sdk/pkg/models/operations/storeconfig.go
+  - internal/sdk/pkg/models/operations/storenewversion.go
+  - internal/sdk/pkg/models/shared/mappingconfig.go
+  - internal/sdk/pkg/models/shared/targetconfig.go
+  - internal/sdk/pkg/models/shared/relationattribute.go
+  - internal/sdk/pkg/models/shared/attributeorigin.go
+  - internal/sdk/pkg/models/shared/mappingattributev2.go
+  - internal/sdk/pkg/models/shared/operationnode.go
+  - internal/sdk/pkg/models/shared/operationobjectnode.go
+  - internal/sdk/pkg/models/shared/randomoperation.go
+  - internal/sdk/pkg/models/shared/mappingattribute.go
+  - internal/sdk/pkg/models/shared/setvaluemapper.go
+  - internal/sdk/pkg/models/shared/mappingattributemode.go
+  - internal/sdk/pkg/models/shared/copyvaluemapper.go
+  - internal/sdk/pkg/models/shared/appendvaluemapper.go
+  - internal/sdk/pkg/models/shared/sourceconfig.go
+  - internal/sdk/pkg/models/shared/journeyref.go
+  - internal/sdk/pkg/models/shared/entityref.go
+  - internal/sdk/pkg/models/shared/executemappingresp.go
+  - internal/sdk/pkg/models/shared/mappingwarning.go
+  - internal/sdk/pkg/models/shared/mappingfailure.go
+  - internal/sdk/pkg/models/shared/executemappingreq.go
+  - internal/sdk/pkg/models/shared/executerelationsresp.go
+  - internal/sdk/pkg/models/shared/newrelationitem.go
+  - internal/sdk/pkg/models/shared/executerelationsreq.go
+  - internal/sdk/pkg/models/shared/relationitem.go
+  - internal/sdk/pkg/models/shared/mappingconfigsresp.go
+  - internal/sdk/pkg/models/shared/mappinghistoryresp.go
+  - internal/sdk/pkg/models/shared/mappinghistoryentry.go
+  - internal/sdk/pkg/models/shared/searchmappingreq.go
   - internal/sdk/pkg/models/shared/security.go
-  - internal/provider/type_journey_creation_request_v2_design.go
-  - internal/provider/type_journey_creation_request_v2_logics.go
-  - internal/provider/type_journey_creation_request_v2_rules.go
-  - internal/provider/type_journey_creation_request_v2_button.go
-  - internal/provider/type_journey_creation_request_v2_embed_options.go
-  - internal/provider/type_journey_creation_request_v2_settings.go
-  - internal/provider/type_journey_creation_request_v2_steps.go
+  - internal/provider/type_entity_ref.go
+  - internal/provider/type_journey_ref.go
+  - internal/provider/type_config.go
+  - internal/provider/type_source_config.go
+  - internal/provider/type_append_value_mapper.go
+  - internal/provider/type_copy_value_mapper.go
+  - internal/provider/type_set_value_mapper.go
+  - internal/provider/type_mapping_attribute.go
+  - internal/provider/type_one.go
+  - internal/provider/type_two.go
+  - internal/provider/type_random_operation.go
+  - internal/provider/type_uniq.go
+  - internal/provider/type_operation_object_node.go
+  - internal/provider/type_operation_node.go
+  - internal/provider/type_mapping_attribute_v2.go
+  - internal/provider/type_mapping_attributes.go
+  - internal/provider/type_source_filter.go
+  - internal/provider/type_relation_attribute.go
+  - internal/provider/type_target_config.go
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf
-  - internal/provider/journey_resource.go
-  - internal/provider/journey_resource_sdk.go
-  - examples/resources/epilot-journey_journey/resource.tf
-  - internal/provider/journey_data_source.go
-  - internal/provider/journey_data_source_sdk.go
-  - examples/data-sources/epilot-journey_journey/data-source.tf
+  - internal/provider/entitymapping_resource.go
+  - internal/provider/entitymapping_resource_sdk.go
+  - examples/resources/epilot-entitymapping_entity_mapping/resource.tf
+  - internal/provider/entitymapping_data_source.go
+  - internal/provider/entitymapping_data_source_sdk.go
+  - examples/data-sources/epilot-entitymapping_entity_mapping/data-source.tf
   - internal/sdk/pkg/models/operations/options.go
   - .gitattributes

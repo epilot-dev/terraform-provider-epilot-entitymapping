@@ -1,5 +1,6 @@
 configVersion: 2.0.0
 generation:
+  baseServerUrl: https://entity-mapping.sls.epilot.io
   sdkClassName: SDK
   usageSnippets:
     optionalPropertyRendering: withExample
@@ -8,7 +9,7 @@ generation:
   sdkFlattening: true
   telemetryEnabled: false
 terraform:
-  version: 0.2.7
+  version: 0.3.0
   author: epilot-dev
   imports:
     option: openapi
@@ -20,4 +21,4 @@ terraform:
       webhooks: webhooks
   inputModelSuffix: input
   outputModelSuffix: output
-  packageName: epilot-journey
+  packageName: epilot-entitymapping

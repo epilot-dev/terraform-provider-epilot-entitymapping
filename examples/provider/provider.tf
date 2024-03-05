@@ -1,12 +1,12 @@
 terraform {
   required_providers {
-    epilot-journey = {
-      source  = "epilot-dev/epilot-journey"
-      version = "0.2.7"
+    epilot-entitymapping = {
+      source  = "epilot-dev/epilot-entitymapping"
+      version = "0.3.0"
     }
   }
 }
 
-provider "epilot-journey" {
+provider "epilot-entitymapping" {
   # Configuration options
 }

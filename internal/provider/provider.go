@@ -4,8 +4,8 @@ package provider
 
 import (
 	"context"
-	"github.com/epilot-dev/terraform-provider-epilot-journey/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-journey/internal/sdk/pkg/models/shared"
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk"
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -13,32 +13,32 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var _ provider.Provider = &EpilotJourneyProvider{}
+var _ provider.Provider = &EpilotEntitymappingProvider{}
 
-type EpilotJourneyProvider struct {
+type EpilotEntitymappingProvider struct {
 	// version is set to the provider version on release, "dev" when the
 	// provider is built and ran locally, and "test" when running acceptance
 	// testing.
 	version string
 }
 
-// EpilotJourneyProviderModel describes the provider data model.
-type EpilotJourneyProviderModel struct {
+// EpilotEntitymappingProviderModel describes the provider data model.
+type EpilotEntitymappingProviderModel struct {
 	ServerURL  types.String `tfsdk:"server_url"`
 	EpilotAuth types.String `tfsdk:"epilot_auth"`
 }
 
-func (p *EpilotJourneyProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "epilot-journey"
+func (p *EpilotEntitymappingProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "epilot-entitymapping"
 	resp.Version = p.version
 }
 
-func (p *EpilotJourneyProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+func (p *EpilotEntitymappingProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: `Journey API: API to configure journeys`,
+		Description: `Entity Mapping API: API Backend for mapping source entity into target entities`,
 		Attributes: map[string]schema.Attribute{
 			"server_url": schema.StringAttribute{
-				MarkdownDescription: "Server URL (defaults to https://journey-config.sls.epilot.io)",
+				MarkdownDescription: "Server URL (defaults to https://entity-mapping.sls.epilot.io)",
 				Optional:            true,
 				Required:            false,
 			},
@@ -50,8 +50,8 @@ func (p *EpilotJourneyProvider) Schema(ctx context.Context, req provider.SchemaR
 	}
 }
 
-func (p *EpilotJourneyProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data EpilotJourneyProviderModel
+func (p *EpilotEntitymappingProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	var data EpilotEntitymappingProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -62,7 +62,7 @@ func (p *EpilotJourneyProvider) Configure(ctx context.Context, req provider.Conf
 	ServerURL := data.ServerURL.ValueString()
 
 	if ServerURL == "" {
-		ServerURL = "https://journey-config.sls.epilot.io"
+		ServerURL = "https://entity-mapping.sls.epilot.io"
 	}
 
 	epilotAuth := data.EpilotAuth.ValueString()
@@ -80,21 +80,21 @@ func (p *EpilotJourneyProvider) Configure(ctx context.Context, req provider.Conf
 	resp.ResourceData = client
 }
 
-func (p *EpilotJourneyProvider) Resources(ctx context.Context) []func() resource.Resource {
+func (p *EpilotEntitymappingProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NewJourneyResource,
+		NewEntityMappingResource,
 	}
 }
 
-func (p *EpilotJourneyProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+func (p *EpilotEntitymappingProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		NewJourneyDataSource,
+		NewEntityMappingDataSource,
 	}
 }
 
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
-		return &EpilotJourneyProvider{
+		return &EpilotEntitymappingProvider{
 			version: version,
 		}
 	}

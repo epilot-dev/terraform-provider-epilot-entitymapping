@@ -5,15 +5,15 @@ package sdk
 import (
 	"context"
 	"fmt"
-	"github.com/epilot-dev/terraform-provider-epilot-journey/internal/sdk/pkg/models/shared"
-	"github.com/epilot-dev/terraform-provider-epilot-journey/internal/sdk/pkg/utils"
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/pkg/models/shared"
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/pkg/utils"
 	"net/http"
 	"time"
 )
 
 // ServerList contains the list of servers available to the SDK
 var ServerList = []string{
-	"https://journey-config.sls.epilot.io",
+	"https://entity-mapping.sls.epilot.io",
 }
 
 // HTTPClient provides an interface for suplying the SDK with a custom HTTP client
@@ -61,10 +61,10 @@ func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
 	return ServerList[c.ServerIndex], nil
 }
 
-// SDK - Journey API: API to configure journeys
+// SDK - Entity Mapping API: API Backend for mapping source entity into target entities
 type SDK struct {
-	Journeys   *Journeys
-	JourneysV2 *JourneysV2
+	// Entity Mapping Configs
+	Mappings *Mappings
 
 	sdkConfiguration sdkConfiguration
 }
@@ -141,9 +141,9 @@ func New(opts ...SDKOption) *SDK {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "1.0.0",
-			SDKVersion:        "0.2.7",
+			SDKVersion:        "0.3.0",
 			GenVersion:        "2.230.1",
-			UserAgent:         "speakeasy-sdk/go 0.2.7 2.230.1 1.0.0 epilot-journey",
+			UserAgent:         "speakeasy-sdk/go 0.3.0 2.230.1 1.0.0 epilot-entitymapping",
 		},
 	}
 	for _, opt := range opts {
@@ -162,9 +162,7 @@ func New(opts ...SDKOption) *SDK {
 		}
 	}
 
-	sdk.Journeys = newJourneys(sdk.sdkConfiguration)
-
-	sdk.JourneysV2 = newJourneysV2(sdk.sdkConfiguration)
+	sdk.Mappings = newMappings(sdk.sdkConfiguration)
 
 	return sdk
 }
