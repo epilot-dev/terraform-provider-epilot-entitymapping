@@ -15,28 +15,32 @@ actions:
         statusCodes:
           - 5XX
         retryConnectionErrors: true
-  - target: $["paths"]["/v1/mappings/{id}"]["get"]
+  - target: $["paths"]["/v2/mappings/{id}"]["get"]
     update:
       x-speakeasy-entity-operation: EntityMapping#get
-  - target: $["paths"]["/v1/mappings/{id}"]["get"]["parameters"][0]
+  - target: $["paths"]["/v2/mappings/{id}"]["get"]["parameters"][0]
     update:
       x-speakeasy-match: id
-  - target: $["paths"]["/v1/mappings/{id}/versions"]["post"]
+  - target: $["paths"]["/v2/mappings/{id}/versions"]["post"]
     update:
       x-speakeasy-entity-operation: EntityMapping#create
-  - target: $["paths"]["/v1/mappings/{id}/versions"]["post"]["parameters"][0]
+  - target: $["paths"]["/v2/mappings/{id}/versions"]["post"]["parameters"][0]
     update:
       x-speakeasy-match: id
-  - target: $["components"]["schemas"]["MappingConfig"]
+  - target: $["components"]["schemas"]["MappingConfigV2"]
     update:
       x-speakeasy-entity: EntityMapping
-  - target: $["components"]["schemas"]["MappingConfig"]["properties"]["created_at"]
+  - target: $["components"]["schemas"]["MappingConfigV2"]["properties"]["created_at"]
     remove: true
-  - target: $["components"]["schemas"]["MappingConfig"]["properties"]["updated_at"]
+  - target: $["components"]["schemas"]["MappingConfigV2"]["properties"]["updated_at"]
     remove: true
-  - target: $["components"]["schemas"]["MappingConfig"]["properties"]["created_by"]
+  - target: $["components"]["schemas"]["MappingConfigV2"]["properties"]["created_by"]
     remove: true
-  - target: $["components"]["schemas"]["MappingConfig"]["properties"]["last_updated_by"]
+  - target: $["components"]["schemas"]["MappingConfigV2"]["properties"]["last_updated_by"]
+    remove: true
+  - target: $["components"]["schemas"]["MappingConfigV2"]["properties"]["org_id"]
+    remove: true
+  - target: $["components"]["schemas"]["MappingConfigV2"]["properties"]["version"]
     remove: true
   - target: $["components"]["schemas"]["PrimitiveJSONValue"]
     remove: true
