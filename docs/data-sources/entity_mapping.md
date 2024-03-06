@@ -77,8 +77,6 @@ Read-Only:
 - `conditions` (String) Parsed as JSON.
 - `id` (String) Identifier for target configuration. Useful for later usages when trying to identify which target config to map to.
 - `linkback_relation_attribute` (String) Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback
-
-Default: "mapped_entities"
 - `linkback_relation_tags` (List of String) Relation tags (labels) to include in main entity linkback relation attribute
 - `mapping_attributes` (Attributes List) Attribute mappings (see [below for nested schema](#nestedatt--targets--mapping_attributes))
 - `name` (String) A name for this configuration
@@ -195,8 +193,8 @@ Read-Only:
 
 Read-Only:
 
-- `max` (Number) Default: 1
-- `min` (Number) Default: 0
+- `max` (Number)
+- `min` (Number)
 - `type` (String) must be one of ["number"]
 
 
@@ -206,7 +204,7 @@ Read-Only:
 
 Read-Only:
 
-- `array_ofstr` (List of String)
+- `array_of_str` (List of String)
 - `boolean` (Boolean)
 
 
@@ -225,7 +223,7 @@ Read-Only:
 - `source_filter` (Attributes) A filter to identify which source entities to pick as relations from main entity (see [below for nested schema](#nestedatt--targets--relation_attributes--source_filter))
 - `target` (String) Target attribute to store the relation in
 - `target_tags` (List of String) Relation tags (labels) to set for the stored relations
-- `target_tags_include_source` (Boolean) Include all relation tags (labels) present on the main entity relation. Default: false
+- `target_tags_include_source` (Boolean) Include all relation tags (labels) present on the main entity relation
 
 <a id="nestedatt--targets--relation_attributes--source_filter"></a>
 ### Nested Schema for `targets.relation_attributes.source_filter`
@@ -236,7 +234,7 @@ Read-Only:
 - `limit` (Number) Limit relations to maximum number (default, all matched relations)
 - `relation_tag` (String) Filter by relation tag (label) on the main entity
 - `schema` (String) Filter by specific schema
-- `self` (Boolean) Picks main entity as relation (overrides other filters). Default: false
+- `self` (Boolean) Picks main entity as relation (overrides other filters)
 - `tag` (String) Filter by a specific tag on the related entity
 
 

@@ -6,10 +6,14 @@ generation:
     optionalPropertyRendering: withExample
   fixes:
     nameResolutionDec2023: false
+    parameterOrderingFeb2024: false
+    requestResponseComponentNamesFeb2024: false
+  auth:
+    oAuth2ClientCredentialsEnabled: false
   sdkFlattening: true
   telemetryEnabled: false
 terraform:
-  version: 0.3.0
+  version: 0.4.0
   author: epilot-dev
   imports:
     option: openapi
