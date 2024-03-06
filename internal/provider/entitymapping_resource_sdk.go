@@ -179,13 +179,13 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfig() *shared.MappingConf
 								Boolean: boolean,
 							}
 						}
-						var arrayOfstr []string = nil
-						for _, arrayOfstrItem := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr {
-							arrayOfstr = append(arrayOfstr, arrayOfstrItem.ValueString())
+						var arrayOfStr []string = nil
+						for _, arrayOfStrItem := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr {
+							arrayOfStr = append(arrayOfStr, arrayOfStrItem.ValueString())
 						}
-						if arrayOfstr != nil {
+						if arrayOfStr != nil {
 							uniq = &shared.Uniq{
-								ArrayOfstr: arrayOfstr,
+								ArrayOfStr: arrayOfStr,
 							}
 						}
 					}
@@ -544,10 +544,10 @@ func (r *EntityMappingResourceModel) RefreshFromSharedMappingConfig(resp *shared
 						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean != nil {
 							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean = types.BoolPointerValue(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean)
 						}
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr != nil {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr = nil
-							for _, v := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr {
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr = append(mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr, types.StringValue(v))
+						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr != nil {
+							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr = nil
+							for _, v := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr {
+								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr = append(mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr, types.StringValue(v))
 							}
 						}
 					}

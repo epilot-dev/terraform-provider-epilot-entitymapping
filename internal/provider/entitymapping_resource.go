@@ -24,17 +24,21 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/numberdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/numberplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"math/big"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -232,6 +236,7 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 							},
 							Optional: true,
+							Default:  stringdefault.StaticString("mapped_entities"),
 							MarkdownDescription: `Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback` + "\n" +
 								`` + "\n" +
 								`Requires replacement if changed. ; Default: "mapped_entities"`,
@@ -569,6 +574,7 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 																					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
 																				},
 																				Optional:    true,
+																				Default:     numberdefault.StaticBigFloat(big.NewFloat(1)),
 																				Description: `Requires replacement if changed. ; Default: 1`,
 																			},
 																			"min": schema.NumberAttribute{
@@ -578,6 +584,7 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 																					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
 																				},
 																				Optional:    true,
+																				Default:     numberdefault.StaticBigFloat(big.NewFloat(0)),
 																				Description: `Requires replacement if changed. ; Default: 0`,
 																			},
 																			"type": schema.StringAttribute{
@@ -642,7 +649,7 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 																		Optional:    true,
 																		Description: `Requires replacement if changed. `,
 																	},
-																	"array_ofstr": schema.ListAttribute{
+																	"array_of_str": schema.ListAttribute{
 																		Computed: true,
 																		PlanModifiers: []planmodifier.List{
 																			listplanmodifier.RequiresReplaceIfConfigured(),
@@ -834,6 +841,7 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 													speakeasy_boolplanmodifier.SuppressDiff(speakeasy_boolplanmodifier.ExplicitSuppress),
 												},
 												Optional:    true,
+												Default:     booldefault.StaticBool(false),
 												Description: `Picks main entity as relation (overrides other filters). Requires replacement if changed. ; Default: false`,
 											},
 											"tag": schema.StringAttribute{
@@ -877,6 +885,7 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 											speakeasy_boolplanmodifier.SuppressDiff(speakeasy_boolplanmodifier.ExplicitSuppress),
 										},
 										Optional:    true,
+										Default:     booldefault.StaticBool(false),
 										Description: `Include all relation tags (labels) present on the main entity relation. Requires replacement if changed. ; Default: false`,
 									},
 								},
