@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"net/http"
 )
 
 var _ provider.Provider = &EpilotEntitymappingProvider{}
@@ -73,6 +74,7 @@ func (p *EpilotEntitymappingProvider) Configure(ctx context.Context, req provide
 	opts := []sdk.SDKOption{
 		sdk.WithServerURL(ServerURL),
 		sdk.WithSecurity(security),
+		sdk.WithClient(http.DefaultClient),
 	}
 	client := sdk.New(opts...)
 
@@ -81,15 +83,11 @@ func (p *EpilotEntitymappingProvider) Configure(ctx context.Context, req provide
 }
 
 func (p *EpilotEntitymappingProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{
-		NewEntityMappingResource,
-	}
+	return []func() resource.Resource{}
 }
 
 func (p *EpilotEntitymappingProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{
-		NewEntityMappingDataSource,
-	}
+	return []func() datasource.DataSource{}
 }
 
 func New(version string) func() provider.Provider {

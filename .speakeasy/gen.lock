@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
-  docChecksum: 9831faf457882e4b7bc0b7c48f868243
+  docChecksum: c4a1c7dbe4bb723c700940bbcaa52687
   docVersion: 1.0.0
-  speakeasyVersion: internal
-  generationVersion: 2.277.0
-  releaseVersion: 0.4.0
-  configChecksum: fb45ccd414fc5968746be04cae188174
+  speakeasyVersion: 1.207.1
+  generationVersion: 2.280.6
+  releaseVersion: 0.4.2
+  configChecksum: 4748f72cfe8d28dd7aee1b7def67b25f
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
@@ -14,7 +14,7 @@ features:
   terraform:
     additionalProperties: 0.1.2
     constsAndDefaults: 0.1.4
-    core: 3.10.2
+    core: 3.10.3
     deprecations: 2.81.1
     globalSecurity: 2.81.5
     globalServerURLs: 2.82.1
@@ -109,6 +109,7 @@ generatedFiles:
   - internal/sdk/pkg/models/shared/sourceconfig.go
   - internal/sdk/pkg/models/shared/journeyref.go
   - internal/sdk/pkg/models/shared/entityref.go
+  - internal/sdk/pkg/models/shared/owner.go
   - internal/sdk/pkg/models/shared/executemappingresp.go
   - internal/sdk/pkg/models/shared/mappingwarning.go
   - internal/sdk/pkg/models/shared/mappingfailure.go
@@ -122,33 +123,8 @@ generatedFiles:
   - internal/sdk/pkg/models/shared/mappinghistoryentry.go
   - internal/sdk/pkg/models/shared/searchmappingreq.go
   - internal/sdk/pkg/models/shared/security.go
-  - internal/provider/type_entity_ref.go
-  - internal/provider/type_journey_ref.go
-  - internal/provider/type_config.go
-  - internal/provider/type_source_config.go
-  - internal/provider/type_append_value_mapper.go
-  - internal/provider/type_copy_value_mapper.go
-  - internal/provider/type_set_value_mapper.go
-  - internal/provider/type_mapping_attribute.go
-  - internal/provider/type_one.go
-  - internal/provider/type_two.go
-  - internal/provider/type_random_operation.go
-  - internal/provider/type_uniq.go
-  - internal/provider/type_operation_object_node.go
-  - internal/provider/type_operation_node.go
-  - internal/provider/type_mapping_attribute_v2.go
-  - internal/provider/type_mapping_attributes.go
-  - internal/provider/type_source_filter.go
-  - internal/provider/type_relation_attribute.go
-  - internal/provider/type_target_config.go
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf
-  - internal/provider/entitymapping_resource.go
-  - internal/provider/entitymapping_resource_sdk.go
-  - examples/resources/epilot-entitymapping_entity_mapping/resource.tf
-  - internal/provider/entitymapping_data_source.go
-  - internal/provider/entitymapping_data_source_sdk.go
-  - examples/data-sources/epilot-entitymapping_entity_mapping/data-source.tf
   - internal/sdk/pkg/models/operations/options.go
   - .gitattributes
