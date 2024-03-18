@@ -9,34 +9,34 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/pkg/utils"
 )
 
-type RandomOperationSchemasType string
+type RandomOperationType string
 
 const (
-	RandomOperationSchemasTypeNumber RandomOperationSchemasType = "number"
+	RandomOperationTypeNumber RandomOperationType = "number"
 )
 
-func (e RandomOperationSchemasType) ToPointer() *RandomOperationSchemasType {
+func (e RandomOperationType) ToPointer() *RandomOperationType {
 	return &e
 }
 
-func (e *RandomOperationSchemasType) UnmarshalJSON(data []byte) error {
+func (e *RandomOperationType) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "number":
-		*e = RandomOperationSchemasType(v)
+		*e = RandomOperationType(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for RandomOperationSchemasType: %v", v)
+		return fmt.Errorf("invalid value for RandomOperationType: %v", v)
 	}
 }
 
 type Two struct {
-	Max  *float64                   `default:"1" json:"max"`
-	Min  *float64                   `default:"0" json:"min"`
-	Type RandomOperationSchemasType `json:"type"`
+	Max  *float64            `default:"1" json:"max"`
+	Min  *float64            `default:"0" json:"min"`
+	Type RandomOperationType `json:"type"`
 }
 
 func (t Two) MarshalJSON() ([]byte, error) {
@@ -64,25 +64,25 @@ func (o *Two) GetMin() *float64 {
 	return o.Min
 }
 
-func (o *Two) GetType() RandomOperationSchemasType {
+func (o *Two) GetType() RandomOperationType {
 	if o == nil {
-		return RandomOperationSchemasType("")
+		return RandomOperationType("")
 	}
 	return o.Type
 }
 
-type RandomOperationType string
+type RandomOperationSchemasType string
 
 const (
-	RandomOperationTypeUUID   RandomOperationType = "uuid"
-	RandomOperationTypeNanoid RandomOperationType = "nanoid"
+	RandomOperationSchemasTypeUUID   RandomOperationSchemasType = "uuid"
+	RandomOperationSchemasTypeNanoid RandomOperationSchemasType = "nanoid"
 )
 
-func (e RandomOperationType) ToPointer() *RandomOperationType {
+func (e RandomOperationSchemasType) ToPointer() *RandomOperationSchemasType {
 	return &e
 }
 
-func (e *RandomOperationType) UnmarshalJSON(data []byte) error {
+func (e *RandomOperationSchemasType) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -91,20 +91,20 @@ func (e *RandomOperationType) UnmarshalJSON(data []byte) error {
 	case "uuid":
 		fallthrough
 	case "nanoid":
-		*e = RandomOperationType(v)
+		*e = RandomOperationSchemasType(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for RandomOperationType: %v", v)
+		return fmt.Errorf("invalid value for RandomOperationSchemasType: %v", v)
 	}
 }
 
 type One struct {
-	Type RandomOperationType `json:"type"`
+	Type RandomOperationSchemasType `json:"type"`
 }
 
-func (o *One) GetType() RandomOperationType {
+func (o *One) GetType() RandomOperationSchemasType {
 	if o == nil {
-		return RandomOperationType("")
+		return RandomOperationSchemasType("")
 	}
 	return o.Type
 }

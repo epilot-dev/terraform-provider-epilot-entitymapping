@@ -72,18 +72,18 @@ func (u Config) MarshalJSON() ([]byte, error) {
 	return nil, errors.New("could not marshal union type: all fields are null")
 }
 
-type SourceConfigType string
+type Type string
 
 const (
-	SourceConfigTypeJourney SourceConfigType = "journey"
-	SourceConfigTypeEntity  SourceConfigType = "entity"
+	TypeJourney Type = "journey"
+	TypeEntity  Type = "entity"
 )
 
-func (e SourceConfigType) ToPointer() *SourceConfigType {
+func (e Type) ToPointer() *Type {
 	return &e
 }
 
-func (e *SourceConfigType) UnmarshalJSON(data []byte) error {
+func (e *Type) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -92,16 +92,16 @@ func (e *SourceConfigType) UnmarshalJSON(data []byte) error {
 	case "journey":
 		fallthrough
 	case "entity":
-		*e = SourceConfigType(v)
+		*e = Type(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for SourceConfigType: %v", v)
+		return fmt.Errorf("invalid value for Type: %v", v)
 	}
 }
 
 type SourceConfig struct {
-	Config *Config           `json:"config,omitempty"`
-	Type   *SourceConfigType `json:"type,omitempty"`
+	Config *Config `json:"config,omitempty"`
+	Type   *Type   `json:"type,omitempty"`
 }
 
 func (o *SourceConfig) GetConfig() *Config {
@@ -111,7 +111,7 @@ func (o *SourceConfig) GetConfig() *Config {
 	return o.Config
 }
 
-func (o *SourceConfig) GetType() *SourceConfigType {
+func (o *SourceConfig) GetType() *Type {
 	if o == nil {
 		return nil
 	}

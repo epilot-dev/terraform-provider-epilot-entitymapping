@@ -2,46 +2,12 @@
 
 package shared
 
-import (
-	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/pkg/utils"
-	"time"
-)
-
 type MappingConfig struct {
-	CreatedAt     *time.Time     `json:"created_at,omitempty"`
-	CreatedBy     *Owner         `json:"created_by,omitempty"`
-	ID            string         `json:"id"`
-	LastUpdatedBy *Owner         `json:"last_updated_by,omitempty"`
-	OrgID         string         `json:"org_id"`
-	Source        SourceConfig   `json:"source"`
-	Targets       []TargetConfig `json:"targets"`
-	UpdatedAt     *time.Time     `json:"updated_at,omitempty"`
-	Version       float64        `json:"version"`
-}
-
-func (m MappingConfig) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(m, "", false)
-}
-
-func (m *MappingConfig) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &m, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *MappingConfig) GetCreatedAt() *time.Time {
-	if o == nil {
-		return nil
-	}
-	return o.CreatedAt
-}
-
-func (o *MappingConfig) GetCreatedBy() *Owner {
-	if o == nil {
-		return nil
-	}
-	return o.CreatedBy
+	ID      string         `json:"id"`
+	OrgID   string         `json:"org_id"`
+	Source  SourceConfig   `json:"source"`
+	Targets []TargetConfig `json:"targets"`
+	Version int64          `json:"version"`
 }
 
 func (o *MappingConfig) GetID() string {
@@ -49,13 +15,6 @@ func (o *MappingConfig) GetID() string {
 		return ""
 	}
 	return o.ID
-}
-
-func (o *MappingConfig) GetLastUpdatedBy() *Owner {
-	if o == nil {
-		return nil
-	}
-	return o.LastUpdatedBy
 }
 
 func (o *MappingConfig) GetOrgID() string {
@@ -79,16 +38,9 @@ func (o *MappingConfig) GetTargets() []TargetConfig {
 	return o.Targets
 }
 
-func (o *MappingConfig) GetUpdatedAt() *time.Time {
+func (o *MappingConfig) GetVersion() int64 {
 	if o == nil {
-		return nil
-	}
-	return o.UpdatedAt
-}
-
-func (o *MappingConfig) GetVersion() float64 {
-	if o == nil {
-		return 0.0
+		return 0
 	}
 	return o.Version
 }
