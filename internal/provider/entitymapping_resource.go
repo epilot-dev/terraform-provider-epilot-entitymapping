@@ -57,10 +57,8 @@ type EntityMappingResource struct {
 // EntityMappingResourceModel describes the resource data model.
 type EntityMappingResourceModel struct {
 	ID      types.String   `tfsdk:"id"`
-	OrgID   types.String   `tfsdk:"org_id"`
 	Source  SourceConfig   `tfsdk:"source"`
 	Targets []TargetConfig `tfsdk:"targets"`
-	Version types.Number   `tfsdk:"version"`
 }
 
 func (r *EntityMappingResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -79,14 +77,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 				},
 				Required:    true,
 				Description: `Mapping Config Id. Requires replacement if changed. `,
-			},
-			"org_id": schema.StringAttribute{
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplaceIfConfigured(),
-					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-				},
-				Required:    true,
-				Description: `Requires replacement if changed. `,
 			},
 			"source": schema.SingleNestedAttribute{
 				PlanModifiers: []planmodifier.Object{
@@ -918,14 +908,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 				},
 				Description: `Requires replacement if changed. `,
 			},
-			"version": schema.NumberAttribute{
-				PlanModifiers: []planmodifier.Number{
-					numberplanmodifier.RequiresReplaceIfConfigured(),
-					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
-				},
-				Required:    true,
-				Description: `Requires replacement if changed. `,
-			},
 		},
 	}
 }
@@ -968,13 +950,13 @@ func (r *EntityMappingResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	mappingConfig := data.ToSharedMappingConfig()
+	mappingConfigV2 := data.ToSharedMappingConfigV2()
 	id := data.ID.ValueString()
-	request := operations.StoreNewVersionRequest{
-		MappingConfig: mappingConfig,
-		ID:            id,
+	request := operations.PutMappingConfigRequest{
+		MappingConfigV2: mappingConfigV2,
+		ID:              id,
 	}
-	res, err := r.client.Mappings.StoreNewVersion(ctx, request)
+	res, err := r.client.Mappings.PutMappingConfig(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -990,11 +972,11 @@ func (r *EntityMappingResource) Create(ctx context.Context, req resource.CreateR
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
-	if res.MappingConfig == nil {
+	if res.MappingConfigV2 == nil {
 		resp.Diagnostics.AddError("unexpected response from API. No response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedMappingConfig(res.MappingConfig)
+	data.RefreshFromSharedMappingConfigV2(res.MappingConfigV2)
 	refreshPlan(ctx, plan, &data, resp.Diagnostics)
 
 	// Save updated data into Terraform state
@@ -1020,10 +1002,10 @@ func (r *EntityMappingResource) Read(ctx context.Context, req resource.ReadReque
 	}
 
 	id := data.ID.ValueString()
-	request := operations.GetConfigRequest{
+	request := operations.GetMappingConfigRequest{
 		ID: id,
 	}
-	res, err := r.client.Mappings.GetConfig(ctx, request)
+	res, err := r.client.Mappings.GetMappingConfig(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -1039,11 +1021,11 @@ func (r *EntityMappingResource) Read(ctx context.Context, req resource.ReadReque
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
-	if res.MappingConfig == nil {
+	if res.MappingConfigV2 == nil {
 		resp.Diagnostics.AddError("unexpected response from API. No response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedMappingConfig(res.MappingConfig)
+	data.RefreshFromSharedMappingConfigV2(res.MappingConfigV2)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

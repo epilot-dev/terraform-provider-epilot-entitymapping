@@ -7,7 +7,7 @@ type MappingConfig struct {
 	OrgID   string         `json:"org_id"`
 	Source  SourceConfig   `json:"source"`
 	Targets []TargetConfig `json:"targets"`
-	Version float64        `json:"version"`
+	Version int64          `json:"version"`
 }
 
 func (o *MappingConfig) GetID() string {
@@ -38,9 +38,9 @@ func (o *MappingConfig) GetTargets() []TargetConfig {
 	return o.Targets
 }
 
-func (o *MappingConfig) GetVersion() float64 {
+func (o *MappingConfig) GetVersion() int64 {
 	if o == nil {
-		return 0.0
+		return 0
 	}
 	return o.Version
 }

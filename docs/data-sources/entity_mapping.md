@@ -14,7 +14,7 @@ EntityMapping DataSource
 
 ```terraform
 data "epilot-entitymapping_entity_mapping" "my_entitymapping" {
-  id = "uuidv4"
+  id = "70542580-2b38-4bfc-af8d-bb90102f9f47"
 }
 ```
 
@@ -27,10 +27,8 @@ data "epilot-entitymapping_entity_mapping" "my_entitymapping" {
 
 ### Read-Only
 
-- `org_id` (String)
 - `source` (Attributes) (see [below for nested schema](#nestedatt--source))
 - `targets` (Attributes List) (see [below for nested schema](#nestedatt--targets))
-- `version` (Number)
 
 <a id="nestedatt--source"></a>
 ### Nested Schema for `source`

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
-  docChecksum: 9831faf457882e4b7bc0b7c48f868243
+  docChecksum: ae29b3fcceec01e66c2cc82511b7ead8
   docVersion: 1.0.0
-  speakeasyVersion: internal
-  generationVersion: 2.277.0
-  releaseVersion: 0.4.0
-  configChecksum: fb45ccd414fc5968746be04cae188174
+  speakeasyVersion: 1.209.3
+  generationVersion: 2.281.2
+  releaseVersion: 0.6.3
+  configChecksum: b1a2776f8c531a591daf0dcbb133693c
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
@@ -14,7 +14,7 @@ features:
   terraform:
     additionalProperties: 0.1.2
     constsAndDefaults: 0.1.4
-    core: 3.10.2
+    core: 3.10.3
     deprecations: 2.81.1
     globalSecurity: 2.81.5
     globalServerURLs: 2.82.1
@@ -89,6 +89,8 @@ generatedFiles:
   - internal/sdk/pkg/models/operations/getallversions.go
   - internal/sdk/pkg/models/operations/getconfig.go
   - internal/sdk/pkg/models/operations/getconfigversion.go
+  - internal/sdk/pkg/models/operations/getmappingconfig.go
+  - internal/sdk/pkg/models/operations/putmappingconfig.go
   - internal/sdk/pkg/models/operations/querymappinghistory.go
   - internal/sdk/pkg/models/operations/searchconfigs.go
   - internal/sdk/pkg/models/operations/storeconfig.go
@@ -118,6 +120,7 @@ generatedFiles:
   - internal/sdk/pkg/models/shared/executerelationsreq.go
   - internal/sdk/pkg/models/shared/relationitem.go
   - internal/sdk/pkg/models/shared/mappingconfigsresp.go
+  - internal/sdk/pkg/models/shared/mappingconfigv2.go
   - internal/sdk/pkg/models/shared/mappinghistoryresp.go
   - internal/sdk/pkg/models/shared/mappinghistoryentry.go
   - internal/sdk/pkg/models/shared/searchmappingreq.go

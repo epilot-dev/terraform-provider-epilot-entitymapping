@@ -14,8 +14,7 @@ EntityMapping Resource
 
 ```terraform
 resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
-  id     = "20fec022-fdfb-42b1-b545-9c73d2673f99"
-  org_id = "...my_org_id..."
+  id = "20fec022-fdfb-42b1-b545-9c73d2673f99"
   source = {
     config = {
       entity_ref = {
@@ -80,7 +79,6 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
       ]
     },
   ]
-  version = 34.53
 }
 ```
 
@@ -90,10 +88,8 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
 ### Required
 
 - `id` (String) Mapping Config Id. Requires replacement if changed.
-- `org_id` (String) Requires replacement if changed.
 - `source` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--source))
 - `targets` (Attributes List) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets))
-- `version` (Number) Requires replacement if changed.
 
 <a id="nestedatt--source"></a>
 ### Nested Schema for `source`
