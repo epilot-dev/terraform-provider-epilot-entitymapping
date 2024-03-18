@@ -9,9 +9,8 @@ import (
 	"math/big"
 )
 
-func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfig(resp *shared.MappingConfig) {
+func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfigV2(resp *shared.MappingConfigV2) {
 	r.ID = types.StringValue(resp.ID)
-	r.OrgID = types.StringValue(resp.OrgID)
 	if resp.Source.Config == nil {
 		r.Source.Config = nil
 	} else {
@@ -137,10 +136,10 @@ func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfig(resp *shar
 						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean != nil {
 							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean = types.BoolPointerValue(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean)
 						}
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr != nil {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr = nil
-							for _, v := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr {
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr = append(mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr, types.StringValue(v))
+						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr != nil {
+							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr = nil
+							for _, v := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr {
+								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr = append(mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr, types.StringValue(v))
 							}
 						}
 					}
@@ -229,5 +228,4 @@ func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfig(resp *shar
 			r.Targets[targetsCount].TargetUnique = targets1.TargetUnique
 		}
 	}
-	r.Version = types.NumberValue(big.NewFloat(float64(resp.Version)))
 }

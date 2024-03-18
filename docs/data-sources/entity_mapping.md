@@ -14,7 +14,7 @@ EntityMapping DataSource
 
 ```terraform
 data "epilot-entitymapping_entity_mapping" "my_entitymapping" {
-  id = "uuidv4"
+  id = "70542580-2b38-4bfc-af8d-bb90102f9f47"
 }
 ```
 
@@ -27,10 +27,8 @@ data "epilot-entitymapping_entity_mapping" "my_entitymapping" {
 
 ### Read-Only
 
-- `org_id` (String)
 - `source` (Attributes) (see [below for nested schema](#nestedatt--source))
 - `targets` (Attributes List) (see [below for nested schema](#nestedatt--targets))
-- `version` (Number)
 
 <a id="nestedatt--source"></a>
 ### Nested Schema for `source`
@@ -77,6 +75,8 @@ Read-Only:
 - `conditions` (String) Parsed as JSON.
 - `id` (String) Identifier for target configuration. Useful for later usages when trying to identify which target config to map to.
 - `linkback_relation_attribute` (String) Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback
+
+Default: "mapped_entities"
 - `linkback_relation_tags` (List of String) Relation tags (labels) to include in main entity linkback relation attribute
 - `mapping_attributes` (Attributes List) Attribute mappings (see [below for nested schema](#nestedatt--targets--mapping_attributes))
 - `name` (String) A name for this configuration
@@ -193,8 +193,8 @@ Read-Only:
 
 Read-Only:
 
-- `max` (Number)
-- `min` (Number)
+- `max` (Number) Default: 1
+- `min` (Number) Default: 0
 - `type` (String) must be one of ["number"]
 
 
@@ -204,7 +204,7 @@ Read-Only:
 
 Read-Only:
 
-- `array_of_str` (List of String)
+- `array_ofstr` (List of String)
 - `boolean` (Boolean)
 
 
@@ -223,7 +223,7 @@ Read-Only:
 - `source_filter` (Attributes) A filter to identify which source entities to pick as relations from main entity (see [below for nested schema](#nestedatt--targets--relation_attributes--source_filter))
 - `target` (String) Target attribute to store the relation in
 - `target_tags` (List of String) Relation tags (labels) to set for the stored relations
-- `target_tags_include_source` (Boolean) Include all relation tags (labels) present on the main entity relation
+- `target_tags_include_source` (Boolean) Include all relation tags (labels) present on the main entity relation. Default: false
 
 <a id="nestedatt--targets--relation_attributes--source_filter"></a>
 ### Nested Schema for `targets.relation_attributes.source_filter`
@@ -234,7 +234,7 @@ Read-Only:
 - `limit` (Number) Limit relations to maximum number (default, all matched relations)
 - `relation_tag` (String) Filter by relation tag (label) on the main entity
 - `schema` (String) Filter by specific schema
-- `self` (Boolean) Picks main entity as relation (overrides other filters)
+- `self` (Boolean) Picks main entity as relation (overrides other filters). Default: false
 - `tag` (String) Filter by a specific tag on the related entity
 
 
