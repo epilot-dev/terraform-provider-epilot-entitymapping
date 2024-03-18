@@ -1,25 +1,26 @@
 lockVersion: 2.0.0
 id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
-  docChecksum: 9831faf457882e4b7bc0b7c48f868243
+  docChecksum: 4ef43cd470a9cf03b21cc7c3adce4625
   docVersion: 1.0.0
   speakeasyVersion: internal
-  generationVersion: 2.277.0
-  releaseVersion: 0.4.0
-  configChecksum: fb45ccd414fc5968746be04cae188174
+  generationVersion: 2.230.1
+  releaseVersion: 0.5.0
+  configChecksum: 0558ea0bc1231874808ca8aed4deed53
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
 features:
   terraform:
     additionalProperties: 0.1.2
-    constsAndDefaults: 0.1.4
-    core: 3.10.2
+    constsAndDefaults: 0.1.2
+    core: 3.8.1
     deprecations: 2.81.1
-    globalSecurity: 2.81.5
+    globalSecurity: 2.81.2
     globalServerURLs: 2.82.1
+    inputOutputModels: 2.83.0
     retries: 2.81.1
-    unions: 2.81.9
+    unions: 2.81.7
 generatedFiles:
   - internal/sdk/mappings.go
   - internal/sdk/sdk.go
@@ -89,6 +90,8 @@ generatedFiles:
   - internal/sdk/pkg/models/operations/getallversions.go
   - internal/sdk/pkg/models/operations/getconfig.go
   - internal/sdk/pkg/models/operations/getconfigversion.go
+  - internal/sdk/pkg/models/operations/getmappingconfig.go
+  - internal/sdk/pkg/models/operations/putmappingconfig.go
   - internal/sdk/pkg/models/operations/querymappinghistory.go
   - internal/sdk/pkg/models/operations/searchconfigs.go
   - internal/sdk/pkg/models/operations/storeconfig.go
@@ -109,6 +112,7 @@ generatedFiles:
   - internal/sdk/pkg/models/shared/sourceconfig.go
   - internal/sdk/pkg/models/shared/journeyref.go
   - internal/sdk/pkg/models/shared/entityref.go
+  - internal/sdk/pkg/models/shared/owner.go
   - internal/sdk/pkg/models/shared/executemappingresp.go
   - internal/sdk/pkg/models/shared/mappingwarning.go
   - internal/sdk/pkg/models/shared/mappingfailure.go
@@ -118,10 +122,13 @@ generatedFiles:
   - internal/sdk/pkg/models/shared/executerelationsreq.go
   - internal/sdk/pkg/models/shared/relationitem.go
   - internal/sdk/pkg/models/shared/mappingconfigsresp.go
+  - internal/sdk/pkg/models/shared/mappingconfigv2.go
+  - internal/sdk/pkg/models/shared/mappingconfigv2input.go
   - internal/sdk/pkg/models/shared/mappinghistoryresp.go
   - internal/sdk/pkg/models/shared/mappinghistoryentry.go
   - internal/sdk/pkg/models/shared/searchmappingreq.go
   - internal/sdk/pkg/models/shared/security.go
+  - internal/provider/type_owner.go
   - internal/provider/type_entity_ref.go
   - internal/provider/type_journey_ref.go
   - internal/provider/type_config.go
@@ -144,9 +151,6 @@ generatedFiles:
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf
-  - internal/provider/entitymapping_resource.go
-  - internal/provider/entitymapping_resource_sdk.go
-  - examples/resources/epilot-entitymapping_entity_mapping/resource.tf
   - internal/provider/entitymapping_data_source.go
   - internal/provider/entitymapping_data_source_sdk.go
   - examples/data-sources/epilot-entitymapping_entity_mapping/data-source.tf

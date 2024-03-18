@@ -7,11 +7,33 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
+	"time"
 )
 
-func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfig(resp *shared.MappingConfig) {
+func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfigV2(resp *shared.MappingConfigV2) {
+	if resp.CreatedAt != nil {
+		r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
+	} else {
+		r.CreatedAt = types.StringNull()
+	}
+	if resp.CreatedBy == nil {
+		r.CreatedBy = nil
+	} else {
+		r.CreatedBy = &Owner{}
+		r.CreatedBy.OrgID = types.StringPointerValue(resp.CreatedBy.OrgID)
+		r.CreatedBy.Type = types.StringValue(string(resp.CreatedBy.Type))
+		r.CreatedBy.UserID = types.StringPointerValue(resp.CreatedBy.UserID)
+	}
 	r.ID = types.StringValue(resp.ID)
-	r.OrgID = types.StringValue(resp.OrgID)
+	if resp.LastUpdatedBy == nil {
+		r.LastUpdatedBy = nil
+	} else {
+		r.LastUpdatedBy = &Owner{}
+		r.LastUpdatedBy.OrgID = types.StringPointerValue(resp.LastUpdatedBy.OrgID)
+		r.LastUpdatedBy.Type = types.StringValue(string(resp.LastUpdatedBy.Type))
+		r.LastUpdatedBy.UserID = types.StringPointerValue(resp.LastUpdatedBy.UserID)
+	}
+	r.OrgID = types.StringPointerValue(resp.OrgID)
 	if resp.Source.Config == nil {
 		r.Source.Config = nil
 	} else {
@@ -137,10 +159,10 @@ func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfig(resp *shar
 						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean != nil {
 							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean = types.BoolPointerValue(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean)
 						}
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr != nil {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr = nil
-							for _, v := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr {
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr = append(mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr, types.StringValue(v))
+						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr != nil {
+							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr = nil
+							for _, v := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr {
+								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr = append(mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfstr, types.StringValue(v))
 							}
 						}
 					}
@@ -229,5 +251,10 @@ func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfig(resp *shar
 			r.Targets[targetsCount].TargetUnique = targets1.TargetUnique
 		}
 	}
-	r.Version = types.NumberValue(big.NewFloat(float64(resp.Version)))
+	if resp.UpdatedAt != nil {
+		r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
+	} else {
+		r.UpdatedAt = types.StringNull()
+	}
+	r.Version = types.Int64PointerValue(resp.Version)
 }

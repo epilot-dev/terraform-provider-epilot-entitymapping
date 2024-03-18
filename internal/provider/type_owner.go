@@ -4,7 +4,8 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type Uniq struct {
-	Boolean    types.Bool     `tfsdk:"boolean"`
-	ArrayOfstr []types.String `tfsdk:"array_ofstr"`
+type Owner struct {
+	OrgID  types.String `tfsdk:"org_id"`
+	Type   types.String `tfsdk:"type"`
+	UserID types.String `tfsdk:"user_id"`
 }

@@ -21,10 +21,10 @@ actions:
   - target: $["paths"]["/v2/mappings/{id}"]["get"]["parameters"][0]
     update:
       x-speakeasy-match: id
-  - target: $["paths"]["/v2/mappings/{id}/versions"]["post"]
+  - target: $["paths"]["/v2/mappings/{id}"]["put"]
     update:
-      x-speakeasy-entity-operation: EntityMapping#create
-  - target: $["paths"]["/v2/mappings/{id}/versions"]["post"]["parameters"][0]
+      x-speakeasy-entity-operation: EntityMapping#update
+  - target: $["paths"]["/v2/mappings/{id}"]["put"]["parameters"][0]
     update:
       x-speakeasy-match: id
   - target: $["components"]["schemas"]["MappingConfigV2"]

@@ -7,88 +7,72 @@ import (
 	"time"
 )
 
-type MappingConfig struct {
+type MappingConfigV2Input struct {
 	CreatedAt     *time.Time     `json:"created_at,omitempty"`
 	CreatedBy     *Owner         `json:"created_by,omitempty"`
 	ID            string         `json:"id"`
 	LastUpdatedBy *Owner         `json:"last_updated_by,omitempty"`
-	OrgID         string         `json:"org_id"`
 	Source        SourceConfig   `json:"source"`
 	Targets       []TargetConfig `json:"targets"`
 	UpdatedAt     *time.Time     `json:"updated_at,omitempty"`
-	Version       int64          `json:"version"`
 }
 
-func (m MappingConfig) MarshalJSON() ([]byte, error) {
+func (m MappingConfigV2Input) MarshalJSON() ([]byte, error) {
 	return utils.MarshalJSON(m, "", false)
 }
 
-func (m *MappingConfig) UnmarshalJSON(data []byte) error {
+func (m *MappingConfigV2Input) UnmarshalJSON(data []byte) error {
 	if err := utils.UnmarshalJSON(data, &m, "", false, false); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *MappingConfig) GetCreatedAt() *time.Time {
+func (o *MappingConfigV2Input) GetCreatedAt() *time.Time {
 	if o == nil {
 		return nil
 	}
 	return o.CreatedAt
 }
 
-func (o *MappingConfig) GetCreatedBy() *Owner {
+func (o *MappingConfigV2Input) GetCreatedBy() *Owner {
 	if o == nil {
 		return nil
 	}
 	return o.CreatedBy
 }
 
-func (o *MappingConfig) GetID() string {
+func (o *MappingConfigV2Input) GetID() string {
 	if o == nil {
 		return ""
 	}
 	return o.ID
 }
 
-func (o *MappingConfig) GetLastUpdatedBy() *Owner {
+func (o *MappingConfigV2Input) GetLastUpdatedBy() *Owner {
 	if o == nil {
 		return nil
 	}
 	return o.LastUpdatedBy
 }
 
-func (o *MappingConfig) GetOrgID() string {
-	if o == nil {
-		return ""
-	}
-	return o.OrgID
-}
-
-func (o *MappingConfig) GetSource() SourceConfig {
+func (o *MappingConfigV2Input) GetSource() SourceConfig {
 	if o == nil {
 		return SourceConfig{}
 	}
 	return o.Source
 }
 
-func (o *MappingConfig) GetTargets() []TargetConfig {
+func (o *MappingConfigV2Input) GetTargets() []TargetConfig {
 	if o == nil {
 		return []TargetConfig{}
 	}
 	return o.Targets
 }
 
-func (o *MappingConfig) GetUpdatedAt() *time.Time {
+func (o *MappingConfigV2Input) GetUpdatedAt() *time.Time {
 	if o == nil {
 		return nil
 	}
 	return o.UpdatedAt
-}
-
-func (o *MappingConfig) GetVersion() int64 {
-	if o == nil {
-		return 0
-	}
-	return o.Version
 }

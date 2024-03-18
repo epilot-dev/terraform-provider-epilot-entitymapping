@@ -28,11 +28,15 @@ type EntityMappingDataSource struct {
 
 // EntityMappingDataSourceModel describes the data model.
 type EntityMappingDataSourceModel struct {
-	ID      types.String   `tfsdk:"id"`
-	OrgID   types.String   `tfsdk:"org_id"`
-	Source  SourceConfig   `tfsdk:"source"`
-	Targets []TargetConfig `tfsdk:"targets"`
-	Version types.Number   `tfsdk:"version"`
+	CreatedAt     types.String   `tfsdk:"created_at"`
+	CreatedBy     *Owner         `tfsdk:"created_by"`
+	ID            types.String   `tfsdk:"id"`
+	LastUpdatedBy *Owner         `tfsdk:"last_updated_by"`
+	OrgID         types.String   `tfsdk:"org_id"`
+	Source        SourceConfig   `tfsdk:"source"`
+	Targets       []TargetConfig `tfsdk:"targets"`
+	UpdatedAt     types.String   `tfsdk:"updated_at"`
+	Version       types.Int64    `tfsdk:"version"`
 }
 
 // Metadata returns the data source type name.
@@ -46,9 +50,42 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 		MarkdownDescription: "EntityMapping DataSource",
 
 		Attributes: map[string]schema.Attribute{
+			"created_at": schema.StringAttribute{
+				Computed: true,
+			},
+			"created_by": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"org_id": schema.StringAttribute{
+						Computed: true,
+					},
+					"type": schema.StringAttribute{
+						Computed:    true,
+						Description: `must be one of ["user", "internal_service"]`,
+					},
+					"user_id": schema.StringAttribute{
+						Computed: true,
+					},
+				},
+			},
 			"id": schema.StringAttribute{
 				Required:    true,
 				Description: `Mapping Config Id`,
+			},
+			"last_updated_by": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"org_id": schema.StringAttribute{
+						Computed: true,
+					},
+					"type": schema.StringAttribute{
+						Computed:    true,
+						Description: `must be one of ["user", "internal_service"]`,
+					},
+					"user_id": schema.StringAttribute{
+						Computed: true,
+					},
+				},
 			},
 			"org_id": schema.StringAttribute{
 				Computed: true,
@@ -111,7 +148,8 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 						"linkback_relation_attribute": schema.StringAttribute{
 							Computed: true,
 							MarkdownDescription: `Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback` + "\n" +
-								``,
+								`` + "\n" +
+								`Default: "mapped_entities"`,
 						},
 						"linkback_relation_tags": schema.ListAttribute{
 							Computed:    true,
@@ -237,10 +275,12 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 																		Computed: true,
 																		Attributes: map[string]schema.Attribute{
 																			"max": schema.NumberAttribute{
-																				Computed: true,
+																				Computed:    true,
+																				Description: `Default: 1`,
 																			},
 																			"min": schema.NumberAttribute{
-																				Computed: true,
+																				Computed:    true,
+																				Description: `Default: 0`,
 																			},
 																			"type": schema.StringAttribute{
 																				Computed:    true,
@@ -264,7 +304,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 																	"boolean": schema.BoolAttribute{
 																		Computed: true,
 																	},
-																	"array_of_str": schema.ListAttribute{
+																	"array_ofstr": schema.ListAttribute{
 																		Computed:    true,
 																		ElementType: types.StringType,
 																	},
@@ -335,7 +375,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 											},
 											"self": schema.BoolAttribute{
 												Computed:    true,
-												Description: `Picks main entity as relation (overrides other filters)`,
+												Description: `Picks main entity as relation (overrides other filters). Default: false`,
 											},
 											"tag": schema.StringAttribute{
 												Computed:    true,
@@ -355,7 +395,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 									},
 									"target_tags_include_source": schema.BoolAttribute{
 										Computed:    true,
-										Description: `Include all relation tags (labels) present on the main entity relation`,
+										Description: `Include all relation tags (labels) present on the main entity relation. Default: false`,
 									},
 								},
 							},
@@ -373,7 +413,10 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 					},
 				},
 			},
-			"version": schema.NumberAttribute{
+			"updated_at": schema.StringAttribute{
+				Computed: true,
+			},
+			"version": schema.Int64Attribute{
 				Computed: true,
 			},
 		},
@@ -419,10 +462,10 @@ func (r *EntityMappingDataSource) Read(ctx context.Context, req datasource.ReadR
 	}
 
 	id := data.ID.ValueString()
-	request := operations.GetConfigRequest{
+	request := operations.GetMappingConfigRequest{
 		ID: id,
 	}
-	res, err := r.client.Mappings.GetConfig(ctx, request)
+	res, err := r.client.Mappings.GetMappingConfig(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -438,11 +481,11 @@ func (r *EntityMappingDataSource) Read(ctx context.Context, req datasource.ReadR
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
-	if res.MappingConfig == nil {
+	if res.MappingConfigV2 == nil {
 		resp.Diagnostics.AddError("unexpected response from API. No response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedMappingConfig(res.MappingConfig)
+	data.RefreshFromSharedMappingConfigV2(res.MappingConfigV2)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

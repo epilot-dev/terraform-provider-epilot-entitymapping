@@ -79,13 +79,6 @@ func (s *Mappings) DeleteConfig(ctx context.Context, request operations.DeleteCo
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -190,13 +183,6 @@ func (s *Mappings) ExecuteMapping(ctx context.Context, request operations.Execut
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -298,13 +284,6 @@ func (s *Mappings) ExecuteRelations(ctx context.Context, request *shared.Execute
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -400,13 +379,6 @@ func (s *Mappings) GetAllVersions(ctx context.Context, request operations.GetAll
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -501,13 +473,6 @@ func (s *Mappings) GetConfig(ctx context.Context, request operations.GetConfigRe
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -602,13 +567,6 @@ func (s *Mappings) GetConfigVersion(ctx context.Context, request operations.GetC
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -642,6 +600,204 @@ func (s *Mappings) GetConfigVersion(ctx context.Context, request operations.GetC
 			}
 
 			res.MappingConfig = &out
+		default:
+			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", contentType), httpRes.StatusCode, string(rawBody), httpRes)
+		}
+	}
+
+	return res, nil
+}
+
+// GetMappingConfig - getMappingConfig
+// Get latest version of a mapping config by id V2
+func (s *Mappings) GetMappingConfig(ctx context.Context, request operations.GetMappingConfigRequest, opts ...operations.Option) (*operations.GetMappingConfigResponse, error) {
+	o := operations.Options{}
+	supportedOptions := []string{
+		operations.SupportedOptionRetries,
+	}
+
+	for _, opt := range opts {
+		if err := opt(&o, supportedOptions...); err != nil {
+			return nil, fmt.Errorf("error applying option: %w", err)
+		}
+	}
+	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
+	url, err := utils.GenerateURL(ctx, baseURL, "/v2/mappings/{id}", request, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error creating request: %w", err)
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("user-agent", s.sdkConfiguration.UserAgent)
+
+	client := s.sdkConfiguration.SecurityClient
+
+	globalRetryConfig := s.sdkConfiguration.RetryConfig
+	retryConfig := o.Retries
+	if retryConfig == nil {
+		if globalRetryConfig == nil {
+			retryConfig = &utils.RetryConfig{
+				Strategy: "backoff",
+				Backoff: &utils.BackoffStrategy{
+					InitialInterval: 5000,
+					MaxInterval:     60000,
+					Exponent:        1.5,
+					MaxElapsedTime:  3600000,
+				},
+				RetryConnectionErrors: true,
+			}
+		} else {
+			retryConfig = globalRetryConfig
+		}
+	}
+
+	httpRes, err := utils.Retry(ctx, utils.Retries{
+		Config: retryConfig,
+		StatusCodes: []string{
+			"5XX",
+		},
+	}, func() (*http.Response, error) {
+		return client.Do(req)
+	})
+	if err != nil {
+		return nil, fmt.Errorf("error sending request: %w", err)
+	}
+	if httpRes == nil {
+		return nil, fmt.Errorf("error sending request: no response")
+	}
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
+
+	contentType := httpRes.Header.Get("Content-Type")
+
+	res := &operations.GetMappingConfigResponse{
+		StatusCode:  httpRes.StatusCode,
+		ContentType: contentType,
+		RawResponse: httpRes,
+	}
+	switch {
+	case httpRes.StatusCode == 200:
+		switch {
+		case utils.MatchContentType(contentType, `application/json`):
+			var out shared.MappingConfigV2
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			res.MappingConfigV2 = &out
+		default:
+			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", contentType), httpRes.StatusCode, string(rawBody), httpRes)
+		}
+	}
+
+	return res, nil
+}
+
+// PutMappingConfig - putMappingConfig
+// Stores new version of entity mapping config
+func (s *Mappings) PutMappingConfig(ctx context.Context, request operations.PutMappingConfigRequest, opts ...operations.Option) (*operations.PutMappingConfigResponse, error) {
+	o := operations.Options{}
+	supportedOptions := []string{
+		operations.SupportedOptionRetries,
+	}
+
+	for _, opt := range opts {
+		if err := opt(&o, supportedOptions...); err != nil {
+			return nil, fmt.Errorf("error applying option: %w", err)
+		}
+	}
+	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
+	url, err := utils.GenerateURL(ctx, baseURL, "/v2/mappings/{id}", request, nil)
+	if err != nil {
+		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, true, "MappingConfigV2", "json", `request:"mediaType=application/json"`)
+	if err != nil {
+		return nil, fmt.Errorf("error serializing request body: %w", err)
+	}
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "PUT", url, debugReader)
+	if err != nil {
+		return nil, fmt.Errorf("error creating request: %w", err)
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("user-agent", s.sdkConfiguration.UserAgent)
+
+	req.Header.Set("Content-Type", reqContentType)
+
+	client := s.sdkConfiguration.SecurityClient
+
+	globalRetryConfig := s.sdkConfiguration.RetryConfig
+	retryConfig := o.Retries
+	if retryConfig == nil {
+		if globalRetryConfig == nil {
+			retryConfig = &utils.RetryConfig{
+				Strategy: "backoff",
+				Backoff: &utils.BackoffStrategy{
+					InitialInterval: 5000,
+					MaxInterval:     60000,
+					Exponent:        1.5,
+					MaxElapsedTime:  3600000,
+				},
+				RetryConnectionErrors: true,
+			}
+		} else {
+			retryConfig = globalRetryConfig
+		}
+	}
+
+	httpRes, err := utils.Retry(ctx, utils.Retries{
+		Config: retryConfig,
+		StatusCodes: []string{
+			"5XX",
+		},
+	}, func() (*http.Response, error) {
+		return client.Do(req)
+	})
+	if err != nil {
+		return nil, fmt.Errorf("error sending request: %w", err)
+	}
+	if httpRes == nil {
+		return nil, fmt.Errorf("error sending request: no response")
+	}
+
+	rawBody, err := io.ReadAll(httpRes.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
+	httpRes.Body.Close()
+	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
+
+	contentType := httpRes.Header.Get("Content-Type")
+
+	res := &operations.PutMappingConfigResponse{
+		StatusCode:  httpRes.StatusCode,
+		ContentType: contentType,
+		RawResponse: httpRes,
+	}
+	switch {
+	case httpRes.StatusCode == 200:
+		switch {
+		case utils.MatchContentType(contentType, `application/json`):
+			var out shared.MappingConfigV2
+			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
+				return nil, err
+			}
+
+			res.MappingConfigV2 = &out
 		default:
 			return nil, sdkerrors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", contentType), httpRes.StatusCode, string(rawBody), httpRes)
 		}
@@ -704,13 +860,6 @@ func (s *Mappings) QueryMappingHistory(ctx context.Context, request operations.Q
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -811,13 +960,6 @@ func (s *Mappings) SearchConfigs(ctx context.Context, request *shared.SearchMapp
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -923,13 +1065,6 @@ func (s *Mappings) StoreConfig(ctx context.Context, request operations.StoreConf
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -1034,13 +1169,6 @@ func (s *Mappings) StoreNewVersion(ctx context.Context, request operations.Store
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
-		if req.Body != nil {
-			copyBody, err := req.GetBody()
-			if err != nil {
-				return nil, err
-			}
-			req.Body = copyBody
-		}
 		return client.Do(req)
 	})
 	if err != nil {
