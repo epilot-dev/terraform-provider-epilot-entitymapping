@@ -1,6 +1,17 @@
+terraform {
+  required_providers {
+    epilot-entitymapping = {
+      source  = "epilot-dev/epilot-entitymapping"
+      version = "0.6.3"
+    }
+  }
+}
+
+provider "epilot-entitymapping" {
+  epilot_auth = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRaRnpITVkyVjJyMXRjcW15bEJUaVozSkRSR3pKVW5JeG5Rcm9rQVNGOUEifQ.eyJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJ0b2tlbl9pZCI6ImFwaV9telpFVGNuY2c4aTlzdVBrbUdzcFAiLCJ0b2tlbl9uYW1lIjoiSm91cm5leSBUZXJyYWZvcm0iLCJvcmdfaWQiOiI2NiIsInVzZXJfaWQiOiJhcGlfbXpaRVRjbmNnOGk5c3VQa21Hc3BQIiwidG9rZW5fdHlwZSI6ImFwaSIsImN1c3RvbTppdnlfb3JnX2lkIjoiNjYiLCJjdXN0b206aXZ5X3VzZXJfaWQiOiJhcGlfbXpaRVRjbmNnOGk5c3VQa21Hc3BQIiwiYXNzdW1lX3JvbGVzIjpbIjY2OmFkbWluaXN0cmF0b3IiXSwiaXNzIjoiaHR0cHM6Ly9hY2Nlc3MtdG9rZW4uc2xzLmVwaWxvdC5pby92MS9hY2Nlc3MtdG9rZW5zIiwiaWF0IjoxNzA1MzI5MDk4fQ.KOx25TuzWb3DFmfpOeuVHVeUt_8GGB4UAoBsyE9Vyzh61VvretqBkNX2hZqw_Ac3OYfKnCCEXvkfEEAfshTB6xIWkvAin0guxJHLKDXYJN6Tz_qH663MZgEZcgftZgLOUzlVdMrWaxXrgpq39SK6ML1J3J2UxLdpoAX-NW6WR_qfqXGOqCdrN0x9lXnkXYoziqKVMB06N7VJWavD7zE2YhTlS7Rwcj4mzQ6-1V-QCu4m9knY06JcnJOeBqqTLmGt3F8RGJpkIo4dqFVSKMfxu92bibfSHpld_IjWyhOF6SK8RG7QRilsSBcg4qTUynE60DQmiihnVdECWJlLcbdMhQ"
+}
 resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
-  id     = "20fec022-fdfb-42b1-b545-9c73d2673f99"
-  org_id = "...my_org_id..."
+  id = "20fec022-fdfb-42b1-b545-9c73d2673f99"
   source = {
     config = {
       entity_ref = {
@@ -65,5 +76,4 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
       ]
     },
   ]
-  version = 34.53
 }
