@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
-  docChecksum: a88d9b0dd70f8e62dace437f6ebbb75e
+  docChecksum: ab32e48a019e40250ebb9d50ef657da8
   docVersion: 1.0.0
   speakeasyVersion: internal
   generationVersion: 2.230.1
-  releaseVersion: 0.4.1
-  configChecksum: 66173a018b51a35513bfadec473b23fc
+  releaseVersion: 0.4.4
+  configChecksum: beadf8400624c1734eab90ac14d48fb1
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
@@ -147,6 +147,9 @@ generatedFiles:
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf
+  - internal/provider/entitymapping_resource.go
+  - internal/provider/entitymapping_resource_sdk.go
+  - examples/resources/epilot-entitymapping_entity_mapping/resource.tf
   - internal/provider/entitymapping_data_source.go
   - internal/provider/entitymapping_data_source_sdk.go
   - examples/data-sources/epilot-entitymapping_entity_mapping/data-source.tf

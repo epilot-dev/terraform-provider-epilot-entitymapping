@@ -81,7 +81,9 @@ func (p *EpilotEntitymappingProvider) Configure(ctx context.Context, req provide
 }
 
 func (p *EpilotEntitymappingProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		NewEntityMappingResource,
+	}
 }
 
 func (p *EpilotEntitymappingProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
