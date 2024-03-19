@@ -79,6 +79,13 @@ func (s *Mappings) DeleteConfig(ctx context.Context, request operations.DeleteCo
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -183,6 +190,13 @@ func (s *Mappings) ExecuteMapping(ctx context.Context, request operations.Execut
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -284,6 +298,13 @@ func (s *Mappings) ExecuteRelations(ctx context.Context, request *shared.Execute
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -379,6 +400,13 @@ func (s *Mappings) GetAllVersions(ctx context.Context, request operations.GetAll
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -473,6 +501,13 @@ func (s *Mappings) GetConfig(ctx context.Context, request operations.GetConfigRe
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -567,6 +602,13 @@ func (s *Mappings) GetConfigVersion(ctx context.Context, request operations.GetC
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -661,6 +703,13 @@ func (s *Mappings) GetMappingConfig(ctx context.Context, request operations.GetM
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -764,6 +813,13 @@ func (s *Mappings) PutMappingConfig(ctx context.Context, request operations.PutM
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -860,6 +916,13 @@ func (s *Mappings) QueryMappingHistory(ctx context.Context, request operations.Q
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -960,6 +1023,13 @@ func (s *Mappings) SearchConfigs(ctx context.Context, request *shared.SearchMapp
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -1065,6 +1135,13 @@ func (s *Mappings) StoreConfig(ctx context.Context, request operations.StoreConf
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {
@@ -1169,6 +1246,13 @@ func (s *Mappings) StoreNewVersion(ctx context.Context, request operations.Store
 			"5XX",
 		},
 	}, func() (*http.Response, error) {
+		if req.Body != nil {
+			copyBody, err := req.GetBody()
+			if err != nil {
+				return nil, err
+			}
+			req.Body = copyBody
+		}
 		return client.Do(req)
 	})
 	if err != nil {

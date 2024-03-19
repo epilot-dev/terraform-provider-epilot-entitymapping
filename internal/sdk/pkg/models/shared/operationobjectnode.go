@@ -11,13 +11,13 @@ type UniqType string
 
 const (
 	UniqTypeBoolean    UniqType = "boolean"
-	UniqTypeArrayOfstr UniqType = "arrayOfstr"
+	UniqTypeArrayOfStr UniqType = "array_Of_str"
 )
 
 // Uniq - Unique array
 type Uniq struct {
 	Boolean    *bool
-	ArrayOfstr []string
+	ArrayOfStr []string
 
 	Type UniqType
 }
@@ -31,11 +31,11 @@ func CreateUniqBoolean(boolean bool) Uniq {
 	}
 }
 
-func CreateUniqArrayOfstr(arrayOfstr []string) Uniq {
-	typ := UniqTypeArrayOfstr
+func CreateUniqArrayOfStr(arrayOfStr []string) Uniq {
+	typ := UniqTypeArrayOfStr
 
 	return Uniq{
-		ArrayOfstr: arrayOfstr,
+		ArrayOfStr: arrayOfStr,
 		Type:       typ,
 	}
 }
@@ -49,10 +49,10 @@ func (u *Uniq) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	arrayOfstr := []string{}
-	if err := utils.UnmarshalJSON(data, &arrayOfstr, "", true, true); err == nil {
-		u.ArrayOfstr = arrayOfstr
-		u.Type = UniqTypeArrayOfstr
+	arrayOfStr := []string{}
+	if err := utils.UnmarshalJSON(data, &arrayOfStr, "", true, true); err == nil {
+		u.ArrayOfStr = arrayOfStr
+		u.Type = UniqTypeArrayOfStr
 		return nil
 	}
 
@@ -64,8 +64,8 @@ func (u Uniq) MarshalJSON() ([]byte, error) {
 		return utils.MarshalJSON(u.Boolean, "", true)
 	}
 
-	if u.ArrayOfstr != nil {
-		return utils.MarshalJSON(u.ArrayOfstr, "", true)
+	if u.ArrayOfStr != nil {
+		return utils.MarshalJSON(u.ArrayOfStr, "", true)
 	}
 
 	return nil, errors.New("could not marshal union type: all fields are null")

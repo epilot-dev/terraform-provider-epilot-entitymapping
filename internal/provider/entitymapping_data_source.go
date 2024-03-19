@@ -106,8 +106,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 						"linkback_relation_attribute": schema.StringAttribute{
 							Computed: true,
 							MarkdownDescription: `Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback` + "\n" +
-								`` + "\n" +
-								`Default: "mapped_entities"`,
+								``,
 						},
 						"linkback_relation_tags": schema.ListAttribute{
 							Computed:    true,
@@ -233,12 +232,10 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 																		Computed: true,
 																		Attributes: map[string]schema.Attribute{
 																			"max": schema.NumberAttribute{
-																				Computed:    true,
-																				Description: `Default: 1`,
+																				Computed: true,
 																			},
 																			"min": schema.NumberAttribute{
-																				Computed:    true,
-																				Description: `Default: 0`,
+																				Computed: true,
 																			},
 																			"type": schema.StringAttribute{
 																				Computed:    true,
@@ -262,7 +259,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 																	"boolean": schema.BoolAttribute{
 																		Computed: true,
 																	},
-																	"array_ofstr": schema.ListAttribute{
+																	"array_of_str": schema.ListAttribute{
 																		Computed:    true,
 																		ElementType: types.StringType,
 																	},
@@ -333,7 +330,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 											},
 											"self": schema.BoolAttribute{
 												Computed:    true,
-												Description: `Picks main entity as relation (overrides other filters). Default: false`,
+												Description: `Picks main entity as relation (overrides other filters)`,
 											},
 											"tag": schema.StringAttribute{
 												Computed:    true,
@@ -353,7 +350,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 									},
 									"target_tags_include_source": schema.BoolAttribute{
 										Computed:    true,
-										Description: `Include all relation tags (labels) present on the main entity relation. Default: false`,
+										Description: `Include all relation tags (labels) present on the main entity relation`,
 									},
 								},
 							},
