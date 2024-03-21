@@ -789,7 +789,7 @@ func (s *Mappings) PutMappingConfig(ctx context.Context, request operations.PutM
 		RawResponse: httpRes,
 	}
 	switch {
-	case httpRes.StatusCode == 201:
+	case httpRes.StatusCode == 200:
 		switch {
 		case utils.MatchContentType(contentType, `application/json`):
 			var out shared.MappingConfigV2
