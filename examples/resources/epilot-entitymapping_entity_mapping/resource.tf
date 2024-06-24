@@ -19,6 +19,10 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
       linkback_relation_tags = [
         "...",
       ]
+      loop_config = {
+        length      = 69.48
+        source_path = "...my_source_path..."
+      }
       mapping_attributes = [
         {
           mapping_attribute = {
@@ -34,28 +38,28 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
           }
         },
       ]
-      name = "Terence Wehner"
+      name = "Amos Kirlin"
       relation_attributes = [
         {
-          mode   = "append"
-          origin = "system_recommendation"
+          mode   = "prepend"
+          origin = "user_manually"
           related_to = {
-            "Future" = "{ \"see\": \"documentation\" }"
-            "Pickup" = "{ \"see\": \"documentation\" }"
+            "Rubber" = "{ \"see\": \"documentation\" }"
+            "North"  = "{ \"see\": \"documentation\" }"
           }
           source_filter = {
             attribute    = "...my_attribute..."
-            limit        = 4
+            limit        = 9
             relation_tag = "...my_relation_tag..."
             schema       = "...my_schema..."
-            self         = true
+            self         = false
             tag          = "...my_tag..."
           }
           target = "...my_target..."
           target_tags = [
             "...",
           ]
-          target_tags_include_source = false
+          target_tags_include_source = true
         },
       ]
       target_schema = "...my_target_schema..."

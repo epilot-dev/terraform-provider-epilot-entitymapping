@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/pkg/models/operations"
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/models/operations"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -28,9 +29,9 @@ type EntityMappingDataSource struct {
 
 // EntityMappingDataSourceModel describes the data model.
 type EntityMappingDataSourceModel struct {
-	ID      types.String   `tfsdk:"id"`
-	Source  SourceConfig   `tfsdk:"source"`
-	Targets []TargetConfig `tfsdk:"targets"`
+	ID      types.String           `tfsdk:"id"`
+	Source  tfTypes.SourceConfig   `tfsdk:"source"`
+	Targets []tfTypes.TargetConfig `tfsdk:"targets"`
 }
 
 // Metadata returns the data source type name.
@@ -106,13 +107,26 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 						"linkback_relation_attribute": schema.StringAttribute{
 							Computed: true,
 							MarkdownDescription: `Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback` + "\n" +
-								`` + "\n" +
-								`Default: "mapped_entities"`,
+								``,
 						},
 						"linkback_relation_tags": schema.ListAttribute{
 							Computed:    true,
 							ElementType: types.StringType,
 							Description: `Relation tags (labels) to include in main entity linkback relation attribute`,
+						},
+						"loop_config": schema.SingleNestedAttribute{
+							Computed: true,
+							Attributes: map[string]schema.Attribute{
+								"length": schema.NumberAttribute{
+									Computed:    true,
+									Description: `a hard limit of how many times the loop is allowed to run.`,
+								},
+								"source_path": schema.StringAttribute{
+									Computed:    true,
+									Description: `path to the array from the entity payload`,
+								},
+							},
+							Description: `contains config in case of running in loop mode`,
 						},
 						"mapping_attributes": schema.ListNestedAttribute{
 							Computed: true,
@@ -233,12 +247,10 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 																		Computed: true,
 																		Attributes: map[string]schema.Attribute{
 																			"max": schema.NumberAttribute{
-																				Computed:    true,
-																				Description: `Default: 1`,
+																				Computed: true,
 																			},
 																			"min": schema.NumberAttribute{
-																				Computed:    true,
-																				Description: `Default: 0`,
+																				Computed: true,
 																			},
 																			"type": schema.StringAttribute{
 																				Computed:    true,
@@ -262,7 +274,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 																	"boolean": schema.BoolAttribute{
 																		Computed: true,
 																	},
-																	"array_ofstr": schema.ListAttribute{
+																	"array_of_str": schema.ListAttribute{
 																		Computed:    true,
 																		ElementType: types.StringType,
 																	},
@@ -333,7 +345,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 											},
 											"self": schema.BoolAttribute{
 												Computed:    true,
-												Description: `Picks main entity as relation (overrides other filters). Default: false`,
+												Description: `Picks main entity as relation (overrides other filters)`,
 											},
 											"tag": schema.StringAttribute{
 												Computed:    true,
@@ -353,7 +365,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 									},
 									"target_tags_include_source": schema.BoolAttribute{
 										Computed:    true,
-										Description: `Include all relation tags (labels) present on the main entity relation. Default: false`,
+										Description: `Include all relation tags (labels) present on the main entity relation`,
 									},
 								},
 							},
@@ -429,12 +441,16 @@ func (r *EntityMappingDataSource) Read(ctx context.Context, req datasource.ReadR
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
+	if res.StatusCode == 404 {
+		resp.State.RemoveResource(ctx)
+		return
+	}
 	if res.StatusCode != 200 {
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
-	if res.MappingConfigV2 == nil {
-		resp.Diagnostics.AddError("unexpected response from API. No response body", debugResponse(res.RawResponse))
+	if !(res.MappingConfigV2 != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
 	data.RefreshFromSharedMappingConfigV2(res.MappingConfigV2)
