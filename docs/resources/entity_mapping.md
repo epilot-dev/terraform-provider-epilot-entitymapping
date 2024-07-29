@@ -34,6 +34,10 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
       linkback_relation_tags = [
         "...",
       ]
+      loop_config = {
+        length      = 69.48
+        source_path = "...my_source_path..."
+      }
       mapping_attributes = [
         {
           mapping_attribute = {
@@ -49,28 +53,28 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
           }
         },
       ]
-      name = "Terence Wehner"
+      name = "Amos Kirlin"
       relation_attributes = [
         {
-          mode   = "append"
-          origin = "system_recommendation"
+          mode   = "prepend"
+          origin = "user_manually"
           related_to = {
-            "Future" = "{ \"see\": \"documentation\" }"
-            "Pickup" = "{ \"see\": \"documentation\" }"
+            "Rubber" = "{ \"see\": \"documentation\" }"
+            "North"  = "{ \"see\": \"documentation\" }"
           }
           source_filter = {
             attribute    = "...my_attribute..."
-            limit        = 4
+            limit        = 9
             relation_tag = "...my_relation_tag..."
             schema       = "...my_schema..."
-            self         = true
+            self         = false
             tag          = "...my_tag..."
           }
           target = "...my_target..."
           target_tags = [
             "...",
           ]
-          target_tags_include_source = false
+          target_tags_include_source = true
         },
       ]
       target_schema = "...my_target_schema..."
@@ -139,11 +143,21 @@ Optional:
 
 Requires replacement if changed. ; Default: "mapped_entities"
 - `linkback_relation_tags` (List of String) Relation tags (labels) to include in main entity linkback relation attribute. Requires replacement if changed.
+- `loop_config` (Attributes) contains config in case of running in loop mode. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--loop_config))
 - `mapping_attributes` (Attributes List) Attribute mappings. Requires replacement if changed. ; Not Null (see [below for nested schema](#nestedatt--targets--mapping_attributes))
 - `name` (String) A name for this configuration. Requires replacement if changed.
 - `relation_attributes` (Attributes List) Relation mappings. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--relation_attributes))
 - `target_schema` (String) Schema of target entity. Requires replacement if changed. ; Not Null
 - `target_unique` (List of String) Unique key for target entity (see upsertEntity of Entity API). Requires replacement if changed.
+
+<a id="nestedatt--targets--loop_config"></a>
+### Nested Schema for `targets.loop_config`
+
+Optional:
+
+- `length` (Number) a hard limit of how many times the loop is allowed to run. Requires replacement if changed. ; Default: "the length of the array"
+- `source_path` (String) path to the array from the entity payload. Requires replacement if changed.
+
 
 <a id="nestedatt--targets--mapping_attributes"></a>
 ### Nested Schema for `targets.mapping_attributes`
@@ -217,7 +231,7 @@ Parsed as JSON.
 Optional:
 
 - `operation` (Attributes) Mapping operation nodes are either primitive values or operation node objects. Requires replacement if changed. ; Not Null (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation))
-- `origin` (String) Origin of an attribute. Requires replacement if changed. ; must be one of ["system_recommendation", "user_manually"]
+- `origin` (String) Origin of an attribute. Requires replacement if changed. ; must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]
 - `target` (String) Target JSON path for the attribute to set. Requires replacement if changed. ; Not Null
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation"></a>
@@ -273,7 +287,7 @@ Optional:
 
 Optional:
 
-- `array_ofstr` (List of String) Requires replacement if changed.
+- `array_of_str` (List of String) Requires replacement if changed.
 - `boolean` (Boolean) Requires replacement if changed.
 
 
@@ -287,7 +301,7 @@ Optional:
 Optional:
 
 - `mode` (String) Requires replacement if changed. ; Not Null; must be one of ["append", "prepend", "set"]
-- `origin` (String) Origin of an attribute. Requires replacement if changed. ; must be one of ["system_recommendation", "user_manually"]
+- `origin` (String) Origin of an attribute. Requires replacement if changed. ; must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]
 - `related_to` (Map of String) Requires replacement if changed.
 - `source_filter` (Attributes) A filter to identify which source entities to pick as relations from main entity. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--relation_attributes--source_filter))
 - `target` (String) Target attribute to store the relation in. Requires replacement if changed. ; Not Null
@@ -306,4 +320,10 @@ Optional:
 - `self` (Boolean) Picks main entity as relation (overrides other filters). Requires replacement if changed. ; Default: false
 - `tag` (String) Filter by a specific tag on the related entity. Requires replacement if changed.
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+terraform import epilot-entitymapping_entity_mapping.my_epilot-entitymapping_entity_mapping "70542580-2b38-4bfc-af8d-bb90102f9f47"
+```

@@ -18,15 +18,9 @@ actions:
   - target: $["paths"]["/v2/mappings/{id}"]["get"]
     update:
       x-speakeasy-entity-operation: EntityMapping#get
-  - target: $["paths"]["/v2/mappings/{id}"]["get"]["parameters"][0]
-    update:
-      x-speakeasy-match: id
   - target: $["paths"]["/v2/mappings/{id}"]["put"]
     update:
       x-speakeasy-entity-operation: EntityMapping#create
-  - target: $["paths"]["/v2/mappings/{id}"]["put"]["parameters"][0]
-    update:
-      x-speakeasy-match: id
   - target: $["components"]["schemas"]["MappingConfigV2"]
     update:
       x-speakeasy-entity: EntityMapping
