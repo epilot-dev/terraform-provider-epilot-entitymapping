@@ -110,7 +110,7 @@ Read-Only:
 - `set_value_mapper` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--set_value_mapper))
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute.set_value_mapper`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute.append_value_mapper`
 
 Read-Only:
 
@@ -124,7 +124,7 @@ must be one of ["copy_if_exists", "append_if_exists", "set_value"]
 
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute--copy_value_mapper"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute.set_value_mapper`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute.copy_value_mapper`
 
 Read-Only:
 
@@ -160,44 +160,44 @@ Read-Only:
 - `target` (String) Target JSON path for the attribute to set
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation`
 
 Read-Only:
 
 - `any` (String) Parsed as JSON.
-- `operation_object_node` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node))
+- `operation_object_node` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node))
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node`
 
 Read-Only:
 
 - `additional_properties` (String) Parsed as JSON.
 - `append` (List of String) Append to array
 - `copy` (String) Copy JSONPath value from source entity context
-- `random` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--random))
+- `random` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random))
 - `set` (String) Parsed as JSON.
 - `template` (String) Define handlebars template to output a string
-- `uniq` (Attributes) Unique array (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq))
+- `uniq` (Attributes) Unique array (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq))
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--random"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random`
 
 Read-Only:
 
-- `one` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--one))
-- `two` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--two))
+- `one` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one))
+- `two` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two))
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--one"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq.two`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.one`
 
 Read-Only:
 
 - `type` (String) must be one of ["uuid", "nanoid"]
 
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--two"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq.two`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.two`
 
 Read-Only:
 
@@ -207,8 +207,8 @@ Read-Only:
 
 
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.uniq`
 
 Read-Only:
 
@@ -244,5 +244,3 @@ Read-Only:
 - `schema` (String) Filter by specific schema
 - `self` (Boolean) Picks main entity as relation (overrides other filters)
 - `tag` (String) Filter by a specific tag on the related entity
-
-

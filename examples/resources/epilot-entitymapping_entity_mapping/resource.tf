@@ -1,5 +1,5 @@
 resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
-  id = "20fec022-fdfb-42b1-b545-9c73d2673f99"
+  id = "70542580-2b38-4bfc-af8d-bb90102f9f47"
   source = {
     config = {
       entity_ref = {
@@ -7,20 +7,20 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
         entity_schema = "submission"
       }
     }
-    type = "journey"
+    type = "entity"
   }
   targets = [
     {
-      allow_failure               = false
+      allow_failure               = true
       condition_mode              = "{ \"see\": \"documentation\" }"
       conditions                  = "{ \"see\": \"documentation\" }"
-      id                          = "cd4d3a54-7d70-4901-810e-0737604f94fa"
+      id                          = "4d3a547d-7090-41c1-8e07-37604f94fabd"
       linkback_relation_attribute = "...my_linkback_relation_attribute..."
       linkback_relation_tags = [
         "...",
       ]
       loop_config = {
-        length      = 69.48
+        length      = 89.69
         source_path = "...my_source_path..."
       }
       mapping_attributes = [
@@ -38,28 +38,28 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
           }
         },
       ]
-      name = "Amos Kirlin"
+      name = "Thelma Gerhold"
       relation_attributes = [
         {
-          mode   = "prepend"
+          mode   = "append"
           origin = "user_manually"
           related_to = {
-            "Rubber" = "{ \"see\": \"documentation\" }"
             "North"  = "{ \"see\": \"documentation\" }"
+            "Pickup" = "{ \"see\": \"documentation\" }"
           }
           source_filter = {
             attribute    = "...my_attribute..."
-            limit        = 9
+            limit        = 4
             relation_tag = "...my_relation_tag..."
             schema       = "...my_schema..."
-            self         = false
+            self         = true
             tag          = "...my_tag..."
           }
           target = "...my_target..."
           target_tags = [
             "...",
           ]
-          target_tags_include_source = true
+          target_tags_include_source = false
         },
       ]
       target_schema = "...my_target_schema..."

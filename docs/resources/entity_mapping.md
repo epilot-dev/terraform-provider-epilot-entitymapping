@@ -14,7 +14,7 @@ EntityMapping Resource
 
 ```terraform
 resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
-  id = "20fec022-fdfb-42b1-b545-9c73d2673f99"
+  id = "70542580-2b38-4bfc-af8d-bb90102f9f47"
   source = {
     config = {
       entity_ref = {
@@ -22,20 +22,20 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
         entity_schema = "submission"
       }
     }
-    type = "journey"
+    type = "entity"
   }
   targets = [
     {
-      allow_failure               = false
+      allow_failure               = true
       condition_mode              = "{ \"see\": \"documentation\" }"
       conditions                  = "{ \"see\": \"documentation\" }"
-      id                          = "cd4d3a54-7d70-4901-810e-0737604f94fa"
+      id                          = "4d3a547d-7090-41c1-8e07-37604f94fabd"
       linkback_relation_attribute = "...my_linkback_relation_attribute..."
       linkback_relation_tags = [
         "...",
       ]
       loop_config = {
-        length      = 69.48
+        length      = 89.69
         source_path = "...my_source_path..."
       }
       mapping_attributes = [
@@ -53,28 +53,28 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
           }
         },
       ]
-      name = "Amos Kirlin"
+      name = "Thelma Gerhold"
       relation_attributes = [
         {
-          mode   = "prepend"
+          mode   = "append"
           origin = "user_manually"
           related_to = {
-            "Rubber" = "{ \"see\": \"documentation\" }"
             "North"  = "{ \"see\": \"documentation\" }"
+            "Pickup" = "{ \"see\": \"documentation\" }"
           }
           source_filter = {
             attribute    = "...my_attribute..."
-            limit        = 9
+            limit        = 4
             relation_tag = "...my_relation_tag..."
             schema       = "...my_schema..."
-            self         = false
+            self         = true
             tag          = "...my_tag..."
           }
           target = "...my_target..."
           target_tags = [
             "...",
           ]
-          target_tags_include_source = true
+          target_tags_include_source = false
         },
       ]
       target_schema = "...my_target_schema..."
@@ -177,7 +177,7 @@ Optional:
 - `set_value_mapper` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--set_value_mapper))
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute.set_value_mapper`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute.append_value_mapper`
 
 Optional:
 
@@ -197,7 +197,7 @@ Requires replacement if changed. ; Not Null
 
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute--copy_value_mapper"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute.set_value_mapper`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute.copy_value_mapper`
 
 Optional:
 
@@ -235,44 +235,44 @@ Optional:
 - `target` (String) Target JSON path for the attribute to set. Requires replacement if changed. ; Not Null
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation`
 
 Optional:
 
 - `any` (String) Parsed as JSON.
-- `operation_object_node` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node))
+- `operation_object_node` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node))
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node`
 
 Optional:
 
 - `additional_properties` (String) Parsed as JSON.
 - `append` (List of String) Append to array. Requires replacement if changed.
 - `copy` (String) Copy JSONPath value from source entity context. Requires replacement if changed.
-- `random` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--random))
+- `random` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random))
 - `set` (String) Parsed as JSON.
 - `template` (String) Define handlebars template to output a string. Requires replacement if changed.
-- `uniq` (Attributes) Unique array. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq))
+- `uniq` (Attributes) Unique array. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq))
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--random"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random`
 
 Optional:
 
-- `one` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--one))
-- `two` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--two))
+- `one` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one))
+- `two` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two))
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--one"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq.two`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.one`
 
 Optional:
 
 - `type` (String) Requires replacement if changed. ; Not Null; must be one of ["uuid", "nanoid"]
 
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--two"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq.two`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.two`
 
 Optional:
 
@@ -282,8 +282,8 @@ Optional:
 
 
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.uniq`
 
 Optional:
 
