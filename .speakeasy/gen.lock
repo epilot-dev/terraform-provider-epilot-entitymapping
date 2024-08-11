@@ -3,10 +3,10 @@ id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
   docChecksum: 1cd64f43c5d94c4f253c2c7ac1a85ed8
   docVersion: 1.0.0
-  speakeasyVersion: 1.357.3
-  generationVersion: 2.390.0
-  releaseVersion: 0.6.0
-  configChecksum: 0b7cacb9c0a44c04c77f236f749cc16a
+  speakeasyVersion: 1.361.1
+  generationVersion: 2.393.4
+  releaseVersion: 0.6.1
+  configChecksum: 740d7c01b8acf6371add3e3a3216090e
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
@@ -21,7 +21,7 @@ features:
     globalSecurity: 2.81.8
     globalServerURLs: 2.82.1
     retries: 2.81.1
-    unions: 2.81.15
+    unions: 2.81.16
 generatedFiles:
   - internal/sdk/mappings.go
   - internal/sdk/sdk.go
