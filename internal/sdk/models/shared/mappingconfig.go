@@ -3,11 +3,11 @@
 package shared
 
 type MappingConfig struct {
-	ID      string         `json:"id"`
-	OrgID   string         `json:"org_id"`
-	Source  SourceConfig   `json:"source"`
-	Targets []TargetConfig `json:"targets"`
-	Version int64          `json:"version"`
+	ID      string       `json:"id"`
+	OrgID   string       `json:"org_id"`
+	Source  SourceConfig `json:"source"`
+	Targets any          `json:"targets"`
+	Version int64        `json:"version"`
 }
 
 func (o *MappingConfig) GetID() string {
@@ -31,9 +31,9 @@ func (o *MappingConfig) GetSource() SourceConfig {
 	return o.Source
 }
 
-func (o *MappingConfig) GetTargets() []TargetConfig {
+func (o *MappingConfig) GetTargets() any {
 	if o == nil {
-		return []TargetConfig{}
+		return nil
 	}
 	return o.Targets
 }

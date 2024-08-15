@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
-  docChecksum: 3f5b7b512239e2ae174a08744b47a8b7
+  docChecksum: e88271fabb4586f51b0386879f7b3c30
   docVersion: 1.0.0
   speakeasyVersion: 1.346.0
   generationVersion: 2.379.3
-  releaseVersion: 0.5.0
-  configChecksum: a3309a6e429c2e227c4300b09309fef7
+  releaseVersion: 0.5.1
+  configChecksum: 24f54e0e9292a2aeb4a0d21167ba222d
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
@@ -54,6 +54,12 @@ generatedFiles:
   - internal/sdk/models/operations/storeconfig.go
   - internal/sdk/models/operations/storenewversion.go
   - internal/sdk/models/shared/mappingconfig.go
+  - internal/sdk/models/shared/sourceconfig.go
+  - internal/sdk/models/shared/journeyref.go
+  - internal/sdk/models/shared/entityref.go
+  - internal/sdk/models/shared/executemappingresp.go
+  - internal/sdk/models/shared/mappingwarning.go
+  - internal/sdk/models/shared/mappingfailure.go
   - internal/sdk/models/shared/targetconfig.go
   - internal/sdk/models/shared/relationattribute.go
   - internal/sdk/models/shared/attributeorigin.go
@@ -66,12 +72,6 @@ generatedFiles:
   - internal/sdk/models/shared/mappingattributemode.go
   - internal/sdk/models/shared/copyvaluemapper.go
   - internal/sdk/models/shared/appendvaluemapper.go
-  - internal/sdk/models/shared/sourceconfig.go
-  - internal/sdk/models/shared/journeyref.go
-  - internal/sdk/models/shared/entityref.go
-  - internal/sdk/models/shared/executemappingresp.go
-  - internal/sdk/models/shared/mappingwarning.go
-  - internal/sdk/models/shared/mappingfailure.go
   - internal/sdk/models/shared/executemappingreq.go
   - internal/sdk/models/shared/executerelationsresp.go
   - internal/sdk/models/shared/newrelationitem.go
@@ -134,22 +134,6 @@ generatedFiles:
   - internal/provider/types/journey_ref.go
   - internal/provider/types/config.go
   - internal/provider/types/source_config.go
-  - internal/provider/types/loop_config.go
-  - internal/provider/types/append_value_mapper.go
-  - internal/provider/types/copy_value_mapper.go
-  - internal/provider/types/set_value_mapper.go
-  - internal/provider/types/mapping_attribute.go
-  - internal/provider/types/one.go
-  - internal/provider/types/two.go
-  - internal/provider/types/random_operation.go
-  - internal/provider/types/uniq.go
-  - internal/provider/types/operation_object_node.go
-  - internal/provider/types/operation_node.go
-  - internal/provider/types/mapping_attribute_v2.go
-  - internal/provider/types/mapping_attributes.go
-  - internal/provider/types/source_filter.go
-  - internal/provider/types/relation_attribute.go
-  - internal/provider/types/target_config.go
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf

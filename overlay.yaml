@@ -42,16 +42,22 @@ actions:
   - target: $["components"]["schemas"]
     update: 
       PrimitiveJSONValue: {}
-  - target: $["components"]["schemas"]["TargetConfig"]["properties"]["conditionMode"]
-    remove: true
-  - target: $["components"]["schemas"]["TargetConfig"]["properties"]
-    update:
-      conditionMode: {}
   - target: $["components"]["schemas"]["Entity"]
     remove: true
   - target: $["components"]["schemas"]
     update:
       Entity: {}
+  # No need to typing target blocks, a jsonencode for targets will be faster
+  - target: $["components"]["schemas"]["MappingConfigCommonFields"]["properties"]["targets"]
+    remove: true
+  - target: $["components"]["schemas"]["MappingConfigCommonFields"]["properties"]
+    update:
+      targets: {}
+  - target: $["components"]["schemas"]["TargetConfig"]["properties"]["conditionMode"]
+    remove: true
+  - target: $["components"]["schemas"]["TargetConfig"]["properties"]
+    update:
+      conditionMode: {}
   - target: $["components"]["schemas"]["TargetConfig"]["properties"]["conditions"]
     remove: true
   - target: $["components"]["schemas"]["TargetConfig"]["properties"]

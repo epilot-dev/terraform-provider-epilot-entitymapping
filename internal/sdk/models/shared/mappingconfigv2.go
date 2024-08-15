@@ -3,9 +3,9 @@
 package shared
 
 type MappingConfigV2 struct {
-	ID      string         `json:"id"`
-	Source  SourceConfig   `json:"source"`
-	Targets []TargetConfig `json:"targets"`
+	ID      string       `json:"id"`
+	Source  SourceConfig `json:"source"`
+	Targets any          `json:"targets"`
 }
 
 func (o *MappingConfigV2) GetID() string {
@@ -22,9 +22,9 @@ func (o *MappingConfigV2) GetSource() SourceConfig {
 	return o.Source
 }
 
-func (o *MappingConfigV2) GetTargets() []TargetConfig {
+func (o *MappingConfigV2) GetTargets() any {
 	if o == nil {
-		return []TargetConfig{}
+		return nil
 	}
 	return o.Targets
 }
