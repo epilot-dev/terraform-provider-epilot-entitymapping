@@ -14,7 +14,7 @@ EntityMapping Resource
 
 ```terraform
 resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
-  id = "20fec022-fdfb-42b1-b545-9c73d2673f99"
+  id = "70542580-2b38-4bfc-af8d-bb90102f9f47"
   source = {
     config = {
       entity_ref = {
@@ -22,9 +22,53 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
         entity_schema = "submission"
       }
     }
-    type = "journey"
+    type = "entity"
   }
-  targets = "{ \"see\": \"documentation\" }"
+  targets = [
+    {
+      allow_failure               = true
+      condition_mode              = "{ \"see\": \"documentation\" }"
+      conditions                  = "{ \"see\": \"documentation\" }"
+      id                          = "4d3a547d-7090-41c1-8e07-37604f94fabd"
+      linkback_relation_attribute = "...my_linkback_relation_attribute..."
+      linkback_relation_tags = [
+        "...",
+      ]
+      loop_config = {
+        length      = 89.69
+        source_path = "...my_source_path..."
+      }
+      mapping_attributes = "{ \"see\": \"documentation\" }"
+      name               = "Harvey Frami"
+      relation_attributes = [
+        {
+          mode   = "prepend"
+          origin = "system_recommendation"
+          related_to = {
+            "Lead" = "{ \"see\": \"documentation\" }"
+            "West" = "{ \"see\": \"documentation\" }"
+          }
+          source_filter = {
+            attribute    = "...my_attribute..."
+            limit        = 4
+            relation_tag = "...my_relation_tag..."
+            schema       = "...my_schema..."
+            self         = true
+            tag          = "...my_tag..."
+          }
+          target = "...my_target..."
+          target_tags = [
+            "...",
+          ]
+          target_tags_include_source = false
+        },
+      ]
+      target_schema = "...my_target_schema..."
+      target_unique = [
+        "...",
+      ]
+    },
+  ]
 }
 ```
 
@@ -35,7 +79,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
 
 - `id` (String) Mapping Config Id. Requires replacement if changed.
 - `source` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--source))
-- `targets` (String) Parsed as JSON.
+- `targets` (Attributes List) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets))
 
 <a id="nestedatt--source"></a>
 ### Nested Schema for `source`
@@ -68,6 +112,63 @@ Optional:
 Optional:
 
 - `journey_id` (String) Requires replacement if changed.
+
+
+
+
+<a id="nestedatt--targets"></a>
+### Nested Schema for `targets`
+
+Optional:
+
+- `allow_failure` (Boolean) Pass it as true, when you don't want failures to interrupt the mapping process. Requires replacement if changed.
+- `condition_mode` (String) Parsed as JSON.
+- `conditions` (String) Parsed as JSON.
+- `id` (String) Identifier for target configuration. Useful for later usages when trying to identify which target config to map to. Requires replacement if changed.
+- `linkback_relation_attribute` (String) Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback
+
+Requires replacement if changed. ; Default: "mapped_entities"
+- `linkback_relation_tags` (List of String) Relation tags (labels) to include in main entity linkback relation attribute. Requires replacement if changed.
+- `loop_config` (Attributes) contains config in case of running in loop mode. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--loop_config))
+- `mapping_attributes` (String) Parsed as JSON.
+- `name` (String) A name for this configuration. Requires replacement if changed.
+- `relation_attributes` (Attributes List) Relation mappings. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--relation_attributes))
+- `target_schema` (String) Schema of target entity. Requires replacement if changed. ; Not Null
+- `target_unique` (List of String) Unique key for target entity (see upsertEntity of Entity API). Requires replacement if changed.
+
+<a id="nestedatt--targets--loop_config"></a>
+### Nested Schema for `targets.loop_config`
+
+Optional:
+
+- `length` (Number) a hard limit of how many times the loop is allowed to run. Requires replacement if changed. ; Default: "the length of the array"
+- `source_path` (String) path to the array from the entity payload. Requires replacement if changed.
+
+
+<a id="nestedatt--targets--relation_attributes"></a>
+### Nested Schema for `targets.relation_attributes`
+
+Optional:
+
+- `mode` (String) Requires replacement if changed. ; Not Null; must be one of ["append", "prepend", "set"]
+- `origin` (String) Origin of an attribute. Requires replacement if changed. ; must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]
+- `related_to` (Map of String) Requires replacement if changed.
+- `source_filter` (Attributes) A filter to identify which source entities to pick as relations from main entity. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--relation_attributes--source_filter))
+- `target` (String) Target attribute to store the relation in. Requires replacement if changed. ; Not Null
+- `target_tags` (List of String) Relation tags (labels) to set for the stored relations. Requires replacement if changed.
+- `target_tags_include_source` (Boolean) Include all relation tags (labels) present on the main entity relation. Requires replacement if changed. ; Default: false
+
+<a id="nestedatt--targets--relation_attributes--source_filter"></a>
+### Nested Schema for `targets.relation_attributes.source_filter`
+
+Optional:
+
+- `attribute` (String) Filter by a specific relation attribute on the main entity. Requires replacement if changed.
+- `limit` (Number) Limit relations to maximum number (default, all matched relations). Requires replacement if changed.
+- `relation_tag` (String) Filter by relation tag (label) on the main entity. Requires replacement if changed.
+- `schema` (String) Filter by specific schema. Requires replacement if changed.
+- `self` (Boolean) Picks main entity as relation (overrides other filters). Requires replacement if changed. ; Default: false
+- `tag` (String) Filter by a specific tag on the related entity. Requires replacement if changed.
 
 ## Import
 

@@ -4,7 +4,7 @@ package types
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type SourceConfig struct {
-	Config *Config      `tfsdk:"config"`
-	Type   types.String `tfsdk:"type"`
+type LoopConfig struct {
+	Length     types.Number `tfsdk:"length"`
+	SourcePath types.String `tfsdk:"source_path"`
 }

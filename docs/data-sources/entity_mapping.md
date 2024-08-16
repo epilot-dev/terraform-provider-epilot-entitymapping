@@ -28,7 +28,7 @@ data "epilot-entitymapping_entity_mapping" "my_entitymapping" {
 ### Read-Only
 
 - `source` (Attributes) (see [below for nested schema](#nestedatt--source))
-- `targets` (String) Parsed as JSON.
+- `targets` (Attributes List) (see [below for nested schema](#nestedatt--targets))
 
 <a id="nestedatt--source"></a>
 ### Nested Schema for `source`
@@ -63,3 +63,56 @@ Read-Only:
 - `journey_id` (String)
 
 
+
+
+<a id="nestedatt--targets"></a>
+### Nested Schema for `targets`
+
+Read-Only:
+
+- `allow_failure` (Boolean) Pass it as true, when you don't want failures to interrupt the mapping process.
+- `condition_mode` (String) Parsed as JSON.
+- `conditions` (String) Parsed as JSON.
+- `id` (String) Identifier for target configuration. Useful for later usages when trying to identify which target config to map to.
+- `linkback_relation_attribute` (String) Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback
+- `linkback_relation_tags` (List of String) Relation tags (labels) to include in main entity linkback relation attribute
+- `loop_config` (Attributes) contains config in case of running in loop mode (see [below for nested schema](#nestedatt--targets--loop_config))
+- `mapping_attributes` (String) Parsed as JSON.
+- `name` (String) A name for this configuration
+- `relation_attributes` (Attributes List) Relation mappings (see [below for nested schema](#nestedatt--targets--relation_attributes))
+- `target_schema` (String) Schema of target entity
+- `target_unique` (List of String) Unique key for target entity (see upsertEntity of Entity API)
+
+<a id="nestedatt--targets--loop_config"></a>
+### Nested Schema for `targets.loop_config`
+
+Read-Only:
+
+- `length` (Number) a hard limit of how many times the loop is allowed to run.
+- `source_path` (String) path to the array from the entity payload
+
+
+<a id="nestedatt--targets--relation_attributes"></a>
+### Nested Schema for `targets.relation_attributes`
+
+Read-Only:
+
+- `mode` (String) must be one of ["append", "prepend", "set"]
+- `origin` (String) Origin of an attribute. must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]
+- `related_to` (Map of String)
+- `source_filter` (Attributes) A filter to identify which source entities to pick as relations from main entity (see [below for nested schema](#nestedatt--targets--relation_attributes--source_filter))
+- `target` (String) Target attribute to store the relation in
+- `target_tags` (List of String) Relation tags (labels) to set for the stored relations
+- `target_tags_include_source` (Boolean) Include all relation tags (labels) present on the main entity relation
+
+<a id="nestedatt--targets--relation_attributes--source_filter"></a>
+### Nested Schema for `targets.relation_attributes.source_filter`
+
+Read-Only:
+
+- `attribute` (String) Filter by a specific relation attribute on the main entity
+- `limit` (Number) Limit relations to maximum number (default, all matched relations)
+- `relation_tag` (String) Filter by relation tag (label) on the main entity
+- `schema` (String) Filter by specific schema
+- `self` (Boolean) Picks main entity as relation (overrides other filters)
+- `tag` (String) Filter by a specific tag on the related entity
