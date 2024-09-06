@@ -79,8 +79,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 						},
 					},
 					"type": schema.StringAttribute{
-						Computed:    true,
-						Description: `must be one of ["journey", "entity"]`,
+						Computed: true,
 					},
 				},
 			},
@@ -105,9 +104,8 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 							Description: `Identifier for target configuration. Useful for later usages when trying to identify which target config to map to.`,
 						},
 						"linkback_relation_attribute": schema.StringAttribute{
-							Computed: true,
-							MarkdownDescription: `Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback` + "\n" +
-								``,
+							Computed:    true,
+							Description: `Relation attribute on the main entity where the target entity will be linked. Set to false to disable linkback`,
 						},
 						"linkback_relation_tags": schema.ListAttribute{
 							Computed:    true,
@@ -139,15 +137,12 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 												Computed: true,
 												Attributes: map[string]schema.Attribute{
 													"mode": schema.StringAttribute{
-														Computed: true,
-														MarkdownDescription: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.` + "\n" +
-															`` + "\n" +
-															`must be one of ["copy_if_exists", "append_if_exists", "set_value"]`,
+														Computed:    true,
+														Description: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.`,
 													},
 													"source": schema.StringAttribute{
-														Computed: true,
-														MarkdownDescription: `JSON source path for the value to be extracted from the main entity. Eg: steps[1].['Product Info'].price` + "\n" +
-															``,
+														Computed:    true,
+														Description: `JSON source path for the value to be extracted from the main entity. Eg: steps[1].['Product Info'].price`,
 													},
 													"target": schema.StringAttribute{
 														Computed:    true,
@@ -156,13 +151,11 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 													"target_unique": schema.ListAttribute{
 														Computed:    true,
 														ElementType: types.StringType,
-														MarkdownDescription: `Array of keys which should be used when checking for uniqueness. Eg: [country, city, postal_code]` + "\n" +
-															``,
+														Description: `Array of keys which should be used when checking for uniqueness. Eg: [country, city, postal_code]`,
 													},
 													"value_json": schema.StringAttribute{
-														Computed: true,
-														MarkdownDescription: `To be provided only when mapping json objects into a target attribute. Eg array of addresses.` + "\n" +
-															``,
+														Computed:    true,
+														Description: `To be provided only when mapping json objects into a target attribute. Eg array of addresses.`,
 													},
 												},
 											},
@@ -170,15 +163,12 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 												Computed: true,
 												Attributes: map[string]schema.Attribute{
 													"mode": schema.StringAttribute{
-														Computed: true,
-														MarkdownDescription: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.` + "\n" +
-															`` + "\n" +
-															`must be one of ["copy_if_exists", "append_if_exists", "set_value"]`,
+														Computed:    true,
+														Description: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.`,
 													},
 													"source": schema.StringAttribute{
-														Computed: true,
-														MarkdownDescription: `JSON source path for the value to be extracted from the main entity. Eg: steps[1].['Product Info'].price` + "\n" +
-															``,
+														Computed:    true,
+														Description: `JSON source path for the value to be extracted from the main entity. Eg: steps[1].['Product Info'].price`,
 													},
 													"target": schema.StringAttribute{
 														Computed:    true,
@@ -190,20 +180,16 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 												Computed: true,
 												Attributes: map[string]schema.Attribute{
 													"mode": schema.StringAttribute{
-														Computed: true,
-														MarkdownDescription: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.` + "\n" +
-															`` + "\n" +
-															`must be one of ["copy_if_exists", "append_if_exists", "set_value"]`,
+														Computed:    true,
+														Description: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.`,
 													},
 													"target": schema.StringAttribute{
 														Computed:    true,
 														Description: `JSON like target path for the attribute. Eg. last_name`,
 													},
 													"value": schema.StringAttribute{
-														Computed: true,
-														MarkdownDescription: `Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any.` + "\n" +
-															`` + "\n" +
-															`Parsed as JSON.`,
+														Computed:    true,
+														Description: `Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any. Parsed as JSON.`,
 													},
 												},
 											},
@@ -222,6 +208,10 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 													"operation_object_node": schema.SingleNestedAttribute{
 														Computed: true,
 														Attributes: map[string]schema.Attribute{
+															"additional_properties": schema.StringAttribute{
+																Computed:    true,
+																Description: `Parsed as JSON.`,
+															},
 															"append": schema.ListAttribute{
 																Computed:    true,
 																ElementType: types.StringType,
@@ -238,8 +228,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 																		Computed: true,
 																		Attributes: map[string]schema.Attribute{
 																			"type": schema.StringAttribute{
-																				Computed:    true,
-																				Description: `must be one of ["uuid", "nanoid"]`,
+																				Computed: true,
 																			},
 																		},
 																	},
@@ -253,8 +242,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 																				Computed: true,
 																			},
 																			"type": schema.StringAttribute{
-																				Computed:    true,
-																				Description: `must be one of ["number"]`,
+																				Computed: true,
 																			},
 																		},
 																	},
@@ -271,19 +259,15 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 															"uniq": schema.SingleNestedAttribute{
 																Computed: true,
 																Attributes: map[string]schema.Attribute{
-																	"boolean": schema.BoolAttribute{
-																		Computed: true,
-																	},
 																	"array_of_str": schema.ListAttribute{
 																		Computed:    true,
 																		ElementType: types.StringType,
 																	},
+																	"boolean": schema.BoolAttribute{
+																		Computed: true,
+																	},
 																},
 																Description: `Unique array`,
-															},
-															"additional_properties": schema.StringAttribute{
-																Computed:    true,
-																Description: `Parsed as JSON.`,
 															},
 														},
 													},
@@ -292,7 +276,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 											},
 											"origin": schema.StringAttribute{
 												Computed:    true,
-												Description: `Origin of an attribute. must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]`,
+												Description: `Origin of an attribute.`,
 											},
 											"target": schema.StringAttribute{
 												Computed:    true,
@@ -313,12 +297,11 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"mode": schema.StringAttribute{
-										Computed:    true,
-										Description: `must be one of ["append", "prepend", "set"]`,
+										Computed: true,
 									},
 									"origin": schema.StringAttribute{
 										Computed:    true,
-										Description: `Origin of an attribute. must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]`,
+										Description: `Origin of an attribute.`,
 									},
 									"related_to": schema.MapAttribute{
 										Computed:    true,

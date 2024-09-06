@@ -49,6 +49,19 @@ TF_REATTACH_PROVIDERS=... terraform apply
 
 <!-- End SDK <no value> -->
 
+<!-- Start Summary [summary] -->
+## Summary
+
+Entity Mapping API: API Backend for mapping source entity into target entities
+<!-- End Summary [summary] -->
+
+<!-- Start Table of Contents [toc] -->
+## Table of Contents
+
+* [SDK Installation](#sdk-installation)
+* [SDK Example Usage](#sdk-example-usage)
+<!-- End Table of Contents [toc] -->
+
 <!-- Start SDK Installation [installation] -->
 ## SDK Installation
 
@@ -59,7 +72,7 @@ terraform {
   required_providers {
     epilot-entitymapping = {
       source  = "epilot-dev/epilot-entitymapping"
-      version = "0.6.2"
+      version = "0.6.3"
     }
   }
 }
