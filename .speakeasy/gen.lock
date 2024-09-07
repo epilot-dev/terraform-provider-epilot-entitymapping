@@ -3,10 +3,10 @@ id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
   docChecksum: 1cd64f43c5d94c4f253c2c7ac1a85ed8
   docVersion: 1.0.0
-  speakeasyVersion: 1.390.7
-  generationVersion: 2.409.8
-  releaseVersion: 0.6.3
-  configChecksum: 1b654d8a52b22cfa8d4b6bd680af5578
+  speakeasyVersion: 1.392.1
+  generationVersion: 2.411.9
+  releaseVersion: 0.6.4
+  configChecksum: e9f6605fe16712e19655cde244065fcb
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
@@ -15,7 +15,7 @@ features:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.2
     constsAndDefaults: 0.1.4
-    core: 3.24.8
+    core: 3.24.9
     deprecations: 2.81.1
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.8
@@ -23,71 +23,14 @@ features:
     retries: 2.81.1
     unions: 2.81.16
 generatedFiles:
-  - internal/sdk/mappings.go
-  - internal/sdk/sdk.go
-  - internal/sdk/models/errors/sdkerror.go
-  - internal/sdk/retry/config.go
-  - internal/sdk/types/bigint.go
-  - internal/sdk/types/date.go
-  - internal/sdk/types/datetime.go
-  - internal/sdk/types/decimal.go
-  - internal/sdk/types/pointers.go
-  - internal/sdk/internal/utils/contenttype.go
-  - internal/sdk/internal/utils/form.go
-  - internal/sdk/internal/utils/headers.go
-  - internal/sdk/internal/utils/json.go
-  - internal/sdk/internal/utils/pathparams.go
-  - internal/sdk/internal/utils/queryparams.go
-  - internal/sdk/internal/utils/requestbody.go
-  - internal/sdk/internal/utils/retries.go
-  - internal/sdk/internal/utils/security.go
-  - internal/sdk/internal/utils/utils.go
-  - internal/sdk/models/operations/deleteconfig.go
-  - internal/sdk/models/operations/executemapping.go
-  - internal/sdk/models/operations/executerelations.go
-  - internal/sdk/models/operations/getallversions.go
-  - internal/sdk/models/operations/getconfig.go
-  - internal/sdk/models/operations/getconfigversion.go
-  - internal/sdk/models/operations/getmappingconfig.go
-  - internal/sdk/models/operations/putmappingconfig.go
-  - internal/sdk/models/operations/querymappinghistory.go
-  - internal/sdk/models/operations/searchconfigs.go
-  - internal/sdk/models/operations/storeconfig.go
-  - internal/sdk/models/operations/storenewversion.go
-  - internal/sdk/models/shared/mappingconfig.go
-  - internal/sdk/models/shared/targetconfig.go
-  - internal/sdk/models/shared/relationattribute.go
-  - internal/sdk/models/shared/attributeorigin.go
-  - internal/sdk/models/shared/mappingattributev2.go
-  - internal/sdk/models/shared/operationnode.go
-  - internal/sdk/models/shared/operationobjectnode.go
-  - internal/sdk/models/shared/randomoperation.go
-  - internal/sdk/models/shared/mappingattribute.go
-  - internal/sdk/models/shared/setvaluemapper.go
-  - internal/sdk/models/shared/mappingattributemode.go
-  - internal/sdk/models/shared/copyvaluemapper.go
-  - internal/sdk/models/shared/appendvaluemapper.go
-  - internal/sdk/models/shared/sourceconfig.go
-  - internal/sdk/models/shared/journeyref.go
-  - internal/sdk/models/shared/entityref.go
-  - internal/sdk/models/shared/executemappingresp.go
-  - internal/sdk/models/shared/mappingwarning.go
-  - internal/sdk/models/shared/mappingfailure.go
-  - internal/sdk/models/shared/executemappingreq.go
-  - internal/sdk/models/shared/executerelationsresp.go
-  - internal/sdk/models/shared/newrelationitem.go
-  - internal/sdk/models/shared/executerelationsreq.go
-  - internal/sdk/models/shared/relationitem.go
-  - internal/sdk/models/shared/mappingconfigsresp.go
-  - internal/sdk/models/shared/mappingconfigv2.go
-  - internal/sdk/models/shared/mappinghistoryresp.go
-  - internal/sdk/models/shared/mappinghistoryentry.go
-  - internal/sdk/models/shared/searchmappingreq.go
-  - internal/sdk/models/shared/security.go
-  - internal/sdk/models/operations/options.go
-  - internal/sdk/.gitattributes
-  - internal/sdk/internal/hooks/hooks.go
+  - .gitattributes
+  - CONTRIBUTING.md
+  - USAGE.md
   - examples/README.md
+  - examples/data-sources/epilot-entitymapping_entity_mapping/data-source.tf
+  - examples/provider/provider.tf
+  - examples/resources/epilot-entitymapping_entity_mapping/import.sh
+  - examples/resources/epilot-entitymapping_entity_mapping/resource.tf
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
@@ -100,6 +43,11 @@ generatedFiles:
   - internal/planmodifiers/setplanmodifier/suppress_diff.go
   - internal/planmodifiers/stringplanmodifier/suppress_diff.go
   - internal/planmodifiers/utils/state_check.go
+  - internal/provider/entitymapping_data_source.go
+  - internal/provider/entitymapping_data_source_sdk.go
+  - internal/provider/entitymapping_resource.go
+  - internal/provider/entitymapping_resource_sdk.go
+  - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go
   - internal/provider/reflect/generic_attr_value.go
@@ -114,7 +62,91 @@ generatedFiles:
   - internal/provider/reflect/primitive.go
   - internal/provider/reflect/slice.go
   - internal/provider/reflect/struct.go
+  - internal/provider/types/append_value_mapper.go
+  - internal/provider/types/config.go
+  - internal/provider/types/copy_value_mapper.go
+  - internal/provider/types/entity_ref.go
+  - internal/provider/types/journey_ref.go
+  - internal/provider/types/loop_config.go
+  - internal/provider/types/mapping_attribute.go
+  - internal/provider/types/mapping_attribute_v2.go
+  - internal/provider/types/mapping_attributes.go
+  - internal/provider/types/one.go
+  - internal/provider/types/operation_node.go
+  - internal/provider/types/operation_object_node.go
+  - internal/provider/types/random_operation.go
+  - internal/provider/types/relation_attribute.go
+  - internal/provider/types/set_value_mapper.go
+  - internal/provider/types/source_config.go
+  - internal/provider/types/source_filter.go
+  - internal/provider/types/target_config.go
+  - internal/provider/types/two.go
+  - internal/provider/types/uniq.go
   - internal/provider/utils.go
+  - internal/sdk/.gitattributes
+  - internal/sdk/internal/hooks/hooks.go
+  - internal/sdk/internal/utils/contenttype.go
+  - internal/sdk/internal/utils/form.go
+  - internal/sdk/internal/utils/headers.go
+  - internal/sdk/internal/utils/json.go
+  - internal/sdk/internal/utils/pathparams.go
+  - internal/sdk/internal/utils/queryparams.go
+  - internal/sdk/internal/utils/requestbody.go
+  - internal/sdk/internal/utils/retries.go
+  - internal/sdk/internal/utils/security.go
+  - internal/sdk/internal/utils/utils.go
+  - internal/sdk/mappings.go
+  - internal/sdk/models/errors/sdkerror.go
+  - internal/sdk/models/operations/deleteconfig.go
+  - internal/sdk/models/operations/executemapping.go
+  - internal/sdk/models/operations/executerelations.go
+  - internal/sdk/models/operations/getallversions.go
+  - internal/sdk/models/operations/getconfig.go
+  - internal/sdk/models/operations/getconfigversion.go
+  - internal/sdk/models/operations/getmappingconfig.go
+  - internal/sdk/models/operations/options.go
+  - internal/sdk/models/operations/putmappingconfig.go
+  - internal/sdk/models/operations/querymappinghistory.go
+  - internal/sdk/models/operations/searchconfigs.go
+  - internal/sdk/models/operations/storeconfig.go
+  - internal/sdk/models/operations/storenewversion.go
+  - internal/sdk/models/shared/appendvaluemapper.go
+  - internal/sdk/models/shared/attributeorigin.go
+  - internal/sdk/models/shared/copyvaluemapper.go
+  - internal/sdk/models/shared/entityref.go
+  - internal/sdk/models/shared/executemappingreq.go
+  - internal/sdk/models/shared/executemappingresp.go
+  - internal/sdk/models/shared/executerelationsreq.go
+  - internal/sdk/models/shared/executerelationsresp.go
+  - internal/sdk/models/shared/journeyref.go
+  - internal/sdk/models/shared/mappingattribute.go
+  - internal/sdk/models/shared/mappingattributemode.go
+  - internal/sdk/models/shared/mappingattributev2.go
+  - internal/sdk/models/shared/mappingconfig.go
+  - internal/sdk/models/shared/mappingconfigsresp.go
+  - internal/sdk/models/shared/mappingconfigv2.go
+  - internal/sdk/models/shared/mappingfailure.go
+  - internal/sdk/models/shared/mappinghistoryentry.go
+  - internal/sdk/models/shared/mappinghistoryresp.go
+  - internal/sdk/models/shared/mappingwarning.go
+  - internal/sdk/models/shared/newrelationitem.go
+  - internal/sdk/models/shared/operationnode.go
+  - internal/sdk/models/shared/operationobjectnode.go
+  - internal/sdk/models/shared/randomoperation.go
+  - internal/sdk/models/shared/relationattribute.go
+  - internal/sdk/models/shared/relationitem.go
+  - internal/sdk/models/shared/searchmappingreq.go
+  - internal/sdk/models/shared/security.go
+  - internal/sdk/models/shared/setvaluemapper.go
+  - internal/sdk/models/shared/sourceconfig.go
+  - internal/sdk/models/shared/targetconfig.go
+  - internal/sdk/retry/config.go
+  - internal/sdk/sdk.go
+  - internal/sdk/types/bigint.go
+  - internal/sdk/types/date.go
+  - internal/sdk/types/datetime.go
+  - internal/sdk/types/decimal.go
+  - internal/sdk/types/pointers.go
   - internal/validators/DateValidator.go
   - internal/validators/ExactlyOneChild.go
   - internal/validators/JSONParseValidator.go
@@ -131,35 +163,98 @@ generatedFiles:
   - main.go
   - terraform-registry-manifest.json
   - tools/tools.go
-  - internal/provider/types/entity_ref.go
-  - internal/provider/types/journey_ref.go
-  - internal/provider/types/config.go
-  - internal/provider/types/source_config.go
-  - internal/provider/types/loop_config.go
-  - internal/provider/types/append_value_mapper.go
-  - internal/provider/types/copy_value_mapper.go
-  - internal/provider/types/set_value_mapper.go
-  - internal/provider/types/mapping_attribute.go
-  - internal/provider/types/one.go
-  - internal/provider/types/two.go
-  - internal/provider/types/random_operation.go
-  - internal/provider/types/uniq.go
-  - internal/provider/types/operation_object_node.go
-  - internal/provider/types/operation_node.go
-  - internal/provider/types/mapping_attribute_v2.go
-  - internal/provider/types/mapping_attributes.go
-  - internal/provider/types/source_filter.go
-  - internal/provider/types/relation_attribute.go
-  - internal/provider/types/target_config.go
-  - USAGE.md
-  - internal/provider/provider.go
-  - examples/provider/provider.tf
-  - examples/resources/epilot-entitymapping_entity_mapping/import.sh
-  - internal/provider/entitymapping_resource.go
-  - internal/provider/entitymapping_resource_sdk.go
-  - examples/resources/epilot-entitymapping_entity_mapping/resource.tf
-  - internal/provider/entitymapping_data_source.go
-  - internal/provider/entitymapping_data_source_sdk.go
-  - examples/data-sources/epilot-entitymapping_entity_mapping/data-source.tf
-  - .gitattributes
-  - CONTRIBUTING.md
+examples:
+  deleteConfig:
+    speakeasy-default-delete-config:
+      parameters:
+        path:
+          id: "70542580-2b38-4bfc-af8d-bb90102f9f47"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "org_id": "66", "source": {}, "targets": [], "version": 2}
+  executeMapping:
+    speakeasy-default-execute-mapping:
+      parameters:
+        query:
+          preview_mode: true
+      requestBody:
+        application/json: {"source_ref": {"entity_id": "<value>", "entity_schema": "submission"}, "targets": []}
+      responses:
+        "200":
+          application/json: {"failures": [], "mapped_entities": []}
+  executeRelations:
+    speakeasy-default-execute-relations:
+      requestBody:
+        application/json: {"source_ref": {"entity_id": "<value>", "entity_schema": "submission"}, "target": {"main_entity_ref": {"entity_id": "<value>", "entity_schema": "submission"}, "relation_attributes": []}}
+  getAllVersions:
+    speakeasy-default-get-all-versions:
+      parameters:
+        path:
+          id: "70542580-2b38-4bfc-af8d-bb90102f9f47"
+      responses:
+        "200":
+          application/json: {"configs": []}
+  getConfig:
+    speakeasy-default-get-config:
+      parameters:
+        path:
+          id: "70542580-2b38-4bfc-af8d-bb90102f9f47"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "org_id": "66", "source": {}, "targets": [], "version": 2}
+  getConfigVersion:
+    speakeasy-default-get-config-version:
+      parameters:
+        path:
+          id: "70542580-2b38-4bfc-af8d-bb90102f9f47"
+          version: 3
+      responses:
+        "200":
+          application/json: {"id": "<id>", "org_id": "66", "source": {}, "targets": [], "version": 2}
+  getMappingConfig:
+    speakeasy-default-get-mapping-config:
+      parameters:
+        path:
+          id: "70542580-2b38-4bfc-af8d-bb90102f9f47"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "source": {"config": {"entity_id": "<value>", "entity_schema": "submission"}}, "targets": []}
+  putMappingConfig:
+    speakeasy-default-put-mapping-config:
+      parameters:
+        path:
+          id: "70542580-2b38-4bfc-af8d-bb90102f9f47"
+      requestBody:
+        application/json: {"id": "<id>", "source": {"config": {"entity_id": "<value>", "entity_schema": "submission"}}, "targets": []}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "source": {}, "targets": []}
+  queryMappingHistory:
+    speakeasy-default-query-mapping-history:
+      responses:
+        "200":
+          application/json: {"results": []}
+  searchConfigs:
+    speakeasy-default-search-configs:
+      requestBody:
+        application/json: {"source": {}}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "org_id": "66", "source": {}, "targets": [], "version": 2}
+  storeConfig:
+    speakeasy-default-store-config:
+      requestBody:
+        application/json: {"id": "<id>", "org_id": "66", "source": {"config": {"entity_id": "<value>", "entity_schema": "submission"}}, "targets": [], "version": 2}
+      responses:
+        "201":
+          application/json: {"id": "<id>", "org_id": "66", "source": {"config": {"entity_id": "<value>", "entity_schema": "submission"}}, "targets": [], "version": 2}
+  storeNewVersion:
+    speakeasy-default-store-new-version:
+      parameters:
+        path:
+          id: "70542580-2b38-4bfc-af8d-bb90102f9f47"
+      requestBody:
+        application/json: {"id": "<id>", "org_id": "66", "source": {}, "targets": [], "version": 2}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "org_id": "66", "source": {}, "targets": [], "version": 2}
