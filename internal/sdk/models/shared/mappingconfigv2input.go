@@ -2,37 +2,29 @@
 
 package shared
 
-type MappingConfigV2 struct {
+type MappingConfigV2Input struct {
 	ID      string         `json:"id"`
 	Source  SourceConfig   `json:"source"`
 	Targets []TargetConfig `json:"targets"`
-	Version *int64         `json:"version,omitempty"`
 }
 
-func (o *MappingConfigV2) GetID() string {
+func (o *MappingConfigV2Input) GetID() string {
 	if o == nil {
 		return ""
 	}
 	return o.ID
 }
 
-func (o *MappingConfigV2) GetSource() SourceConfig {
+func (o *MappingConfigV2Input) GetSource() SourceConfig {
 	if o == nil {
 		return SourceConfig{}
 	}
 	return o.Source
 }
 
-func (o *MappingConfigV2) GetTargets() []TargetConfig {
+func (o *MappingConfigV2Input) GetTargets() []TargetConfig {
 	if o == nil {
 		return []TargetConfig{}
 	}
 	return o.Targets
-}
-
-func (o *MappingConfigV2) GetVersion() *int64 {
-	if o == nil {
-		return nil
-	}
-	return o.Version
 }

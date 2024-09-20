@@ -29,6 +29,7 @@ data "epilot-entitymapping_entity_mapping" "my_entitymapping" {
 
 - `source` (Attributes) (see [below for nested schema](#nestedatt--source))
 - `targets` (Attributes List) (see [below for nested schema](#nestedatt--targets))
+- `version` (Number)
 
 <a id="nestedatt--source"></a>
 ### Nested Schema for `source`
@@ -36,7 +37,7 @@ data "epilot-entitymapping_entity_mapping" "my_entitymapping" {
 Read-Only:
 
 - `config` (Attributes) (see [below for nested schema](#nestedatt--source--config))
-- `type` (String) must be one of ["journey", "entity"]
+- `type` (String)
 
 <a id="nestedatt--source--config"></a>
 ### Nested Schema for `source.config`
@@ -110,13 +111,11 @@ Read-Only:
 - `set_value_mapper` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--set_value_mapper))
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute.set_value_mapper`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute.append_value_mapper`
 
 Read-Only:
 
 - `mode` (String) - copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.
-
-must be one of ["copy_if_exists", "append_if_exists", "set_value"]
 - `source` (String) JSON source path for the value to be extracted from the main entity. Eg: steps[1].['Product Info'].price
 - `target` (String) JSON like target path for the attribute. Eg. last_name
 - `target_unique` (List of String) Array of keys which should be used when checking for uniqueness. Eg: [country, city, postal_code]
@@ -124,13 +123,11 @@ must be one of ["copy_if_exists", "append_if_exists", "set_value"]
 
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute--copy_value_mapper"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute.set_value_mapper`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute.copy_value_mapper`
 
 Read-Only:
 
 - `mode` (String) - copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.
-
-must be one of ["copy_if_exists", "append_if_exists", "set_value"]
 - `source` (String) JSON source path for the value to be extracted from the main entity. Eg: steps[1].['Product Info'].price
 - `target` (String) JSON like target path for the attribute. Eg. last_name
 
@@ -141,12 +138,8 @@ must be one of ["copy_if_exists", "append_if_exists", "set_value"]
 Read-Only:
 
 - `mode` (String) - copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.
-
-must be one of ["copy_if_exists", "append_if_exists", "set_value"]
 - `target` (String) JSON like target path for the attribute. Eg. last_name
-- `value` (String) Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any.
-
-Parsed as JSON.
+- `value` (String) Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any. Parsed as JSON.
 
 
 
@@ -156,59 +149,59 @@ Parsed as JSON.
 Read-Only:
 
 - `operation` (Attributes) Mapping operation nodes are either primitive values or operation node objects (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation))
-- `origin` (String) Origin of an attribute. must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]
+- `origin` (String) Origin of an attribute.
 - `target` (String) Target JSON path for the attribute to set
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target`
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation`
 
 Read-Only:
 
 - `any` (String) Parsed as JSON.
-- `operation_object_node` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node))
+- `operation_object_node` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node))
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node`
 
 Read-Only:
 
 - `additional_properties` (String) Parsed as JSON.
 - `append` (List of String) Append to array
 - `copy` (String) Copy JSONPath value from source entity context
-- `random` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--random))
+- `random` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random))
 - `set` (String) Parsed as JSON.
 - `template` (String) Define handlebars template to output a string
-- `uniq` (Attributes) Unique array (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq))
+- `uniq` (Attributes) Unique array (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq))
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--random"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq`
-
-Read-Only:
-
-- `one` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--one))
-- `two` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--two))
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--one"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq.two`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random`
 
 Read-Only:
 
-- `type` (String) must be one of ["uuid", "nanoid"]
+- `one` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one))
+- `two` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two))
+
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.one`
+
+Read-Only:
+
+- `type` (String)
 
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq--two"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq.two`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.two`
 
 Read-Only:
 
 - `max` (Number)
 - `min` (Number)
-- `type` (String) must be one of ["number"]
+- `type` (String)
 
 
 
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--target--operation_object_node--uniq"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.target.operation_object_node.uniq`
+<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq"></a>
+### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.uniq`
 
 Read-Only:
 
@@ -225,8 +218,8 @@ Read-Only:
 
 Read-Only:
 
-- `mode` (String) must be one of ["append", "prepend", "set"]
-- `origin` (String) Origin of an attribute. must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]
+- `mode` (String)
+- `origin` (String) Origin of an attribute.
 - `related_to` (Map of String)
 - `source_filter` (Attributes) A filter to identify which source entities to pick as relations from main entity (see [below for nested schema](#nestedatt--targets--relation_attributes--source_filter))
 - `target` (String) Target attribute to store the relation in
@@ -244,5 +237,3 @@ Read-Only:
 - `schema` (String) Filter by specific schema
 - `self` (Boolean) Picks main entity as relation (overrides other filters)
 - `tag` (String) Filter by a specific tag on the related entity
-
-

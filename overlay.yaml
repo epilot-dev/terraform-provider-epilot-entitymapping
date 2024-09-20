@@ -35,8 +35,6 @@ actions:
     remove: true
   - target: $["components"]["schemas"]["MappingConfigV2"]["allOf"][1]["properties"]["org_id"]
     remove: true
-  - target: $["components"]["schemas"]["MappingConfigV2"]["allOf"][1]["properties"]["version"]
-    remove: true
   - target: $["components"]["schemas"]["PrimitiveJSONValue"]
     remove: true
   - target: $["components"]["schemas"]
