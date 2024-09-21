@@ -14,7 +14,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
   }
   targets = [
     {
-      allow_failure               = false
+      allow_failure               = true
       condition_mode              = "{ \"see\": \"documentation\" }"
       conditions                  = "{ \"see\": \"documentation\" }"
       id                          = "...my_id..."
@@ -103,7 +103,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
           target_tags = [
             "..."
           ]
-          target_tags_include_source = true
+          target_tags_include_source = false
         }
       ]
       target_schema = "...my_target_schema..."
