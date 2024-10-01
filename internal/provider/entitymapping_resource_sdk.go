@@ -118,140 +118,11 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfigV2Input() *shared.Mapp
 		}
 		var mappingAttributes []shared.MappingAttributes = []shared.MappingAttributes{}
 		for _, mappingAttributesItem := range targetsItem.MappingAttributes {
-			if mappingAttributesItem.MappingAttributeV2 != nil {
-				var operation shared.OperationNode
-				var operationObjectNode *shared.OperationObjectNode
-				if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode != nil {
-					var additionalProperties interface{}
-					if !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.AdditionalProperties.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.AdditionalProperties.IsNull() {
-						_ = json.Unmarshal([]byte(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.AdditionalProperties.ValueString()), &additionalProperties)
-					}
-					var append1 []interface{} = []interface{}{}
-					for _, appendItem := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Append {
-						var appendTmp interface{}
-						_ = json.Unmarshal([]byte(appendItem.ValueString()), &appendTmp)
-						append1 = append(append1, appendTmp)
-					}
-					copy := new(string)
-					if !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Copy.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Copy.IsNull() {
-						*copy = mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Copy.ValueString()
-					} else {
-						copy = nil
-					}
-					var random *shared.RandomOperation
-					if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random != nil {
-						var one *shared.One
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.One != nil {
-							typeVar1 := shared.RandomOperationSchemasType(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.One.Type.ValueString())
-							one = &shared.One{
-								Type: typeVar1,
-							}
-						}
-						if one != nil {
-							random = &shared.RandomOperation{
-								One: one,
-							}
-						}
-						var two *shared.Two
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two != nil {
-							max := new(float64)
-							if !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Max.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Max.IsNull() {
-								*max, _ = mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Max.ValueBigFloat().Float64()
-							} else {
-								max = nil
-							}
-							min := new(float64)
-							if !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Min.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Min.IsNull() {
-								*min, _ = mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Min.ValueBigFloat().Float64()
-							} else {
-								min = nil
-							}
-							typeVar2 := shared.RandomOperationType(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Type.ValueString())
-							two = &shared.Two{
-								Max:  max,
-								Min:  min,
-								Type: typeVar2,
-							}
-						}
-						if two != nil {
-							random = &shared.RandomOperation{
-								Two: two,
-							}
-						}
-					}
-					var set interface{}
-					if !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Set.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Set.IsNull() {
-						_ = json.Unmarshal([]byte(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Set.ValueString()), &set)
-					}
-					template := new(string)
-					if !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Template.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Template.IsNull() {
-						*template = mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Template.ValueString()
-					} else {
-						template = nil
-					}
-					var uniq *shared.Uniq
-					if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq != nil {
-						boolean := new(bool)
-						if !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean.IsNull() {
-							*boolean = mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean.ValueBool()
-						} else {
-							boolean = nil
-						}
-						if boolean != nil {
-							uniq = &shared.Uniq{
-								Boolean: boolean,
-							}
-						}
-						var arrayOfStr []string = []string{}
-						for _, arrayOfStrItem := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr {
-							arrayOfStr = append(arrayOfStr, arrayOfStrItem.ValueString())
-						}
-						if arrayOfStr != nil {
-							uniq = &shared.Uniq{
-								ArrayOfStr: arrayOfStr,
-							}
-						}
-					}
-					operationObjectNode = &shared.OperationObjectNode{
-						AdditionalProperties: additionalProperties,
-						Append:               append1,
-						Copy:                 copy,
-						Random:               random,
-						Set:                  set,
-						Template:             template,
-						Uniq:                 uniq,
-					}
-				}
-				if operationObjectNode != nil {
-					operation = shared.OperationNode{
-						OperationObjectNode: operationObjectNode,
-					}
-				}
+			if !mappingAttributesItem.Any.IsUnknown() && !mappingAttributesItem.Any.IsNull() {
 				var anyVar interface{}
-				if !mappingAttributesItem.MappingAttributeV2.Operation.Any.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Operation.Any.IsNull() {
-					_ = json.Unmarshal([]byte(mappingAttributesItem.MappingAttributeV2.Operation.Any.ValueString()), &anyVar)
-				}
-				if anyVar != nil {
-					operation = shared.OperationNode{
-						Any: anyVar,
-					}
-				}
-				origin := new(shared.AttributeOrigin)
-				if !mappingAttributesItem.MappingAttributeV2.Origin.IsUnknown() && !mappingAttributesItem.MappingAttributeV2.Origin.IsNull() {
-					*origin = shared.AttributeOrigin(mappingAttributesItem.MappingAttributeV2.Origin.ValueString())
-				} else {
-					origin = nil
-				}
-				var target string
-				target = mappingAttributesItem.MappingAttributeV2.Target.ValueString()
-
-				mappingAttributeV2 := shared.MappingAttributeV2{
-					Operation: operation,
-					Origin:    origin,
-					Target:    target,
-				}
+				_ = json.Unmarshal([]byte(mappingAttributesItem.Any.ValueString()), &anyVar)
 				mappingAttributes = append(mappingAttributes, shared.MappingAttributes{
-					MappingAttributeV2: &mappingAttributeV2,
+					Any: &anyVar,
 				})
 			}
 			if mappingAttributesItem.MappingAttribute != nil {
@@ -259,14 +130,14 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfigV2Input() *shared.Mapp
 				var setValueMapper *shared.SetValueMapper
 				if mappingAttributesItem.MappingAttribute.SetValueMapper != nil {
 					mode := shared.MappingAttributeMode(mappingAttributesItem.MappingAttribute.SetValueMapper.Mode.ValueString())
-					var target1 string
-					target1 = mappingAttributesItem.MappingAttribute.SetValueMapper.Target.ValueString()
+					var target string
+					target = mappingAttributesItem.MappingAttribute.SetValueMapper.Target.ValueString()
 
 					var value interface{}
 					_ = json.Unmarshal([]byte(mappingAttributesItem.MappingAttribute.SetValueMapper.Value.ValueString()), &value)
 					setValueMapper = &shared.SetValueMapper{
 						Mode:   mode,
-						Target: target1,
+						Target: target,
 						Value:  value,
 					}
 				}
@@ -281,13 +152,13 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfigV2Input() *shared.Mapp
 					var source1 string
 					source1 = mappingAttributesItem.MappingAttribute.CopyValueMapper.Source.ValueString()
 
-					var target2 string
-					target2 = mappingAttributesItem.MappingAttribute.CopyValueMapper.Target.ValueString()
+					var target1 string
+					target1 = mappingAttributesItem.MappingAttribute.CopyValueMapper.Target.ValueString()
 
 					copyValueMapper = &shared.CopyValueMapper{
 						Mode:   mode1,
 						Source: source1,
-						Target: target2,
+						Target: target1,
 					}
 				}
 				if copyValueMapper != nil {
@@ -304,8 +175,8 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfigV2Input() *shared.Mapp
 					} else {
 						source2 = nil
 					}
-					var target3 string
-					target3 = mappingAttributesItem.MappingAttribute.AppendValueMapper.Target.ValueString()
+					var target2 string
+					target2 = mappingAttributesItem.MappingAttribute.AppendValueMapper.Target.ValueString()
 
 					var targetUnique []string = []string{}
 					for _, targetUniqueItem := range mappingAttributesItem.MappingAttribute.AppendValueMapper.TargetUnique {
@@ -317,7 +188,7 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfigV2Input() *shared.Mapp
 					appendValueMapper = &shared.AppendValueMapper{
 						Mode:         mode2,
 						Source:       source2,
-						Target:       target3,
+						Target:       target2,
 						TargetUnique: targetUnique,
 						ValueJSON:    valueJSON,
 					}
@@ -341,11 +212,11 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfigV2Input() *shared.Mapp
 		var relationAttributes []shared.RelationAttribute = []shared.RelationAttribute{}
 		for _, relationAttributesItem := range targetsItem.RelationAttributes {
 			mode3 := shared.Mode(relationAttributesItem.Mode.ValueString())
-			origin1 := new(shared.AttributeOrigin)
+			origin := new(shared.AttributeOrigin)
 			if !relationAttributesItem.Origin.IsUnknown() && !relationAttributesItem.Origin.IsNull() {
-				*origin1 = shared.AttributeOrigin(relationAttributesItem.Origin.ValueString())
+				*origin = shared.AttributeOrigin(relationAttributesItem.Origin.ValueString())
 			} else {
-				origin1 = nil
+				origin = nil
 			}
 			relatedTo := make(map[string]interface{})
 			for relatedToKey, relatedToValue := range relationAttributesItem.RelatedTo {
@@ -400,8 +271,8 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfigV2Input() *shared.Mapp
 					Tag:         tag,
 				}
 			}
-			var target4 string
-			target4 = relationAttributesItem.Target.ValueString()
+			var target3 string
+			target3 = relationAttributesItem.Target.ValueString()
 
 			var targetTags []string = []string{}
 			for _, targetTagsItem := range relationAttributesItem.TargetTags {
@@ -415,10 +286,10 @@ func (r *EntityMappingResourceModel) ToSharedMappingConfigV2Input() *shared.Mapp
 			}
 			relationAttributes = append(relationAttributes, shared.RelationAttribute{
 				Mode:                    mode3,
-				Origin:                  origin1,
+				Origin:                  origin,
 				RelatedTo:               relatedTo,
 				SourceFilter:            sourceFilter,
-				Target:                  target4,
+				Target:                  target3,
 				TargetTags:              targetTags,
 				TargetTagsIncludeSource: targetTagsIncludeSource,
 			})
@@ -514,6 +385,10 @@ func (r *EntityMappingResourceModel) RefreshFromSharedMappingConfigV2(resp *shar
 			targets1.MappingAttributes = []tfTypes.MappingAttributes{}
 			for mappingAttributesCount, mappingAttributesItem := range targetsItem.MappingAttributes {
 				var mappingAttributes1 tfTypes.MappingAttributes
+				if mappingAttributesItem.Any != nil {
+					anyResult, _ := json.Marshal(mappingAttributesItem.Any)
+					mappingAttributes1.Any = types.StringValue(string(anyResult))
+				}
 				if mappingAttributesItem.MappingAttribute != nil {
 					mappingAttributes1.MappingAttribute = &tfTypes.MappingAttribute{}
 					if mappingAttributesItem.MappingAttribute.AppendValueMapper != nil {
@@ -541,85 +416,11 @@ func (r *EntityMappingResourceModel) RefreshFromSharedMappingConfigV2(resp *shar
 						mappingAttributes1.MappingAttribute.SetValueMapper.Value = types.StringValue(string(valueResult))
 					}
 				}
-				if mappingAttributesItem.MappingAttributeV2 != nil {
-					mappingAttributes1.MappingAttributeV2 = &tfTypes.MappingAttributeV2{}
-					if mappingAttributesItem.MappingAttributeV2.Operation.Any != nil {
-						anyResult, _ := json.Marshal(mappingAttributesItem.MappingAttributeV2.Operation.Any)
-						mappingAttributes1.MappingAttributeV2.Operation.Any = types.StringValue(string(anyResult))
-					}
-					if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode != nil {
-						mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode = &tfTypes.OperationObjectNode{}
-						mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Append = nil
-						for _, appendItem := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Append {
-							var append2 types.String
-							append2Result, _ := json.Marshal(appendItem)
-							append2 = types.StringValue(string(append2Result))
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Append = append(mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Append, append2)
-						}
-						mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Copy = types.StringPointerValue(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Copy)
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random == nil {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random = nil
-						} else {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random = &tfTypes.RandomOperation{}
-							if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.One != nil {
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random.One = &tfTypes.One{}
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random.One.Type = types.StringValue(string(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.One.Type))
-							}
-							if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two != nil {
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random.Two = &tfTypes.Two{}
-								if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Max != nil {
-									mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Max = types.NumberValue(big.NewFloat(float64(*mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Max)))
-								} else {
-									mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Max = types.NumberNull()
-								}
-								if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Min != nil {
-									mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Min = types.NumberValue(big.NewFloat(float64(*mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Min)))
-								} else {
-									mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Min = types.NumberNull()
-								}
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Type = types.StringValue(string(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Random.Two.Type))
-							}
-						}
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Set == nil {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Set = types.StringNull()
-						} else {
-							setResult, _ := json.Marshal(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Set)
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Set = types.StringValue(string(setResult))
-						}
-						mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Template = types.StringPointerValue(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Template)
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq == nil {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq = nil
-						} else {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq = &tfTypes.Uniq{}
-							if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean != nil {
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean = types.BoolPointerValue(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.Boolean)
-							}
-							if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr != nil {
-								mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr = []types.String{}
-								for _, v := range mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr {
-									mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr = append(mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.Uniq.ArrayOfStr, types.StringValue(v))
-								}
-							}
-						}
-						if mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.AdditionalProperties == nil {
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.AdditionalProperties = types.StringNull()
-						} else {
-							additionalPropertiesResult, _ := json.Marshal(mappingAttributesItem.MappingAttributeV2.Operation.OperationObjectNode.AdditionalProperties)
-							mappingAttributes1.MappingAttributeV2.Operation.OperationObjectNode.AdditionalProperties = types.StringValue(string(additionalPropertiesResult))
-						}
-					}
-					if mappingAttributesItem.MappingAttributeV2.Origin != nil {
-						mappingAttributes1.MappingAttributeV2.Origin = types.StringValue(string(*mappingAttributesItem.MappingAttributeV2.Origin))
-					} else {
-						mappingAttributes1.MappingAttributeV2.Origin = types.StringNull()
-					}
-					mappingAttributes1.MappingAttributeV2.Target = types.StringValue(mappingAttributesItem.MappingAttributeV2.Target)
-				}
 				if mappingAttributesCount+1 > len(targets1.MappingAttributes) {
 					targets1.MappingAttributes = append(targets1.MappingAttributes, mappingAttributes1)
 				} else {
+					targets1.MappingAttributes[mappingAttributesCount].Any = mappingAttributes1.Any
 					targets1.MappingAttributes[mappingAttributesCount].MappingAttribute = mappingAttributes1.MappingAttribute
-					targets1.MappingAttributes[mappingAttributesCount].MappingAttributeV2 = mappingAttributes1.MappingAttributeV2
 				}
 			}
 			targets1.Name = types.StringPointerValue(targetsItem.Name)

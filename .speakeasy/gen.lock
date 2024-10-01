@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
-  docChecksum: 4b2c465ce26fffe36fac747a3c3d271a
+  docChecksum: e78bd16b07aa549a66f859bb069d5ec9
   docVersion: 1.0.0
-  speakeasyVersion: 1.393.2
-  generationVersion: 2.413.0
-  releaseVersion: 0.6.0
-  configChecksum: 0b7cacb9c0a44c04c77f236f749cc16a
+  speakeasyVersion: 1.405.4
+  generationVersion: 2.428.1
+  releaseVersion: 0.8.0
+  configChecksum: 2cf51211fc968f153601d49077132344
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
@@ -15,7 +15,7 @@ features:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.2
     constsAndDefaults: 0.1.4
-    core: 3.24.9
+    core: 3.24.15
     deprecations: 2.81.1
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.8
@@ -70,19 +70,12 @@ generatedFiles:
   - internal/provider/types/journey_ref.go
   - internal/provider/types/loop_config.go
   - internal/provider/types/mapping_attribute.go
-  - internal/provider/types/mapping_attribute_v2.go
   - internal/provider/types/mapping_attributes.go
-  - internal/provider/types/one.go
-  - internal/provider/types/operation_node.go
-  - internal/provider/types/operation_object_node.go
-  - internal/provider/types/random_operation.go
   - internal/provider/types/relation_attribute.go
   - internal/provider/types/set_value_mapper.go
   - internal/provider/types/source_config.go
   - internal/provider/types/source_filter.go
   - internal/provider/types/target_config.go
-  - internal/provider/types/two.go
-  - internal/provider/types/uniq.go
   - internal/provider/utils.go
   - internal/sdk/.gitattributes
   - internal/sdk/internal/hooks/hooks.go
@@ -122,7 +115,6 @@ generatedFiles:
   - internal/sdk/models/shared/journeyref.go
   - internal/sdk/models/shared/mappingattribute.go
   - internal/sdk/models/shared/mappingattributemode.go
-  - internal/sdk/models/shared/mappingattributev2.go
   - internal/sdk/models/shared/mappingconfig.go
   - internal/sdk/models/shared/mappingconfigsresp.go
   - internal/sdk/models/shared/mappingconfigv2.go
@@ -132,9 +124,6 @@ generatedFiles:
   - internal/sdk/models/shared/mappinghistoryresp.go
   - internal/sdk/models/shared/mappingwarning.go
   - internal/sdk/models/shared/newrelationitem.go
-  - internal/sdk/models/shared/operationnode.go
-  - internal/sdk/models/shared/operationobjectnode.go
-  - internal/sdk/models/shared/randomoperation.go
   - internal/sdk/models/shared/relationattribute.go
   - internal/sdk/models/shared/relationitem.go
   - internal/sdk/models/shared/searchmappingreq.go

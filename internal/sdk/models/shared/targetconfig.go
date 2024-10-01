@@ -44,23 +44,23 @@ func (o *LoopConfig) GetSourcePath() *string {
 type MappingAttributesType string
 
 const (
-	MappingAttributesTypeMappingAttributeV2 MappingAttributesType = "MappingAttributeV2"
-	MappingAttributesTypeMappingAttribute   MappingAttributesType = "MappingAttribute"
+	MappingAttributesTypeAny              MappingAttributesType = "any"
+	MappingAttributesTypeMappingAttribute MappingAttributesType = "MappingAttribute"
 )
 
 type MappingAttributes struct {
-	MappingAttributeV2 *MappingAttributeV2
-	MappingAttribute   *MappingAttribute
+	Any              any
+	MappingAttribute *MappingAttribute
 
 	Type MappingAttributesType
 }
 
-func CreateMappingAttributesMappingAttributeV2(mappingAttributeV2 MappingAttributeV2) MappingAttributes {
-	typ := MappingAttributesTypeMappingAttributeV2
+func CreateMappingAttributesAny(any any) MappingAttributes {
+	typ := MappingAttributesTypeAny
 
 	return MappingAttributes{
-		MappingAttributeV2: &mappingAttributeV2,
-		Type:               typ,
+		Any:  any,
+		Type: typ,
 	}
 }
 
@@ -75,10 +75,10 @@ func CreateMappingAttributesMappingAttribute(mappingAttribute MappingAttribute) 
 
 func (u *MappingAttributes) UnmarshalJSON(data []byte) error {
 
-	var mappingAttributeV2 MappingAttributeV2 = MappingAttributeV2{}
-	if err := utils.UnmarshalJSON(data, &mappingAttributeV2, "", true, true); err == nil {
-		u.MappingAttributeV2 = &mappingAttributeV2
-		u.Type = MappingAttributesTypeMappingAttributeV2
+	var any any = nil
+	if err := utils.UnmarshalJSON(data, &any, "", true, true); err == nil {
+		u.Any = any
+		u.Type = MappingAttributesTypeAny
 		return nil
 	}
 
@@ -93,8 +93,8 @@ func (u *MappingAttributes) UnmarshalJSON(data []byte) error {
 }
 
 func (u MappingAttributes) MarshalJSON() ([]byte, error) {
-	if u.MappingAttributeV2 != nil {
-		return utils.MarshalJSON(u.MappingAttributeV2, "", true)
+	if u.Any != nil {
+		return utils.MarshalJSON(u.Any, "", true)
 	}
 
 	if u.MappingAttribute != nil {

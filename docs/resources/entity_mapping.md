@@ -29,7 +29,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
   }
   targets = [
     {
-      allow_failure               = false
+      allow_failure               = true
       condition_mode              = "{ \"see\": \"documentation\" }"
       conditions                  = "{ \"see\": \"documentation\" }"
       id                          = "...my_id..."
@@ -43,6 +43,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
       }
       mapping_attributes = [
         {
+          any = "{ \"see\": \"documentation\" }"
           mapping_attribute = {
             append_value_mapper = {
               mode   = "copy_if_exists"
@@ -63,38 +64,6 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
               target = "...my_target..."
               value  = "{ \"see\": \"documentation\" }"
             }
-          }
-          mapping_attribute_v2 = {
-            operation = {
-              any = "{ \"see\": \"documentation\" }"
-              operation_object_node = {
-                additional_properties = "{ \"see\": \"documentation\" }"
-                append = [
-                  "{ \"see\": \"documentation\" }"
-                ]
-                copy = "contact.first_name"
-                random = {
-                  one = {
-                    type = "nanoid"
-                  }
-                  two = {
-                    max  = 1.73
-                    min  = 5.35
-                    type = "number"
-                  }
-                }
-                set      = "{ \"see\": \"documentation\" }"
-                template = "{{contact.first_name}} {{contact.last_name}}"
-                uniq = {
-                  array_of_str = [
-                    "..."
-                  ]
-                  boolean = true
-                }
-              }
-            }
-            origin = "user_manually"
-            target = "...my_target..."
           }
         }
       ]
@@ -118,7 +87,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
           target_tags = [
             "..."
           ]
-          target_tags_include_source = true
+          target_tags_include_source = false
         }
       ]
       target_schema = "...my_target_schema..."
@@ -210,8 +179,8 @@ Optional:
 
 Optional:
 
+- `any` (String) Requires replacement if changed.; Parsed as JSON.
 - `mapping_attribute` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute))
-- `mapping_attribute_v2` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2))
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute"></a>
 ### Nested Schema for `targets.mapping_attributes.mapping_attribute`
@@ -252,75 +221,6 @@ Optional:
 - `mode` (String) - copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property. Not Null; must be one of ["copy_if_exists", "append_if_exists", "set_value"]; Requires replacement if changed.
 - `target` (String) JSON like target path for the attribute. Eg. last_name. Not Null; Requires replacement if changed.
 - `value` (String) Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any. Not Null; Requires replacement if changed.; Parsed as JSON.
-
-
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2`
-
-Optional:
-
-- `operation` (Attributes) Mapping operation nodes are either primitive values or operation node objects. Not Null; Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation))
-- `origin` (String) Origin of an attribute. must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]; Requires replacement if changed.
-- `target` (String) Target JSON path for the attribute to set. Not Null; Requires replacement if changed.
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation`
-
-Optional:
-
-- `any` (String) Requires replacement if changed.; Parsed as JSON.
-- `operation_object_node` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node))
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node`
-
-Optional:
-
-- `additional_properties` (String) Requires replacement if changed.; Parsed as JSON.
-- `append` (List of String) Append to array. Requires replacement if changed.
-- `copy` (String) Copy JSONPath value from source entity context. Requires replacement if changed.
-- `random` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random))
-- `set` (String) Requires replacement if changed.; Parsed as JSON.
-- `template` (String) Define handlebars template to output a string. Requires replacement if changed.
-- `uniq` (Attributes) Unique array. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq))
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random`
-
-Optional:
-
-- `one` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one))
-- `two` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two))
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.one`
-
-Optional:
-
-- `type` (String) Not Null; must be one of ["uuid", "nanoid"]; Requires replacement if changed.
-
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.two`
-
-Optional:
-
-- `max` (Number) Default: 1; Requires replacement if changed.
-- `min` (Number) Default: 0; Requires replacement if changed.
-- `type` (String) Not Null; must be "number"; Requires replacement if changed.
-
-
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.uniq`
-
-Optional:
-
-- `array_of_str` (List of String) Requires replacement if changed.
-- `boolean` (Boolean) Requires replacement if changed.
-
-
 
 
 

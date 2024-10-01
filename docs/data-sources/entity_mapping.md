@@ -98,8 +98,8 @@ Read-Only:
 
 Read-Only:
 
+- `any` (String) Parsed as JSON.
 - `mapping_attribute` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute))
-- `mapping_attribute_v2` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2))
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute"></a>
 ### Nested Schema for `targets.mapping_attributes.mapping_attribute`
@@ -140,75 +140,6 @@ Read-Only:
 - `mode` (String) - copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.
 - `target` (String) JSON like target path for the attribute. Eg. last_name
 - `value` (String) Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any. Parsed as JSON.
-
-
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2`
-
-Read-Only:
-
-- `operation` (Attributes) Mapping operation nodes are either primitive values or operation node objects (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation))
-- `origin` (String) Origin of an attribute.
-- `target` (String) Target JSON path for the attribute to set
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation`
-
-Read-Only:
-
-- `any` (String) Parsed as JSON.
-- `operation_object_node` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node))
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node`
-
-Read-Only:
-
-- `additional_properties` (String) Parsed as JSON.
-- `append` (List of String) Append to array
-- `copy` (String) Copy JSONPath value from source entity context
-- `random` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random))
-- `set` (String) Parsed as JSON.
-- `template` (String) Define handlebars template to output a string
-- `uniq` (Attributes) Unique array (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq))
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random`
-
-Read-Only:
-
-- `one` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one))
-- `two` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two))
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--one"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.one`
-
-Read-Only:
-
-- `type` (String)
-
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--random--two"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.random.two`
-
-Read-Only:
-
-- `max` (Number)
-- `min` (Number)
-- `type` (String)
-
-
-
-<a id="nestedatt--targets--mapping_attributes--mapping_attribute_v2--operation--operation_object_node--uniq"></a>
-### Nested Schema for `targets.mapping_attributes.mapping_attribute_v2.operation.operation_object_node.uniq`
-
-Read-Only:
-
-- `array_of_str` (List of String)
-- `boolean` (Boolean)
-
-
 
 
 

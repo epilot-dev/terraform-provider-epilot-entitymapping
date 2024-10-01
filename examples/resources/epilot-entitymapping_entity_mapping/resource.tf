@@ -14,7 +14,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
   }
   targets = [
     {
-      allow_failure               = false
+      allow_failure               = true
       condition_mode              = "{ \"see\": \"documentation\" }"
       conditions                  = "{ \"see\": \"documentation\" }"
       id                          = "...my_id..."
@@ -28,6 +28,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
       }
       mapping_attributes = [
         {
+          any = "{ \"see\": \"documentation\" }"
           mapping_attribute = {
             append_value_mapper = {
               mode   = "copy_if_exists"
@@ -48,38 +49,6 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
               target = "...my_target..."
               value  = "{ \"see\": \"documentation\" }"
             }
-          }
-          mapping_attribute_v2 = {
-            operation = {
-              any = "{ \"see\": \"documentation\" }"
-              operation_object_node = {
-                additional_properties = "{ \"see\": \"documentation\" }"
-                append = [
-                  "{ \"see\": \"documentation\" }"
-                ]
-                copy = "contact.first_name"
-                random = {
-                  one = {
-                    type = "nanoid"
-                  }
-                  two = {
-                    max  = 1.73
-                    min  = 5.35
-                    type = "number"
-                  }
-                }
-                set      = "{ \"see\": \"documentation\" }"
-                template = "{{contact.first_name}} {{contact.last_name}}"
-                uniq = {
-                  array_of_str = [
-                    "..."
-                  ]
-                  boolean = true
-                }
-              }
-            }
-            origin = "user_manually"
-            target = "...my_target..."
           }
         }
       ]
@@ -103,7 +72,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
           target_tags = [
             "..."
           ]
-          target_tags_include_source = true
+          target_tags_include_source = false
         }
       ]
       target_schema = "...my_target_schema..."

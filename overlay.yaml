@@ -35,11 +35,11 @@ actions:
     remove: true
   - target: $["components"]["schemas"]["MappingConfigV2"]["allOf"][1]["properties"]["org_id"]
     remove: true
-  - target: $["components"]["schemas"]["PrimitiveJSONValue"]
+  - target: $["components"]["schemas"]["MappingAttributeV2"]
     remove: true
   - target: $["components"]["schemas"]
     update: 
-      PrimitiveJSONValue: {}
+      MappingAttributeV2: {}
   - target: $["components"]["schemas"]["TargetConfig"]["properties"]["conditionMode"]
     remove: true
   - target: $["components"]["schemas"]["TargetConfig"]["properties"]

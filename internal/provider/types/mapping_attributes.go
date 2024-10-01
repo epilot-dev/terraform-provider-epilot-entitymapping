@@ -2,7 +2,9 @@
 
 package types
 
+import "github.com/hashicorp/terraform-plugin-framework/types"
+
 type MappingAttributes struct {
-	MappingAttribute   *MappingAttribute   `tfsdk:"mapping_attribute" tfPlanOnly:"true"`
-	MappingAttributeV2 *MappingAttributeV2 `tfsdk:"mapping_attribute_v2" tfPlanOnly:"true"`
+	Any              types.String      `tfsdk:"any" tfPlanOnly:"true"`
+	MappingAttribute *MappingAttribute `tfsdk:"mapping_attribute" tfPlanOnly:"true"`
 }

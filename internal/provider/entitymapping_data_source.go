@@ -131,6 +131,10 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 							Computed: true,
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
+									"any": schema.StringAttribute{
+										Computed:    true,
+										Description: `Parsed as JSON.`,
+									},
 									"mapping_attribute": schema.SingleNestedAttribute{
 										Computed: true,
 										Attributes: map[string]schema.Attribute{
@@ -193,95 +197,6 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 														Description: `Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any. Parsed as JSON.`,
 													},
 												},
-											},
-										},
-									},
-									"mapping_attribute_v2": schema.SingleNestedAttribute{
-										Computed: true,
-										Attributes: map[string]schema.Attribute{
-											"operation": schema.SingleNestedAttribute{
-												Computed: true,
-												Attributes: map[string]schema.Attribute{
-													"any": schema.StringAttribute{
-														Computed:    true,
-														Description: `Parsed as JSON.`,
-													},
-													"operation_object_node": schema.SingleNestedAttribute{
-														Computed: true,
-														Attributes: map[string]schema.Attribute{
-															"additional_properties": schema.StringAttribute{
-																Computed:    true,
-																Description: `Parsed as JSON.`,
-															},
-															"append": schema.ListAttribute{
-																Computed:    true,
-																ElementType: types.StringType,
-																Description: `Append to array`,
-															},
-															"copy": schema.StringAttribute{
-																Computed:    true,
-																Description: `Copy JSONPath value from source entity context`,
-															},
-															"random": schema.SingleNestedAttribute{
-																Computed: true,
-																Attributes: map[string]schema.Attribute{
-																	"one": schema.SingleNestedAttribute{
-																		Computed: true,
-																		Attributes: map[string]schema.Attribute{
-																			"type": schema.StringAttribute{
-																				Computed: true,
-																			},
-																		},
-																	},
-																	"two": schema.SingleNestedAttribute{
-																		Computed: true,
-																		Attributes: map[string]schema.Attribute{
-																			"max": schema.NumberAttribute{
-																				Computed: true,
-																			},
-																			"min": schema.NumberAttribute{
-																				Computed: true,
-																			},
-																			"type": schema.StringAttribute{
-																				Computed: true,
-																			},
-																		},
-																	},
-																},
-															},
-															"set": schema.StringAttribute{
-																Computed:    true,
-																Description: `Parsed as JSON.`,
-															},
-															"template": schema.StringAttribute{
-																Computed:    true,
-																Description: `Define handlebars template to output a string`,
-															},
-															"uniq": schema.SingleNestedAttribute{
-																Computed: true,
-																Attributes: map[string]schema.Attribute{
-																	"array_of_str": schema.ListAttribute{
-																		Computed:    true,
-																		ElementType: types.StringType,
-																	},
-																	"boolean": schema.BoolAttribute{
-																		Computed: true,
-																	},
-																},
-																Description: `Unique array`,
-															},
-														},
-													},
-												},
-												Description: `Mapping operation nodes are either primitive values or operation node objects`,
-											},
-											"origin": schema.StringAttribute{
-												Computed:    true,
-												Description: `Origin of an attribute.`,
-											},
-											"target": schema.StringAttribute{
-												Computed:    true,
-												Description: `Target JSON path for the attribute to set`,
 											},
 										},
 									},
