@@ -110,8 +110,6 @@ type RelationAttribute struct {
 	Mode Mode `json:"mode"`
 	// Origin of an attribute.
 	Origin *AttributeOrigin `json:"origin,omitempty"`
-	// Deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-	RelatedTo map[string]any `json:"related_to,omitempty"`
 	// A filter to identify which source entities to pick as relations from main entity
 	SourceFilter *SourceFilter `json:"source_filter,omitempty"`
 	// Target attribute to store the relation in
@@ -145,13 +143,6 @@ func (o *RelationAttribute) GetOrigin() *AttributeOrigin {
 		return nil
 	}
 	return o.Origin
-}
-
-func (o *RelationAttribute) GetRelatedTo() map[string]any {
-	if o == nil {
-		return nil
-	}
-	return o.RelatedTo
 }
 
 func (o *RelationAttribute) GetSourceFilter() *SourceFilter {

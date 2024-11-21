@@ -5,11 +5,10 @@ package types
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type RelationAttribute struct {
-	Mode                    types.String            `tfsdk:"mode"`
-	Origin                  types.String            `tfsdk:"origin"`
-	RelatedTo               map[string]types.String `tfsdk:"related_to"`
-	SourceFilter            *SourceFilter           `tfsdk:"source_filter"`
-	Target                  types.String            `tfsdk:"target"`
-	TargetTags              []types.String          `tfsdk:"target_tags"`
-	TargetTagsIncludeSource types.Bool              `tfsdk:"target_tags_include_source"`
+	Mode                    types.String   `tfsdk:"mode"`
+	Origin                  types.String   `tfsdk:"origin"`
+	SourceFilter            *SourceFilter  `tfsdk:"source_filter"`
+	Target                  types.String   `tfsdk:"target"`
+	TargetTags              []types.String `tfsdk:"target_tags"`
+	TargetTagsIncludeSource types.Bool     `tfsdk:"target_tags_include_source"`
 }

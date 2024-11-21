@@ -72,9 +72,6 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
         {
           mode   = "prepend"
           origin = "entity_updating_system_recommendation"
-          related_to = {
-            "see" : jsonencode("documentation"),
-          }
           source_filter = {
             attribute    = "...my_attribute..."
             limit        = 5
@@ -232,7 +229,6 @@ Optional:
 
 - `mode` (String) Not Null; must be one of ["append", "prepend", "set"]; Requires replacement if changed.
 - `origin` (String) Origin of an attribute. must be one of ["system_recommendation", "user_manually", "entity_updating_system_recommendation"]; Requires replacement if changed.
-- `related_to` (Map of String) Requires replacement if changed.
 - `source_filter` (Attributes) A filter to identify which source entities to pick as relations from main entity. Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--relation_attributes--source_filter))
 - `target` (String) Target attribute to store the relation in. Not Null; Requires replacement if changed.
 - `target_tags` (List of String) Relation tags (labels) to set for the stored relations. Requires replacement if changed.

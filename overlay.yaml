@@ -55,3 +55,5 @@ actions:
   - target: $["components"]["schemas"]["TargetConfig"]["properties"]
     update:
       conditions: {}
+  - target: $["components"]["schemas"]["RelationAttribute"]["properties"]["related_to"]
+    remove: true

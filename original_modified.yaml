@@ -682,10 +682,6 @@ components:
               type: boolean
               description: Picks main entity as relation (overrides other filters)
               default: false
-        related_to:
-          type: object
-          additionalProperties: true
-          deprecated: true
         mode:
           type: string
           enum:
@@ -697,26 +693,6 @@ components:
       required:
         - target
         - mode
-    MappingAttributeV2:
-      type: object
-      properties:
-        target:
-          type: string
-          description: Target JSON path for the attribute to set
-        operation:
-          $ref: '#/components/schemas/OperationNode'
-        origin:
-          $ref: '#/components/schemas/AttributeOrigin'
-      required:
-        - target
-        - operation
-      example:
-        target: _tags
-        operation:
-          _append:
-            - new
-            - tags
-          _uniq: true
     AttributeOrigin:
       type: string
       description: Origin of an attribute.
@@ -1016,6 +992,7 @@ components:
         - phone
         - select
         - multiselect
+    MappingAttributeV2: {}
     Entity: {}
 servers:
   - url: https://entity-mapping.sls.epilot.io

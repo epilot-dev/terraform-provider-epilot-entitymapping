@@ -57,9 +57,6 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
         {
           mode   = "prepend"
           origin = "entity_updating_system_recommendation"
-          related_to = {
-            "see" : jsonencode("documentation"),
-          }
           source_filter = {
             attribute    = "...my_attribute..."
             limit        = 5

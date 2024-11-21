@@ -219,10 +219,6 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 										Computed:    true,
 										Description: `Origin of an attribute.`,
 									},
-									"related_to": schema.MapAttribute{
-										Computed:    true,
-										ElementType: types.StringType,
-									},
 									"source_filter": schema.SingleNestedAttribute{
 										Computed: true,
 										Attributes: map[string]schema.Attribute{

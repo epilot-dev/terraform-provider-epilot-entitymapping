@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: a76d605f-5242-4bd3-8bd6-56a119e8eec5
 management:
-  docChecksum: e78bd16b07aa549a66f859bb069d5ec9
+  docChecksum: bbf825135e15ea4e4badf47dbae7dd22
   docVersion: 1.0.0
-  speakeasyVersion: 1.405.4
-  generationVersion: 2.428.1
-  releaseVersion: 0.8.0
-  configChecksum: 2cf51211fc968f153601d49077132344
+  speakeasyVersion: 1.440.1
+  generationVersion: 2.460.1
+  releaseVersion: 0.9.1
+  configChecksum: f0e59c954460ecc363d7de105e415419
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-entitymapping.git
   repoSubDirectory: .
   published: true
@@ -14,15 +14,15 @@ features:
   terraform:
     additionalDependencies: 0.1.0
     additionalProperties: 0.1.2
-    constsAndDefaults: 0.1.4
-    core: 3.24.15
+    constsAndDefaults: 0.2.0
+    core: 3.26.3
     deprecations: 2.81.1
     envVarSecurityUsage: 0.1.0
-    globalSecurity: 2.81.8
+    globalSecurity: 2.81.9
     globalServerURLs: 2.82.1
     inputOutputModels: 2.83.0
     retries: 2.81.1
-    unions: 2.81.16
+    unions: 2.81.17
 generatedFiles:
   - .gitattributes
   - CONTRIBUTING.md

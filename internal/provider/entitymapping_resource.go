@@ -8,7 +8,6 @@ import (
 	speakeasy_boolplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/boolplanmodifier"
 	speakeasy_int64planmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/int64planmodifier"
 	speakeasy_listplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/listplanmodifier"
-	speakeasy_mapplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/mapplanmodifier"
 	speakeasy_numberplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/numberplanmodifier"
 	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/objectplanmodifier"
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/stringplanmodifier"
@@ -19,7 +18,6 @@ import (
 	speakeasy_listvalidators "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/validators/listvalidators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/validators/objectvalidators"
 	speakeasy_stringvalidators "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/validators/stringvalidators"
-	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -29,7 +27,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/numberplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -585,19 +582,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 												"user_manually",
 												"entity_updating_system_recommendation",
 											),
-										},
-									},
-									"related_to": schema.MapAttribute{
-										Computed: true,
-										Optional: true,
-										PlanModifiers: []planmodifier.Map{
-											mapplanmodifier.RequiresReplaceIfConfigured(),
-											speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
-										},
-										ElementType: types.StringType,
-										Description: `Requires replacement if changed.`,
-										Validators: []validator.Map{
-											mapvalidator.ValueStringsAre(validators.IsValidJSON()),
 										},
 									},
 									"source_filter": schema.SingleNestedAttribute{

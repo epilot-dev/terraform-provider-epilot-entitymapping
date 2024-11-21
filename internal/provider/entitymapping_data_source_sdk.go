@@ -119,13 +119,6 @@ func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfigV2(resp *sh
 				} else {
 					relationAttributes1.Origin = types.StringNull()
 				}
-				if len(relationAttributesItem.RelatedTo) > 0 {
-					relationAttributes1.RelatedTo = make(map[string]types.String)
-					for key, value1 := range relationAttributesItem.RelatedTo {
-						result, _ := json.Marshal(value1)
-						relationAttributes1.RelatedTo[key] = types.StringValue(string(result))
-					}
-				}
 				if relationAttributesItem.SourceFilter == nil {
 					relationAttributes1.SourceFilter = nil
 				} else {
@@ -148,7 +141,6 @@ func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfigV2(resp *sh
 				} else {
 					targets1.RelationAttributes[relationAttributesCount].Mode = relationAttributes1.Mode
 					targets1.RelationAttributes[relationAttributesCount].Origin = relationAttributes1.Origin
-					targets1.RelationAttributes[relationAttributesCount].RelatedTo = relationAttributes1.RelatedTo
 					targets1.RelationAttributes[relationAttributesCount].SourceFilter = relationAttributes1.SourceFilter
 					targets1.RelationAttributes[relationAttributesCount].Target = relationAttributes1.Target
 					targets1.RelationAttributes[relationAttributesCount].TargetTags = relationAttributes1.TargetTags

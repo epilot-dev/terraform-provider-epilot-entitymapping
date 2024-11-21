@@ -151,7 +151,6 @@ Read-Only:
 
 - `mode` (String)
 - `origin` (String) Origin of an attribute.
-- `related_to` (Map of String)
 - `source_filter` (Attributes) A filter to identify which source entities to pick as relations from main entity (see [below for nested schema](#nestedatt--targets--relation_attributes--source_filter))
 - `target` (String) Target attribute to store the relation in
 - `target_tags` (List of String) Relation tags (labels) to set for the stored relations
