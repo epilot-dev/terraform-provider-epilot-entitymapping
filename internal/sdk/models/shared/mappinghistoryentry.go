@@ -10,37 +10,37 @@ type MappingHistoryEntry struct {
 	Timestamp              string         `json:"timestamp"`
 }
 
-func (o *MappingHistoryEntry) GetID() string {
-	if o == nil {
+func (m *MappingHistoryEntry) GetID() string {
+	if m == nil {
 		return ""
 	}
-	return o.ID
+	return m.ID
 }
 
-func (o *MappingHistoryEntry) GetMappedEntitiesSnapshot() []any {
-	if o == nil {
+func (m *MappingHistoryEntry) GetMappedEntitiesSnapshot() []any {
+	if m == nil {
 		return []any{}
 	}
-	return o.MappedEntitiesSnapshot
+	return m.MappedEntitiesSnapshot
 }
 
-func (o *MappingHistoryEntry) GetSourceEntitySnapshot() any {
-	if o == nil {
+func (m *MappingHistoryEntry) GetSourceEntitySnapshot() any {
+	if m == nil {
 		return nil
 	}
-	return o.SourceEntitySnapshot
+	return m.SourceEntitySnapshot
 }
 
-func (o *MappingHistoryEntry) GetTargetConfigsSnapshot() []TargetConfig {
-	if o == nil {
+func (m *MappingHistoryEntry) GetTargetConfigsSnapshot() []TargetConfig {
+	if m == nil {
 		return []TargetConfig{}
 	}
-	return o.TargetConfigsSnapshot
+	return m.TargetConfigsSnapshot
 }
 
-func (o *MappingHistoryEntry) GetTimestamp() string {
-	if o == nil {
+func (m *MappingHistoryEntry) GetTimestamp() string {
+	if m == nil {
 		return ""
 	}
-	return o.Timestamp
+	return m.Timestamp
 }

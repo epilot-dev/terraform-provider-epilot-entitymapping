@@ -17,8 +17,8 @@ const (
 )
 
 type Config struct {
-	JourneyRef *JourneyRef
-	EntityRef  *EntityRef
+	JourneyRef *JourneyRef `queryParam:"inline" union:"member"`
+	EntityRef  *EntityRef  `queryParam:"inline" union:"member"`
 
 	Type ConfigType
 }
@@ -43,17 +43,43 @@ func CreateConfigEntityRef(entityRef EntityRef) Config {
 
 func (u *Config) UnmarshalJSON(data []byte) error {
 
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
 	var journeyRef JourneyRef = JourneyRef{}
-	if err := utils.UnmarshalJSON(data, &journeyRef, "", true, true); err == nil {
-		u.JourneyRef = &journeyRef
-		u.Type = ConfigTypeJourneyRef
-		return nil
+	if err := utils.UnmarshalJSON(data, &journeyRef, "", true, nil); err == nil {
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  ConfigTypeJourneyRef,
+			Value: &journeyRef,
+		})
 	}
 
 	var entityRef EntityRef = EntityRef{}
-	if err := utils.UnmarshalJSON(data, &entityRef, "", true, true); err == nil {
-		u.EntityRef = &entityRef
-		u.Type = ConfigTypeEntityRef
+	if err := utils.UnmarshalJSON(data, &entityRef, "", true, nil); err == nil {
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  ConfigTypeEntityRef,
+			Value: &entityRef,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for Config", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for Config", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(ConfigType)
+	switch best.Type {
+	case ConfigTypeJourneyRef:
+		u.JourneyRef = best.Value.(*JourneyRef)
+		return nil
+	case ConfigTypeEntityRef:
+		u.EntityRef = best.Value.(*EntityRef)
 		return nil
 	}
 
@@ -103,16 +129,16 @@ type SourceConfig struct {
 	Type   *Type   `json:"type,omitempty"`
 }
 
-func (o *SourceConfig) GetConfig() *Config {
-	if o == nil {
+func (s *SourceConfig) GetConfig() *Config {
+	if s == nil {
 		return nil
 	}
-	return o.Config
+	return s.Config
 }
 
-func (o *SourceConfig) GetType() *Type {
-	if o == nil {
+func (s *SourceConfig) GetType() *Type {
+	if s == nil {
 		return nil
 	}
-	return o.Type
+	return s.Type
 }

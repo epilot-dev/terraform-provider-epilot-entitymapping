@@ -14,18 +14,18 @@ type StoreNewVersionRequest struct {
 	ID string `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *StoreNewVersionRequest) GetMappingConfig() *shared.MappingConfig {
-	if o == nil {
+func (s *StoreNewVersionRequest) GetMappingConfig() *shared.MappingConfig {
+	if s == nil {
 		return nil
 	}
-	return o.MappingConfig
+	return s.MappingConfig
 }
 
-func (o *StoreNewVersionRequest) GetID() string {
-	if o == nil {
+func (s *StoreNewVersionRequest) GetID() string {
+	if s == nil {
 		return ""
 	}
-	return o.ID
+	return s.ID
 }
 
 type StoreNewVersionResponse struct {
@@ -39,30 +39,30 @@ type StoreNewVersionResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *StoreNewVersionResponse) GetContentType() string {
-	if o == nil {
+func (s *StoreNewVersionResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *StoreNewVersionResponse) GetMappingConfig() *shared.MappingConfig {
-	if o == nil {
+func (s *StoreNewVersionResponse) GetMappingConfig() *shared.MappingConfig {
+	if s == nil {
 		return nil
 	}
-	return o.MappingConfig
+	return s.MappingConfig
 }
 
-func (o *StoreNewVersionResponse) GetStatusCode() int {
-	if o == nil {
+func (s *StoreNewVersionResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *StoreNewVersionResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *StoreNewVersionResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

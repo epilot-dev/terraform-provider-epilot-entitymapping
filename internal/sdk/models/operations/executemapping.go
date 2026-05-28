@@ -13,18 +13,18 @@ type ExecuteMappingRequest struct {
 	PreviewMode *bool `queryParam:"style=form,explode=true,name=preview_mode"`
 }
 
-func (o *ExecuteMappingRequest) GetExecuteMappingReq() *shared.ExecuteMappingReq {
-	if o == nil {
+func (e *ExecuteMappingRequest) GetExecuteMappingReq() *shared.ExecuteMappingReq {
+	if e == nil {
 		return nil
 	}
-	return o.ExecuteMappingReq
+	return e.ExecuteMappingReq
 }
 
-func (o *ExecuteMappingRequest) GetPreviewMode() *bool {
-	if o == nil {
+func (e *ExecuteMappingRequest) GetPreviewMode() *bool {
+	if e == nil {
 		return nil
 	}
-	return o.PreviewMode
+	return e.PreviewMode
 }
 
 type ExecuteMappingResponse struct {
@@ -38,30 +38,30 @@ type ExecuteMappingResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *ExecuteMappingResponse) GetContentType() string {
-	if o == nil {
+func (e *ExecuteMappingResponse) GetContentType() string {
+	if e == nil {
 		return ""
 	}
-	return o.ContentType
+	return e.ContentType
 }
 
-func (o *ExecuteMappingResponse) GetExecuteMappingResp() *shared.ExecuteMappingResp {
-	if o == nil {
+func (e *ExecuteMappingResponse) GetExecuteMappingResp() *shared.ExecuteMappingResp {
+	if e == nil {
 		return nil
 	}
-	return o.ExecuteMappingResp
+	return e.ExecuteMappingResp
 }
 
-func (o *ExecuteMappingResponse) GetStatusCode() int {
-	if o == nil {
+func (e *ExecuteMappingResponse) GetStatusCode() int {
+	if e == nil {
 		return 0
 	}
-	return o.StatusCode
+	return e.StatusCode
 }
 
-func (o *ExecuteMappingResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (e *ExecuteMappingResponse) GetRawResponse() *http.Response {
+	if e == nil {
 		return nil
 	}
-	return o.RawResponse
+	return e.RawResponse
 }

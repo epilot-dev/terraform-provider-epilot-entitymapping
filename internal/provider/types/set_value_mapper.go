@@ -2,10 +2,13 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type SetValueMapper struct {
-	Mode   types.String `tfsdk:"mode"`
-	Target types.String `tfsdk:"target"`
-	Value  types.String `tfsdk:"value"`
+	Mode   types.String         `tfsdk:"mode"`
+	Target types.String         `tfsdk:"target"`
+	Value  jsontypes.Normalized `tfsdk:"value"`
 }

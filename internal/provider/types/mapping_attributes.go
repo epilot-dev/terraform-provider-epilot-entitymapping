@@ -2,9 +2,11 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
+)
 
 type MappingAttributes struct {
-	Any              types.String      `tfsdk:"any" tfPlanOnly:"true"`
-	MappingAttribute *MappingAttribute `tfsdk:"mapping_attribute" tfPlanOnly:"true"`
+	Any              jsontypes.Normalized `queryParam:"inline" tfsdk:"any"`
+	MappingAttribute *MappingAttribute    `queryParam:"inline" tfsdk:"mapping_attribute"`
 }

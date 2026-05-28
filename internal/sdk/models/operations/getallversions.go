@@ -12,11 +12,11 @@ type GetAllVersionsRequest struct {
 	ID string `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *GetAllVersionsRequest) GetID() string {
-	if o == nil {
+func (g *GetAllVersionsRequest) GetID() string {
+	if g == nil {
 		return ""
 	}
-	return o.ID
+	return g.ID
 }
 
 type GetAllVersionsResponse struct {
@@ -30,30 +30,30 @@ type GetAllVersionsResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *GetAllVersionsResponse) GetContentType() string {
-	if o == nil {
+func (g *GetAllVersionsResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetAllVersionsResponse) GetMappingConfigsResp() *shared.MappingConfigsResp {
-	if o == nil {
+func (g *GetAllVersionsResponse) GetMappingConfigsResp() *shared.MappingConfigsResp {
+	if g == nil {
 		return nil
 	}
-	return o.MappingConfigsResp
+	return g.MappingConfigsResp
 }
 
-func (o *GetAllVersionsResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetAllVersionsResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetAllVersionsResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetAllVersionsResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }

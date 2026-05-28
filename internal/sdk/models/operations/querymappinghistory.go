@@ -16,32 +16,32 @@ type QueryMappingHistoryRequest struct {
 	To *string `queryParam:"style=form,explode=true,name=to"`
 }
 
-func (o *QueryMappingHistoryRequest) GetFrom() *string {
-	if o == nil {
+func (q *QueryMappingHistoryRequest) GetFrom() *string {
+	if q == nil {
 		return nil
 	}
-	return o.From
+	return q.From
 }
 
-func (o *QueryMappingHistoryRequest) GetSourceEntityID() *string {
-	if o == nil {
+func (q *QueryMappingHistoryRequest) GetSourceEntityID() *string {
+	if q == nil {
 		return nil
 	}
-	return o.SourceEntityID
+	return q.SourceEntityID
 }
 
-func (o *QueryMappingHistoryRequest) GetTargetEntityID() *string {
-	if o == nil {
+func (q *QueryMappingHistoryRequest) GetTargetEntityID() *string {
+	if q == nil {
 		return nil
 	}
-	return o.TargetEntityID
+	return q.TargetEntityID
 }
 
-func (o *QueryMappingHistoryRequest) GetTo() *string {
-	if o == nil {
+func (q *QueryMappingHistoryRequest) GetTo() *string {
+	if q == nil {
 		return nil
 	}
-	return o.To
+	return q.To
 }
 
 // QueryMappingHistoryResponseBody - Query result of mapping history
@@ -49,11 +49,11 @@ type QueryMappingHistoryResponseBody struct {
 	Results []shared.MappingHistoryResp `json:"results,omitempty"`
 }
 
-func (o *QueryMappingHistoryResponseBody) GetResults() []shared.MappingHistoryResp {
-	if o == nil {
+func (q *QueryMappingHistoryResponseBody) GetResults() []shared.MappingHistoryResp {
+	if q == nil {
 		return nil
 	}
-	return o.Results
+	return q.Results
 }
 
 type QueryMappingHistoryResponse struct {
@@ -67,30 +67,30 @@ type QueryMappingHistoryResponse struct {
 	Object *QueryMappingHistoryResponseBody
 }
 
-func (o *QueryMappingHistoryResponse) GetContentType() string {
-	if o == nil {
+func (q *QueryMappingHistoryResponse) GetContentType() string {
+	if q == nil {
 		return ""
 	}
-	return o.ContentType
+	return q.ContentType
 }
 
-func (o *QueryMappingHistoryResponse) GetStatusCode() int {
-	if o == nil {
+func (q *QueryMappingHistoryResponse) GetStatusCode() int {
+	if q == nil {
 		return 0
 	}
-	return o.StatusCode
+	return q.StatusCode
 }
 
-func (o *QueryMappingHistoryResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (q *QueryMappingHistoryResponse) GetRawResponse() *http.Response {
+	if q == nil {
 		return nil
 	}
-	return o.RawResponse
+	return q.RawResponse
 }
 
-func (o *QueryMappingHistoryResponse) GetObject() *QueryMappingHistoryResponseBody {
-	if o == nil {
+func (q *QueryMappingHistoryResponse) GetObject() *QueryMappingHistoryResponseBody {
+	if q == nil {
 		return nil
 	}
-	return o.Object
+	return q.Object
 }

@@ -17,10 +17,6 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
   id = "70542580-2b38-4bfc-af8d-bb90102f9f47"
   source = {
     config = {
-      entity_ref = {
-        entity_id     = "...my_entity_id..."
-        entity_schema = "submission"
-      }
       journey_ref = {
         journey_id = "...my_journey_id..."
       }
@@ -43,22 +39,7 @@ resource "epilot-entitymapping_entity_mapping" "my_entitymapping" {
       }
       mapping_attributes = [
         {
-          any = "{ \"see\": \"documentation\" }"
           mapping_attribute = {
-            append_value_mapper = {
-              mode   = "copy_if_exists"
-              source = "...my_source..."
-              target = "...my_target..."
-              target_unique = [
-                "..."
-              ]
-              value_json = "...my_value_json..."
-            }
-            copy_value_mapper = {
-              mode   = "copy_if_exists"
-              source = "...my_source..."
-              target = "...my_target..."
-            }
             set_value_mapper = {
               mode   = "set_value"
               target = "...my_target..."
@@ -184,9 +165,9 @@ Optional:
 
 Optional:
 
-- `append_value_mapper` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper))
-- `copy_value_mapper` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--copy_value_mapper))
-- `set_value_mapper` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--set_value_mapper))
+- `append_value_mapper` (Attributes, Deprecated) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper))
+- `copy_value_mapper` (Attributes, Deprecated) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--copy_value_mapper))
+- `set_value_mapper` (Attributes, Deprecated) Requires replacement if changed. (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--set_value_mapper))
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper"></a>
 ### Nested Schema for `targets.mapping_attributes.mapping_attribute.append_value_mapper`
@@ -249,6 +230,17 @@ Optional:
 ## Import
 
 Import is supported using the following syntax:
+
+In Terraform v1.5.0 and later, the [`import` block](https://developer.hashicorp.com/terraform/language/import) can be used with the `id` attribute, for example:
+
+```terraform
+import {
+  to = epilot-entitymapping_entity_mapping.my_epilot-entitymapping_entity_mapping
+  id = "70542580-2b38-4bfc-af8d-bb90102f9f47"
+}
+```
+
+The [`terraform import` command](https://developer.hashicorp.com/terraform/cli/commands/import) can be used, for example:
 
 ```shell
 terraform import epilot-entitymapping_entity_mapping.my_epilot-entitymapping_entity_mapping "70542580-2b38-4bfc-af8d-bb90102f9f47"

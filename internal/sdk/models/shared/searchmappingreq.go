@@ -6,9 +6,9 @@ type SearchMappingReq struct {
 	Source *SourceConfig `json:"source,omitempty"`
 }
 
-func (o *SearchMappingReq) GetSource() *SourceConfig {
-	if o == nil {
+func (s *SearchMappingReq) GetSource() *SourceConfig {
+	if s == nil {
 		return nil
 	}
-	return o.Source
+	return s.Source
 }

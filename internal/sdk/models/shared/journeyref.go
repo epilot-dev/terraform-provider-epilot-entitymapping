@@ -2,13 +2,28 @@
 
 package shared
 
+import (
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/internal/utils"
+)
+
 type JourneyRef struct {
 	JourneyID *string `json:"journey_id,omitempty"`
 }
 
-func (o *JourneyRef) GetJourneyID() *string {
-	if o == nil {
+func (j JourneyRef) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(j, "", false)
+}
+
+func (j *JourneyRef) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &j, "", false, nil); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (j *JourneyRef) GetJourneyID() *string {
+	if j == nil {
 		return nil
 	}
-	return o.JourneyID
+	return j.JourneyID
 }

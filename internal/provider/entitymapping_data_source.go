@@ -7,7 +7,7 @@ import (
 	"fmt"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/models/operations"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -24,6 +24,7 @@ func NewEntityMappingDataSource() datasource.DataSource {
 
 // EntityMappingDataSource is the data source implementation.
 type EntityMappingDataSource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
@@ -93,10 +94,12 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 							Description: `Pass it as true, when you don't want failures to interrupt the mapping process.`,
 						},
 						"condition_mode": schema.StringAttribute{
+							CustomType:  jsontypes.NormalizedType{},
 							Computed:    true,
 							Description: `Parsed as JSON.`,
 						},
 						"conditions": schema.StringAttribute{
+							CustomType:  jsontypes.NormalizedType{},
 							Computed:    true,
 							Description: `Parsed as JSON.`,
 						},
@@ -116,7 +119,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 						"loop_config": schema.SingleNestedAttribute{
 							Computed: true,
 							Attributes: map[string]schema.Attribute{
-								"length": schema.NumberAttribute{
+								"length": schema.Float64Attribute{
 									Computed:    true,
 									Description: `a hard limit of how many times the loop is allowed to run.`,
 								},
@@ -132,6 +135,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"any": schema.StringAttribute{
+										CustomType:  jsontypes.NormalizedType{},
 										Computed:    true,
 										Description: `Parsed as JSON.`,
 									},
@@ -163,6 +167,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 														Description: `To be provided only when mapping json objects into a target attribute. Eg array of addresses.`,
 													},
 												},
+												DeprecationMessage: `This will be removed in a future release, please migrate away from it as soon as possible`,
 											},
 											"copy_value_mapper": schema.SingleNestedAttribute{
 												Computed: true,
@@ -180,6 +185,7 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 														Description: `JSON like target path for the attribute. Eg. last_name`,
 													},
 												},
+												DeprecationMessage: `This will be removed in a future release, please migrate away from it as soon as possible`,
 											},
 											"set_value_mapper": schema.SingleNestedAttribute{
 												Computed: true,
@@ -193,10 +199,12 @@ func (r *EntityMappingDataSource) Schema(ctx context.Context, req datasource.Sch
 														Description: `JSON like target path for the attribute. Eg. last_name`,
 													},
 													"value": schema.StringAttribute{
+														CustomType:  jsontypes.NormalizedType{},
 														Computed:    true,
 														Description: `Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any. Parsed as JSON.`,
 													},
 												},
+												DeprecationMessage: `This will be removed in a future release, please migrate away from it as soon as possible`,
 											},
 										},
 									},
@@ -323,13 +331,13 @@ func (r *EntityMappingDataSource) Read(ctx context.Context, req datasource.ReadR
 		return
 	}
 
-	var id string
-	id = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetMappingConfigRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.GetMappingConfigRequest{
-		ID: id,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Mappings.GetMappingConfig(ctx, request)
+	res, err := r.client.Mappings.GetMappingConfig(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -341,10 +349,6 @@ func (r *EntityMappingDataSource) Read(ctx context.Context, req datasource.ReadR
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
-	if res.StatusCode == 404 {
-		resp.State.RemoveResource(ctx)
-		return
-	}
 	if res.StatusCode != 200 {
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
@@ -353,7 +357,11 @@ func (r *EntityMappingDataSource) Read(ctx context.Context, req datasource.ReadR
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedMappingConfigV2(res.MappingConfigV2)
+	resp.Diagnostics.Append(data.RefreshFromSharedMappingConfigV2(ctx, res.MappingConfigV2)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

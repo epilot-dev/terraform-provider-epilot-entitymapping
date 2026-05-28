@@ -6,9 +6,9 @@ type MappingConfigsResp struct {
 	Configs []MappingConfig `json:"configs"`
 }
 
-func (o *MappingConfigsResp) GetConfigs() []MappingConfig {
-	if o == nil {
+func (m *MappingConfigsResp) GetConfigs() []MappingConfig {
+	if m == nil {
 		return []MappingConfig{}
 	}
-	return o.Configs
+	return m.Configs
 }

@@ -7,16 +7,16 @@ type RelationItem struct {
 	EntityID  string `json:"entity_id"`
 }
 
-func (o *RelationItem) GetAttribute() string {
-	if o == nil {
+func (r *RelationItem) GetAttribute() string {
+	if r == nil {
 		return ""
 	}
-	return o.Attribute
+	return r.Attribute
 }
 
-func (o *RelationItem) GetEntityID() string {
-	if o == nil {
+func (r *RelationItem) GetEntityID() string {
+	if r == nil {
 		return ""
 	}
-	return o.EntityID
+	return r.EntityID
 }

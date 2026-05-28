@@ -6,18 +6,17 @@ import (
 	"context"
 	"fmt"
 	speakeasy_boolplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/boolplanmodifier"
+	speakeasy_float64planmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/float64planmodifier"
 	speakeasy_int64planmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/int64planmodifier"
 	speakeasy_listplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/listplanmodifier"
-	speakeasy_numberplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/numberplanmodifier"
 	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/objectplanmodifier"
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/models/operations"
-	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/validators"
 	speakeasy_listvalidators "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/validators/listvalidators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/validators/objectvalidators"
 	speakeasy_stringvalidators "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/validators/stringvalidators"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/objectvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -25,9 +24,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/numberplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
@@ -47,6 +46,7 @@ func NewEntityMappingResource() resource.Resource {
 
 // EntityMappingResource defines the resource implementation.
 type EntityMappingResource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
@@ -90,11 +90,10 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 						},
 						Attributes: map[string]schema.Attribute{
 							"entity_ref": schema.SingleNestedAttribute{
-								Computed: true,
 								Optional: true,
 								PlanModifiers: []planmodifier.Object{
 									objectplanmodifier.RequiresReplaceIfConfigured(),
-									speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+									speakeasy_objectplanmodifier.UseConfigValue(),
 								},
 								Attributes: map[string]schema.Attribute{
 									"entity_id": schema.StringAttribute{
@@ -102,7 +101,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 										Optional: true,
 										PlanModifiers: []planmodifier.String{
 											stringplanmodifier.RequiresReplaceIfConfigured(),
-											speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 										},
 										Description: `id of the source entity to be mapped. Not Null; Requires replacement if changed.`,
 										Validators: []validator.String{
@@ -114,7 +112,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 										Optional: true,
 										PlanModifiers: []planmodifier.String{
 											stringplanmodifier.RequiresReplaceIfConfigured(),
-											speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 										},
 										Description: `schema of the source entity. Requires replacement if changed.`,
 									},
@@ -127,11 +124,10 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 								},
 							},
 							"journey_ref": schema.SingleNestedAttribute{
-								Computed: true,
 								Optional: true,
 								PlanModifiers: []planmodifier.Object{
 									objectplanmodifier.RequiresReplaceIfConfigured(),
-									speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+									speakeasy_objectplanmodifier.UseConfigValue(),
 								},
 								Attributes: map[string]schema.Attribute{
 									"journey_id": schema.StringAttribute{
@@ -139,7 +135,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 										Optional: true,
 										PlanModifiers: []planmodifier.String{
 											stringplanmodifier.RequiresReplaceIfConfigured(),
-											speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 										},
 										Description: `Requires replacement if changed.`,
 									},
@@ -197,28 +192,24 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 							Description: `Pass it as true, when you don't want failures to interrupt the mapping process. Requires replacement if changed.`,
 						},
 						"condition_mode": schema.StringAttribute{
-							Computed: true,
-							Optional: true,
+							CustomType: jsontypes.NormalizedType{},
+							Computed:   true,
+							Optional:   true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.RequiresReplaceIfConfigured(),
 								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 							},
 							Description: `Requires replacement if changed.; Parsed as JSON.`,
-							Validators: []validator.String{
-								validators.IsValidJSON(),
-							},
 						},
 						"conditions": schema.StringAttribute{
-							Computed: true,
-							Optional: true,
+							CustomType: jsontypes.NormalizedType{},
+							Computed:   true,
+							Optional:   true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.RequiresReplaceIfConfigured(),
 								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 							},
 							Description: `Requires replacement if changed.; Parsed as JSON.`,
-							Validators: []validator.String{
-								validators.IsValidJSON(),
-							},
 						},
 						"id": schema.StringAttribute{
 							Computed: true,
@@ -232,7 +223,7 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 						"linkback_relation_attribute": schema.StringAttribute{
 							Computed: true,
 							Optional: true,
-							Default:  stringdefault.StaticString("mapped_entities"),
+							Default:  stringdefault.StaticString(`mapped_entities`),
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.RequiresReplaceIfConfigured(),
 								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
@@ -257,12 +248,12 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 								speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
 							},
 							Attributes: map[string]schema.Attribute{
-								"length": schema.NumberAttribute{
+								"length": schema.Float64Attribute{
 									Computed: true,
 									Optional: true,
-									PlanModifiers: []planmodifier.Number{
-										numberplanmodifier.RequiresReplaceIfConfigured(),
-										speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+									PlanModifiers: []planmodifier.Float64{
+										float64planmodifier.RequiresReplaceIfConfigured(),
+										speakeasy_float64planmodifier.SuppressDiff(speakeasy_float64planmodifier.ExplicitSuppress),
 									},
 									Description: `a hard limit of how many times the loop is allowed to run. Requires replacement if changed.`,
 								},
@@ -295,34 +286,31 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 								},
 								Attributes: map[string]schema.Attribute{
 									"any": schema.StringAttribute{
-										Computed: true,
-										Optional: true,
+										CustomType: jsontypes.NormalizedType{},
+										Optional:   true,
 										PlanModifiers: []planmodifier.String{
 											stringplanmodifier.RequiresReplaceIfConfigured(),
-											speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+											speakeasy_stringplanmodifier.UseConfigValue(),
 										},
 										Description: `Requires replacement if changed.; Parsed as JSON.`,
 										Validators: []validator.String{
 											stringvalidator.ConflictsWith(path.Expressions{
 												path.MatchRelative().AtParent().AtName("mapping_attribute"),
 											}...),
-											validators.IsValidJSON(),
 										},
 									},
 									"mapping_attribute": schema.SingleNestedAttribute{
-										Computed: true,
 										Optional: true,
 										PlanModifiers: []planmodifier.Object{
 											objectplanmodifier.RequiresReplaceIfConfigured(),
-											speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+											speakeasy_objectplanmodifier.UseConfigValue(),
 										},
 										Attributes: map[string]schema.Attribute{
 											"append_value_mapper": schema.SingleNestedAttribute{
-												Computed: true,
 												Optional: true,
 												PlanModifiers: []planmodifier.Object{
 													objectplanmodifier.RequiresReplaceIfConfigured(),
-													speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+													speakeasy_objectplanmodifier.UseConfigValue(),
 												},
 												Attributes: map[string]schema.Attribute{
 													"mode": schema.StringAttribute{
@@ -330,7 +318,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property. Not Null; must be one of ["copy_if_exists", "append_if_exists", "set_value"]; Requires replacement if changed.`,
 														Validators: []validator.String{
@@ -347,7 +334,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `JSON source path for the value to be extracted from the main entity. Eg: steps[1].['Product Info'].price. Requires replacement if changed.`,
 													},
@@ -356,7 +342,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `JSON like target path for the attribute. Eg. last_name. Not Null; Requires replacement if changed.`,
 														Validators: []validator.String{
@@ -368,7 +353,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.List{
 															listplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
 														},
 														ElementType: types.StringType,
 														Description: `Array of keys which should be used when checking for uniqueness. Eg: [country, city, postal_code]. Requires replacement if changed.`,
@@ -378,7 +362,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `To be provided only when mapping json objects into a target attribute. Eg array of addresses. Not Null; Requires replacement if changed.`,
 														Validators: []validator.String{
@@ -386,7 +369,8 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														},
 													},
 												},
-												Description: `Requires replacement if changed.`,
+												DeprecationMessage: `This will be removed in a future release, please migrate away from it as soon as possible`,
+												Description:        `Requires replacement if changed.`,
 												Validators: []validator.Object{
 													objectvalidator.ConflictsWith(path.Expressions{
 														path.MatchRelative().AtParent().AtName("copy_value_mapper"),
@@ -395,11 +379,10 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 												},
 											},
 											"copy_value_mapper": schema.SingleNestedAttribute{
-												Computed: true,
 												Optional: true,
 												PlanModifiers: []planmodifier.Object{
 													objectplanmodifier.RequiresReplaceIfConfigured(),
-													speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+													speakeasy_objectplanmodifier.UseConfigValue(),
 												},
 												Attributes: map[string]schema.Attribute{
 													"mode": schema.StringAttribute{
@@ -407,7 +390,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property. Not Null; must be one of ["copy_if_exists", "append_if_exists", "set_value"]; Requires replacement if changed.`,
 														Validators: []validator.String{
@@ -424,7 +406,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `JSON source path for the value to be extracted from the main entity. Eg: steps[1].['Product Info'].price. Not Null; Requires replacement if changed.`,
 														Validators: []validator.String{
@@ -436,7 +417,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `JSON like target path for the attribute. Eg. last_name. Not Null; Requires replacement if changed.`,
 														Validators: []validator.String{
@@ -444,7 +424,8 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														},
 													},
 												},
-												Description: `Requires replacement if changed.`,
+												DeprecationMessage: `This will be removed in a future release, please migrate away from it as soon as possible`,
+												Description:        `Requires replacement if changed.`,
 												Validators: []validator.Object{
 													objectvalidator.ConflictsWith(path.Expressions{
 														path.MatchRelative().AtParent().AtName("append_value_mapper"),
@@ -453,11 +434,10 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 												},
 											},
 											"set_value_mapper": schema.SingleNestedAttribute{
-												Computed: true,
 												Optional: true,
 												PlanModifiers: []planmodifier.Object{
 													objectplanmodifier.RequiresReplaceIfConfigured(),
-													speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+													speakeasy_objectplanmodifier.UseConfigValue(),
 												},
 												Attributes: map[string]schema.Attribute{
 													"mode": schema.StringAttribute{
@@ -465,7 +445,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `- copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property. Not Null; must be one of ["copy_if_exists", "append_if_exists", "set_value"]; Requires replacement if changed.`,
 														Validators: []validator.String{
@@ -482,7 +461,6 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														Optional: true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `JSON like target path for the attribute. Eg. last_name. Not Null; Requires replacement if changed.`,
 														Validators: []validator.String{
@@ -490,20 +468,20 @@ func (r *EntityMappingResource) Schema(ctx context.Context, req resource.SchemaR
 														},
 													},
 													"value": schema.StringAttribute{
-														Computed: true,
-														Optional: true,
+														CustomType: jsontypes.NormalizedType{},
+														Computed:   true,
+														Optional:   true,
 														PlanModifiers: []planmodifier.String{
 															stringplanmodifier.RequiresReplaceIfConfigured(),
-															speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 														},
 														Description: `Any value to be set: string, number, string[], number[], JSON object, etc. It will override existing values, if any. Not Null; Requires replacement if changed.; Parsed as JSON.`,
 														Validators: []validator.String{
 															speakeasy_stringvalidators.NotNull(),
-															validators.IsValidJSON(),
 														},
 													},
 												},
-												Description: `Requires replacement if changed.`,
+												DeprecationMessage: `This will be removed in a future release, please migrate away from it as soon as possible`,
+												Description:        `Requires replacement if changed.`,
 												Validators: []validator.Object{
 													objectvalidator.ConflictsWith(path.Expressions{
 														path.MatchRelative().AtParent().AtName("append_value_mapper"),
@@ -757,15 +735,13 @@ func (r *EntityMappingResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	mappingConfigV2 := data.ToSharedMappingConfigV2Input()
-	var id string
-	id = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsPutMappingConfigRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.PutMappingConfigRequest{
-		MappingConfigV2: mappingConfigV2,
-		ID:              id,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Mappings.PutMappingConfig(ctx, request)
+	res, err := r.client.Mappings.PutMappingConfig(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -785,8 +761,17 @@ func (r *EntityMappingResource) Create(ctx context.Context, req resource.CreateR
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedMappingConfigV2(res.MappingConfigV2)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromSharedMappingConfigV2(ctx, res.MappingConfigV2)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -810,13 +795,13 @@ func (r *EntityMappingResource) Read(ctx context.Context, req resource.ReadReque
 		return
 	}
 
-	var id string
-	id = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetMappingConfigRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.GetMappingConfigRequest{
-		ID: id,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Mappings.GetMappingConfig(ctx, request)
+	res, err := r.client.Mappings.GetMappingConfig(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -840,7 +825,11 @@ func (r *EntityMappingResource) Read(ctx context.Context, req resource.ReadReque
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedMappingConfigV2(res.MappingConfigV2)
+	resp.Diagnostics.Append(data.RefreshFromSharedMappingConfigV2(ctx, res.MappingConfigV2)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

@@ -2,19 +2,22 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type TargetConfig struct {
-	AllowFailure              types.Bool          `tfsdk:"allow_failure"`
-	ConditionMode             types.String        `tfsdk:"condition_mode"`
-	Conditions                types.String        `tfsdk:"conditions"`
-	ID                        types.String        `tfsdk:"id"`
-	LinkbackRelationAttribute types.String        `tfsdk:"linkback_relation_attribute"`
-	LinkbackRelationTags      []types.String      `tfsdk:"linkback_relation_tags"`
-	LoopConfig                *LoopConfig         `tfsdk:"loop_config"`
-	MappingAttributes         []MappingAttributes `tfsdk:"mapping_attributes"`
-	Name                      types.String        `tfsdk:"name"`
-	RelationAttributes        []RelationAttribute `tfsdk:"relation_attributes"`
-	TargetSchema              types.String        `tfsdk:"target_schema"`
-	TargetUnique              []types.String      `tfsdk:"target_unique"`
+	AllowFailure              types.Bool           `tfsdk:"allow_failure"`
+	ConditionMode             jsontypes.Normalized `tfsdk:"condition_mode"`
+	Conditions                jsontypes.Normalized `tfsdk:"conditions"`
+	ID                        types.String         `tfsdk:"id"`
+	LinkbackRelationAttribute types.String         `tfsdk:"linkback_relation_attribute"`
+	LinkbackRelationTags      []types.String       `tfsdk:"linkback_relation_tags"`
+	LoopConfig                *LoopConfig          `tfsdk:"loop_config"`
+	MappingAttributes         []MappingAttributes  `tfsdk:"mapping_attributes"`
+	Name                      types.String         `tfsdk:"name"`
+	RelationAttributes        []RelationAttribute  `tfsdk:"relation_attributes"`
+	TargetSchema              types.String         `tfsdk:"target_schema"`
+	TargetUnique              []types.String       `tfsdk:"target_unique"`
 }

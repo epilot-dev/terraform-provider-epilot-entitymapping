@@ -9,30 +9,30 @@ type NewRelationItem struct {
 	TargetEntityID string   `json:"target_entity_id"`
 }
 
-func (o *NewRelationItem) GetRelationAttr() string {
-	if o == nil {
+func (n *NewRelationItem) GetRelationAttr() string {
+	if n == nil {
 		return ""
 	}
-	return o.RelationAttr
+	return n.RelationAttr
 }
 
-func (o *NewRelationItem) GetSourceEntityID() string {
-	if o == nil {
+func (n *NewRelationItem) GetSourceEntityID() string {
+	if n == nil {
 		return ""
 	}
-	return o.SourceEntityID
+	return n.SourceEntityID
 }
 
-func (o *NewRelationItem) GetTags() []string {
-	if o == nil {
+func (n *NewRelationItem) GetTags() []string {
+	if n == nil {
 		return nil
 	}
-	return o.Tags
+	return n.Tags
 }
 
-func (o *NewRelationItem) GetTargetEntityID() string {
-	if o == nil {
+func (n *NewRelationItem) GetTargetEntityID() string {
+	if n == nil {
 		return ""
 	}
-	return o.TargetEntityID
+	return n.TargetEntityID
 }

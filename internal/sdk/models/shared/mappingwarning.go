@@ -8,23 +8,23 @@ type MappingWarning struct {
 	ID          *string `json:"id,omitempty"`
 }
 
-func (o *MappingWarning) GetContext() *string {
-	if o == nil {
+func (m *MappingWarning) GetContext() *string {
+	if m == nil {
 		return nil
 	}
-	return o.Context
+	return m.Context
 }
 
-func (o *MappingWarning) GetExplanation() string {
-	if o == nil {
+func (m *MappingWarning) GetExplanation() string {
+	if m == nil {
 		return ""
 	}
-	return o.Explanation
+	return m.Explanation
 }
 
-func (o *MappingWarning) GetID() *string {
-	if o == nil {
+func (m *MappingWarning) GetID() *string {
+	if m == nil {
 		return nil
 	}
-	return o.ID
+	return m.ID
 }

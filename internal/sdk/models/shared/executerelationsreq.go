@@ -20,24 +20,24 @@ func (l Linkback) MarshalJSON() ([]byte, error) {
 }
 
 func (l *Linkback) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &l, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &l, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *Linkback) GetAttribute() *string {
-	if o == nil {
+func (l *Linkback) GetAttribute() *string {
+	if l == nil {
 		return nil
 	}
-	return o.Attribute
+	return l.Attribute
 }
 
-func (o *Linkback) GetRelationTags() []string {
-	if o == nil {
+func (l *Linkback) GetRelationTags() []string {
+	if l == nil {
 		return []string{}
 	}
-	return o.RelationTags
+	return l.RelationTags
 }
 
 type Target struct {
@@ -48,25 +48,25 @@ type Target struct {
 	RelationAttributes []RelationAttribute `json:"relation_attributes"`
 }
 
-func (o *Target) GetLinkback() *Linkback {
-	if o == nil {
+func (t *Target) GetLinkback() *Linkback {
+	if t == nil {
 		return nil
 	}
-	return o.Linkback
+	return t.Linkback
 }
 
-func (o *Target) GetMainEntityRef() EntityRef {
-	if o == nil {
+func (t *Target) GetMainEntityRef() EntityRef {
+	if t == nil {
 		return EntityRef{}
 	}
-	return o.MainEntityRef
+	return t.MainEntityRef
 }
 
-func (o *Target) GetRelationAttributes() []RelationAttribute {
-	if o == nil {
+func (t *Target) GetRelationAttributes() []RelationAttribute {
+	if t == nil {
 		return []RelationAttribute{}
 	}
-	return o.RelationAttributes
+	return t.RelationAttributes
 }
 
 // ExecuteRelationsReq - Build relations between a source entity and one or more target entities, dynamically identified
@@ -76,23 +76,23 @@ type ExecuteRelationsReq struct {
 	Target              *Target        `json:"target,omitempty"`
 }
 
-func (o *ExecuteRelationsReq) GetAdditionalRelations() []RelationItem {
-	if o == nil {
+func (e *ExecuteRelationsReq) GetAdditionalRelations() []RelationItem {
+	if e == nil {
 		return nil
 	}
-	return o.AdditionalRelations
+	return e.AdditionalRelations
 }
 
-func (o *ExecuteRelationsReq) GetSourceRef() EntityRef {
-	if o == nil {
+func (e *ExecuteRelationsReq) GetSourceRef() EntityRef {
+	if e == nil {
 		return EntityRef{}
 	}
-	return o.SourceRef
+	return e.SourceRef
 }
 
-func (o *ExecuteRelationsReq) GetTarget() *Target {
-	if o == nil {
+func (e *ExecuteRelationsReq) GetTarget() *Target {
+	if e == nil {
 		return nil
 	}
-	return o.Target
+	return e.Target
 }

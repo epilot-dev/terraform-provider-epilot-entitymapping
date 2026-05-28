@@ -14,18 +14,18 @@ type PutMappingConfigRequest struct {
 	ID string `pathParam:"style=simple,explode=false,name=id"`
 }
 
-func (o *PutMappingConfigRequest) GetMappingConfigV2() *shared.MappingConfigV2Input {
-	if o == nil {
+func (p *PutMappingConfigRequest) GetMappingConfigV2() *shared.MappingConfigV2Input {
+	if p == nil {
 		return nil
 	}
-	return o.MappingConfigV2
+	return p.MappingConfigV2
 }
 
-func (o *PutMappingConfigRequest) GetID() string {
-	if o == nil {
+func (p *PutMappingConfigRequest) GetID() string {
+	if p == nil {
 		return ""
 	}
-	return o.ID
+	return p.ID
 }
 
 type PutMappingConfigResponse struct {
@@ -39,30 +39,30 @@ type PutMappingConfigResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *PutMappingConfigResponse) GetContentType() string {
-	if o == nil {
+func (p *PutMappingConfigResponse) GetContentType() string {
+	if p == nil {
 		return ""
 	}
-	return o.ContentType
+	return p.ContentType
 }
 
-func (o *PutMappingConfigResponse) GetMappingConfigV2() *shared.MappingConfigV2 {
-	if o == nil {
+func (p *PutMappingConfigResponse) GetMappingConfigV2() *shared.MappingConfigV2 {
+	if p == nil {
 		return nil
 	}
-	return o.MappingConfigV2
+	return p.MappingConfigV2
 }
 
-func (o *PutMappingConfigResponse) GetStatusCode() int {
-	if o == nil {
+func (p *PutMappingConfigResponse) GetStatusCode() int {
+	if p == nil {
 		return 0
 	}
-	return o.StatusCode
+	return p.StatusCode
 }
 
-func (o *PutMappingConfigResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (p *PutMappingConfigResponse) GetRawResponse() *http.Response {
+	if p == nil {
 		return nil
 	}
-	return o.RawResponse
+	return p.RawResponse
 }

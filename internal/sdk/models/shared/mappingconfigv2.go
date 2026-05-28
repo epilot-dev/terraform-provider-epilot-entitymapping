@@ -9,30 +9,30 @@ type MappingConfigV2 struct {
 	Version *int64         `json:"version,omitempty"`
 }
 
-func (o *MappingConfigV2) GetID() string {
-	if o == nil {
+func (m *MappingConfigV2) GetID() string {
+	if m == nil {
 		return ""
 	}
-	return o.ID
+	return m.ID
 }
 
-func (o *MappingConfigV2) GetSource() SourceConfig {
-	if o == nil {
+func (m *MappingConfigV2) GetSource() SourceConfig {
+	if m == nil {
 		return SourceConfig{}
 	}
-	return o.Source
+	return m.Source
 }
 
-func (o *MappingConfigV2) GetTargets() []TargetConfig {
-	if o == nil {
+func (m *MappingConfigV2) GetTargets() []TargetConfig {
+	if m == nil {
 		return []TargetConfig{}
 	}
-	return o.Targets
+	return m.Targets
 }
 
-func (o *MappingConfigV2) GetVersion() *int64 {
-	if o == nil {
+func (m *MappingConfigV2) GetVersion() *int64 {
+	if m == nil {
 		return nil
 	}
-	return o.Version
+	return m.Version
 }

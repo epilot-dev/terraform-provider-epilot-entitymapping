@@ -2,6 +2,10 @@
 
 package shared
 
+import (
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/internal/utils"
+)
+
 type EntityRef struct {
 	// id of the source entity to be mapped
 	EntityID string `json:"entity_id"`
@@ -9,16 +13,27 @@ type EntityRef struct {
 	EntitySchema *string `json:"entity_schema,omitempty"`
 }
 
-func (o *EntityRef) GetEntityID() string {
-	if o == nil {
-		return ""
-	}
-	return o.EntityID
+func (e EntityRef) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(e, "", false)
 }
 
-func (o *EntityRef) GetEntitySchema() *string {
-	if o == nil {
+func (e *EntityRef) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &e, "", false, nil); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (e *EntityRef) GetEntityID() string {
+	if e == nil {
+		return ""
+	}
+	return e.EntityID
+}
+
+func (e *EntityRef) GetEntitySchema() *string {
+	if e == nil {
 		return nil
 	}
-	return o.EntitySchema
+	return e.EntitySchema
 }

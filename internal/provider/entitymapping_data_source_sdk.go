@@ -3,19 +3,22 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/provider/types"
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/models/shared"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"math/big"
 )
 
-func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfigV2(resp *shared.MappingConfigV2) {
+func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfigV2(ctx context.Context, resp *shared.MappingConfigV2) diag.Diagnostics {
+	var diags diag.Diagnostics
+
 	if resp != nil {
 		r.ID = types.StringValue(resp.ID)
-		if resp.Source.Config == nil {
-			r.Source.Config = nil
-		} else {
+		if resp.Source.Config != nil {
 			r.Source.Config = &tfTypes.Config{}
 			if resp.Source.Config.EntityRef != nil {
 				r.Source.Config.EntityRef = &tfTypes.EntityRef{}
@@ -33,142 +36,130 @@ func (r *EntityMappingDataSourceModel) RefreshFromSharedMappingConfigV2(resp *sh
 			r.Source.Type = types.StringNull()
 		}
 		r.Targets = []tfTypes.TargetConfig{}
-		if len(r.Targets) > len(resp.Targets) {
-			r.Targets = r.Targets[:len(resp.Targets)]
-		}
-		for targetsCount, targetsItem := range resp.Targets {
-			var targets1 tfTypes.TargetConfig
-			targets1.AllowFailure = types.BoolPointerValue(targetsItem.AllowFailure)
+
+		for _, targetsItem := range resp.Targets {
+			var targets tfTypes.TargetConfig
+
+			targets.AllowFailure = types.BoolPointerValue(targetsItem.AllowFailure)
 			if targetsItem.ConditionMode == nil {
-				targets1.ConditionMode = types.StringNull()
+				targets.ConditionMode = jsontypes.NewNormalizedNull()
 			} else {
 				conditionModeResult, _ := json.Marshal(targetsItem.ConditionMode)
-				targets1.ConditionMode = types.StringValue(string(conditionModeResult))
+				targets.ConditionMode = jsontypes.NewNormalizedValue(string(conditionModeResult))
 			}
 			if targetsItem.Conditions == nil {
-				targets1.Conditions = types.StringNull()
+				targets.Conditions = jsontypes.NewNormalizedNull()
 			} else {
 				conditionsResult, _ := json.Marshal(targetsItem.Conditions)
-				targets1.Conditions = types.StringValue(string(conditionsResult))
+				targets.Conditions = jsontypes.NewNormalizedValue(string(conditionsResult))
 			}
-			targets1.ID = types.StringPointerValue(targetsItem.ID)
-			targets1.LinkbackRelationAttribute = types.StringPointerValue(targetsItem.LinkbackRelationAttribute)
-			targets1.LinkbackRelationTags = []types.String{}
+			targets.ID = types.StringPointerValue(targetsItem.ID)
+			targets.LinkbackRelationAttribute = types.StringPointerValue(targetsItem.LinkbackRelationAttribute)
+			targets.LinkbackRelationTags = make([]types.String, 0, len(targetsItem.LinkbackRelationTags))
 			for _, v := range targetsItem.LinkbackRelationTags {
-				targets1.LinkbackRelationTags = append(targets1.LinkbackRelationTags, types.StringValue(v))
+				targets.LinkbackRelationTags = append(targets.LinkbackRelationTags, types.StringValue(v))
 			}
 			if targetsItem.LoopConfig == nil {
-				targets1.LoopConfig = nil
+				targets.LoopConfig = nil
 			} else {
-				targets1.LoopConfig = &tfTypes.LoopConfig{}
-				if targetsItem.LoopConfig.Length != nil {
-					targets1.LoopConfig.Length = types.NumberValue(big.NewFloat(float64(*targetsItem.LoopConfig.Length)))
-				} else {
-					targets1.LoopConfig.Length = types.NumberNull()
-				}
-				targets1.LoopConfig.SourcePath = types.StringPointerValue(targetsItem.LoopConfig.SourcePath)
+				targets.LoopConfig = &tfTypes.LoopConfig{}
+				targets.LoopConfig.Length = types.Float64PointerValue(targetsItem.LoopConfig.Length)
+				targets.LoopConfig.SourcePath = types.StringPointerValue(targetsItem.LoopConfig.SourcePath)
 			}
-			targets1.MappingAttributes = []tfTypes.MappingAttributes{}
-			for mappingAttributesCount, mappingAttributesItem := range targetsItem.MappingAttributes {
-				var mappingAttributes1 tfTypes.MappingAttributes
+			targets.MappingAttributes = []tfTypes.MappingAttributes{}
+
+			for _, mappingAttributesItem := range targetsItem.MappingAttributes {
+				var mappingAttributes tfTypes.MappingAttributes
+
 				if mappingAttributesItem.Any != nil {
 					anyResult, _ := json.Marshal(mappingAttributesItem.Any)
-					mappingAttributes1.Any = types.StringValue(string(anyResult))
+					mappingAttributes.Any = jsontypes.NewNormalizedValue(string(anyResult))
 				}
 				if mappingAttributesItem.MappingAttribute != nil {
-					mappingAttributes1.MappingAttribute = &tfTypes.MappingAttribute{}
+					mappingAttributes.MappingAttribute = &tfTypes.MappingAttribute{}
 					if mappingAttributesItem.MappingAttribute.AppendValueMapper != nil {
-						mappingAttributes1.MappingAttribute.AppendValueMapper = &tfTypes.AppendValueMapper{}
-						mappingAttributes1.MappingAttribute.AppendValueMapper.Mode = types.StringValue(string(mappingAttributesItem.MappingAttribute.AppendValueMapper.Mode))
-						mappingAttributes1.MappingAttribute.AppendValueMapper.Source = types.StringPointerValue(mappingAttributesItem.MappingAttribute.AppendValueMapper.Source)
-						mappingAttributes1.MappingAttribute.AppendValueMapper.Target = types.StringValue(mappingAttributesItem.MappingAttribute.AppendValueMapper.Target)
-						mappingAttributes1.MappingAttribute.AppendValueMapper.TargetUnique = []types.String{}
+						mappingAttributes.MappingAttribute.AppendValueMapper = &tfTypes.AppendValueMapper{}
+						mappingAttributes.MappingAttribute.AppendValueMapper.Mode = types.StringValue(string(mappingAttributesItem.MappingAttribute.AppendValueMapper.Mode))
+						mappingAttributes.MappingAttribute.AppendValueMapper.Source = types.StringPointerValue(mappingAttributesItem.MappingAttribute.AppendValueMapper.Source)
+						mappingAttributes.MappingAttribute.AppendValueMapper.Target = types.StringValue(mappingAttributesItem.MappingAttribute.AppendValueMapper.Target)
+						mappingAttributes.MappingAttribute.AppendValueMapper.TargetUnique = make([]types.String, 0, len(mappingAttributesItem.MappingAttribute.AppendValueMapper.TargetUnique))
 						for _, v := range mappingAttributesItem.MappingAttribute.AppendValueMapper.TargetUnique {
-							mappingAttributes1.MappingAttribute.AppendValueMapper.TargetUnique = append(mappingAttributes1.MappingAttribute.AppendValueMapper.TargetUnique, types.StringValue(v))
+							mappingAttributes.MappingAttribute.AppendValueMapper.TargetUnique = append(mappingAttributes.MappingAttribute.AppendValueMapper.TargetUnique, types.StringValue(v))
 						}
-						mappingAttributes1.MappingAttribute.AppendValueMapper.ValueJSON = types.StringValue(mappingAttributesItem.MappingAttribute.AppendValueMapper.ValueJSON)
+						mappingAttributes.MappingAttribute.AppendValueMapper.ValueJSON = types.StringValue(mappingAttributesItem.MappingAttribute.AppendValueMapper.ValueJSON)
 					}
 					if mappingAttributesItem.MappingAttribute.CopyValueMapper != nil {
-						mappingAttributes1.MappingAttribute.CopyValueMapper = &tfTypes.CopyValueMapper{}
-						mappingAttributes1.MappingAttribute.CopyValueMapper.Mode = types.StringValue(string(mappingAttributesItem.MappingAttribute.CopyValueMapper.Mode))
-						mappingAttributes1.MappingAttribute.CopyValueMapper.Source = types.StringValue(mappingAttributesItem.MappingAttribute.CopyValueMapper.Source)
-						mappingAttributes1.MappingAttribute.CopyValueMapper.Target = types.StringValue(mappingAttributesItem.MappingAttribute.CopyValueMapper.Target)
+						mappingAttributes.MappingAttribute.CopyValueMapper = &tfTypes.CopyValueMapper{}
+						mappingAttributes.MappingAttribute.CopyValueMapper.Mode = types.StringValue(string(mappingAttributesItem.MappingAttribute.CopyValueMapper.Mode))
+						mappingAttributes.MappingAttribute.CopyValueMapper.Source = types.StringValue(mappingAttributesItem.MappingAttribute.CopyValueMapper.Source)
+						mappingAttributes.MappingAttribute.CopyValueMapper.Target = types.StringValue(mappingAttributesItem.MappingAttribute.CopyValueMapper.Target)
 					}
 					if mappingAttributesItem.MappingAttribute.SetValueMapper != nil {
-						mappingAttributes1.MappingAttribute.SetValueMapper = &tfTypes.SetValueMapper{}
-						mappingAttributes1.MappingAttribute.SetValueMapper.Mode = types.StringValue(string(mappingAttributesItem.MappingAttribute.SetValueMapper.Mode))
-						mappingAttributes1.MappingAttribute.SetValueMapper.Target = types.StringValue(mappingAttributesItem.MappingAttribute.SetValueMapper.Target)
+						mappingAttributes.MappingAttribute.SetValueMapper = &tfTypes.SetValueMapper{}
+						mappingAttributes.MappingAttribute.SetValueMapper.Mode = types.StringValue(string(mappingAttributesItem.MappingAttribute.SetValueMapper.Mode))
+						mappingAttributes.MappingAttribute.SetValueMapper.Target = types.StringValue(mappingAttributesItem.MappingAttribute.SetValueMapper.Target)
 						valueResult, _ := json.Marshal(mappingAttributesItem.MappingAttribute.SetValueMapper.Value)
-						mappingAttributes1.MappingAttribute.SetValueMapper.Value = types.StringValue(string(valueResult))
+						mappingAttributes.MappingAttribute.SetValueMapper.Value = jsontypes.NewNormalizedValue(string(valueResult))
 					}
 				}
-				if mappingAttributesCount+1 > len(targets1.MappingAttributes) {
-					targets1.MappingAttributes = append(targets1.MappingAttributes, mappingAttributes1)
-				} else {
-					targets1.MappingAttributes[mappingAttributesCount].Any = mappingAttributes1.Any
-					targets1.MappingAttributes[mappingAttributesCount].MappingAttribute = mappingAttributes1.MappingAttribute
-				}
+
+				targets.MappingAttributes = append(targets.MappingAttributes, mappingAttributes)
 			}
-			targets1.Name = types.StringPointerValue(targetsItem.Name)
-			targets1.RelationAttributes = []tfTypes.RelationAttribute{}
-			for relationAttributesCount, relationAttributesItem := range targetsItem.RelationAttributes {
-				var relationAttributes1 tfTypes.RelationAttribute
-				relationAttributes1.Mode = types.StringValue(string(relationAttributesItem.Mode))
+			targets.Name = types.StringPointerValue(targetsItem.Name)
+			targets.RelationAttributes = []tfTypes.RelationAttribute{}
+
+			for _, relationAttributesItem := range targetsItem.RelationAttributes {
+				var relationAttributes tfTypes.RelationAttribute
+
+				relationAttributes.Mode = types.StringValue(string(relationAttributesItem.Mode))
 				if relationAttributesItem.Origin != nil {
-					relationAttributes1.Origin = types.StringValue(string(*relationAttributesItem.Origin))
+					relationAttributes.Origin = types.StringValue(string(*relationAttributesItem.Origin))
 				} else {
-					relationAttributes1.Origin = types.StringNull()
+					relationAttributes.Origin = types.StringNull()
 				}
 				if relationAttributesItem.SourceFilter == nil {
-					relationAttributes1.SourceFilter = nil
+					relationAttributes.SourceFilter = nil
 				} else {
-					relationAttributes1.SourceFilter = &tfTypes.SourceFilter{}
-					relationAttributes1.SourceFilter.Attribute = types.StringPointerValue(relationAttributesItem.SourceFilter.Attribute)
-					relationAttributes1.SourceFilter.Limit = types.Int64PointerValue(relationAttributesItem.SourceFilter.Limit)
-					relationAttributes1.SourceFilter.RelationTag = types.StringPointerValue(relationAttributesItem.SourceFilter.RelationTag)
-					relationAttributes1.SourceFilter.Schema = types.StringPointerValue(relationAttributesItem.SourceFilter.Schema)
-					relationAttributes1.SourceFilter.Self = types.BoolPointerValue(relationAttributesItem.SourceFilter.Self)
-					relationAttributes1.SourceFilter.Tag = types.StringPointerValue(relationAttributesItem.SourceFilter.Tag)
+					relationAttributes.SourceFilter = &tfTypes.SourceFilter{}
+					relationAttributes.SourceFilter.Attribute = types.StringPointerValue(relationAttributesItem.SourceFilter.Attribute)
+					relationAttributes.SourceFilter.Limit = types.Int64PointerValue(relationAttributesItem.SourceFilter.Limit)
+					relationAttributes.SourceFilter.RelationTag = types.StringPointerValue(relationAttributesItem.SourceFilter.RelationTag)
+					relationAttributes.SourceFilter.Schema = types.StringPointerValue(relationAttributesItem.SourceFilter.Schema)
+					relationAttributes.SourceFilter.Self = types.BoolPointerValue(relationAttributesItem.SourceFilter.Self)
+					relationAttributes.SourceFilter.Tag = types.StringPointerValue(relationAttributesItem.SourceFilter.Tag)
 				}
-				relationAttributes1.Target = types.StringValue(relationAttributesItem.Target)
-				relationAttributes1.TargetTags = []types.String{}
+				relationAttributes.Target = types.StringValue(relationAttributesItem.Target)
+				relationAttributes.TargetTags = make([]types.String, 0, len(relationAttributesItem.TargetTags))
 				for _, v := range relationAttributesItem.TargetTags {
-					relationAttributes1.TargetTags = append(relationAttributes1.TargetTags, types.StringValue(v))
+					relationAttributes.TargetTags = append(relationAttributes.TargetTags, types.StringValue(v))
 				}
-				relationAttributes1.TargetTagsIncludeSource = types.BoolPointerValue(relationAttributesItem.TargetTagsIncludeSource)
-				if relationAttributesCount+1 > len(targets1.RelationAttributes) {
-					targets1.RelationAttributes = append(targets1.RelationAttributes, relationAttributes1)
-				} else {
-					targets1.RelationAttributes[relationAttributesCount].Mode = relationAttributes1.Mode
-					targets1.RelationAttributes[relationAttributesCount].Origin = relationAttributes1.Origin
-					targets1.RelationAttributes[relationAttributesCount].SourceFilter = relationAttributes1.SourceFilter
-					targets1.RelationAttributes[relationAttributesCount].Target = relationAttributes1.Target
-					targets1.RelationAttributes[relationAttributesCount].TargetTags = relationAttributes1.TargetTags
-					targets1.RelationAttributes[relationAttributesCount].TargetTagsIncludeSource = relationAttributes1.TargetTagsIncludeSource
-				}
+				relationAttributes.TargetTagsIncludeSource = types.BoolPointerValue(relationAttributesItem.TargetTagsIncludeSource)
+
+				targets.RelationAttributes = append(targets.RelationAttributes, relationAttributes)
 			}
-			targets1.TargetSchema = types.StringValue(targetsItem.TargetSchema)
-			targets1.TargetUnique = []types.String{}
+			targets.TargetSchema = types.StringValue(targetsItem.TargetSchema)
+			targets.TargetUnique = make([]types.String, 0, len(targetsItem.TargetUnique))
 			for _, v := range targetsItem.TargetUnique {
-				targets1.TargetUnique = append(targets1.TargetUnique, types.StringValue(v))
+				targets.TargetUnique = append(targets.TargetUnique, types.StringValue(v))
 			}
-			if targetsCount+1 > len(r.Targets) {
-				r.Targets = append(r.Targets, targets1)
-			} else {
-				r.Targets[targetsCount].AllowFailure = targets1.AllowFailure
-				r.Targets[targetsCount].ConditionMode = targets1.ConditionMode
-				r.Targets[targetsCount].Conditions = targets1.Conditions
-				r.Targets[targetsCount].ID = targets1.ID
-				r.Targets[targetsCount].LinkbackRelationAttribute = targets1.LinkbackRelationAttribute
-				r.Targets[targetsCount].LinkbackRelationTags = targets1.LinkbackRelationTags
-				r.Targets[targetsCount].LoopConfig = targets1.LoopConfig
-				r.Targets[targetsCount].MappingAttributes = targets1.MappingAttributes
-				r.Targets[targetsCount].Name = targets1.Name
-				r.Targets[targetsCount].RelationAttributes = targets1.RelationAttributes
-				r.Targets[targetsCount].TargetSchema = targets1.TargetSchema
-				r.Targets[targetsCount].TargetUnique = targets1.TargetUnique
-			}
+
+			r.Targets = append(r.Targets, targets)
 		}
 		r.Version = types.Int64PointerValue(resp.Version)
 	}
+
+	return diags
+}
+
+func (r *EntityMappingDataSourceModel) ToOperationsGetMappingConfigRequest(ctx context.Context) (*operations.GetMappingConfigRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var id string
+	id = r.ID.ValueString()
+
+	out := operations.GetMappingConfigRequest{
+		ID: id,
+	}
+
+	return &out, diags
 }

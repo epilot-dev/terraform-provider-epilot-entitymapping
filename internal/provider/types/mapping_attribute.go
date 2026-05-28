@@ -3,7 +3,7 @@
 package types
 
 type MappingAttribute struct {
-	AppendValueMapper *AppendValueMapper `tfsdk:"append_value_mapper" tfPlanOnly:"true"`
-	CopyValueMapper   *CopyValueMapper   `tfsdk:"copy_value_mapper" tfPlanOnly:"true"`
-	SetValueMapper    *SetValueMapper    `tfsdk:"set_value_mapper" tfPlanOnly:"true"`
+	AppendValueMapper *AppendValueMapper `queryParam:"inline" tfsdk:"append_value_mapper"`
+	CopyValueMapper   *CopyValueMapper   `queryParam:"inline" tfsdk:"copy_value_mapper"`
+	SetValueMapper    *SetValueMapper    `queryParam:"inline" tfsdk:"set_value_mapper"`
 }

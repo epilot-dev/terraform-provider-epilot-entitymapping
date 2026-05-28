@@ -640,7 +640,6 @@ components:
             length:
               type: number
               description: a hard limit of how many times the loop is allowed to run.
-              default: the length of the array
         conditionMode:
           description: Mode of how conditions are considered valid
           type: string

@@ -2,9 +2,13 @@
 
 package shared
 
+import (
+	"github.com/epilot-dev/terraform-provider-epilot-entitymapping/internal/sdk/internal/utils"
+)
+
 // CopyValueMapper
 //
-// Deprecated type: This will be removed in a future release, please migrate away from it as soon as possible.
+// Deprecated: This will be removed in a future release, please migrate away from it as soon as possible.
 type CopyValueMapper struct {
 	// - copy_if_exists - it replaces the target attribute with the source value - append_if_exists - it currently replaces target attribute with array like values. Useful when you have multiple values to be added into one attribute. - set_value - it sets a value to a predefined value. Must be used together with value property.
 	//
@@ -16,23 +20,34 @@ type CopyValueMapper struct {
 	Target string `json:"target"`
 }
 
-func (o *CopyValueMapper) GetMode() MappingAttributeMode {
-	if o == nil {
+func (c CopyValueMapper) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CopyValueMapper) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, nil); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (c *CopyValueMapper) GetMode() MappingAttributeMode {
+	if c == nil {
 		return MappingAttributeMode("")
 	}
-	return o.Mode
+	return c.Mode
 }
 
-func (o *CopyValueMapper) GetSource() string {
-	if o == nil {
+func (c *CopyValueMapper) GetSource() string {
+	if c == nil {
 		return ""
 	}
-	return o.Source
+	return c.Source
 }
 
-func (o *CopyValueMapper) GetTarget() string {
-	if o == nil {
+func (c *CopyValueMapper) GetTarget() string {
+	if c == nil {
 		return ""
 	}
-	return o.Target
+	return c.Target
 }

@@ -18,30 +18,30 @@ type ExecuteRelationsResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *ExecuteRelationsResponse) GetContentType() string {
-	if o == nil {
+func (e *ExecuteRelationsResponse) GetContentType() string {
+	if e == nil {
 		return ""
 	}
-	return o.ContentType
+	return e.ContentType
 }
 
-func (o *ExecuteRelationsResponse) GetExecuteRelationsResp() *shared.ExecuteRelationsResp {
-	if o == nil {
+func (e *ExecuteRelationsResponse) GetExecuteRelationsResp() *shared.ExecuteRelationsResp {
+	if e == nil {
 		return nil
 	}
-	return o.ExecuteRelationsResp
+	return e.ExecuteRelationsResp
 }
 
-func (o *ExecuteRelationsResponse) GetStatusCode() int {
-	if o == nil {
+func (e *ExecuteRelationsResponse) GetStatusCode() int {
+	if e == nil {
 		return 0
 	}
-	return o.StatusCode
+	return e.StatusCode
 }
 
-func (o *ExecuteRelationsResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (e *ExecuteRelationsResponse) GetRawResponse() *http.Response {
+	if e == nil {
 		return nil
 	}
-	return o.RawResponse
+	return e.RawResponse
 }

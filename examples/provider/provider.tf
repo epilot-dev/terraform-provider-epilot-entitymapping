@@ -2,11 +2,12 @@ terraform {
   required_providers {
     epilot-entitymapping = {
       source  = "epilot-dev/epilot-entitymapping"
-      version = "0.9.1"
+      version = "0.10.0"
     }
   }
 }
 
 provider "epilot-entitymapping" {
-  # Configuration options
+  epilot_auth = "<YOUR_EPILOT_AUTH>" # Required
+  server_url  = "..."                # Optional
 }

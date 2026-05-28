@@ -18,30 +18,30 @@ type SearchConfigsResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *SearchConfigsResponse) GetContentType() string {
-	if o == nil {
+func (s *SearchConfigsResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *SearchConfigsResponse) GetMappingConfig() *shared.MappingConfig {
-	if o == nil {
+func (s *SearchConfigsResponse) GetMappingConfig() *shared.MappingConfig {
+	if s == nil {
 		return nil
 	}
-	return o.MappingConfig
+	return s.MappingConfig
 }
 
-func (o *SearchConfigsResponse) GetStatusCode() int {
-	if o == nil {
+func (s *SearchConfigsResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *SearchConfigsResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *SearchConfigsResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

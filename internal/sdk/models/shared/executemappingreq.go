@@ -9,16 +9,16 @@ type ExecuteMappingReq struct {
 	Targets []TargetConfig `json:"targets"`
 }
 
-func (o *ExecuteMappingReq) GetSourceRef() EntityRef {
-	if o == nil {
+func (e *ExecuteMappingReq) GetSourceRef() EntityRef {
+	if e == nil {
 		return EntityRef{}
 	}
-	return o.SourceRef
+	return e.SourceRef
 }
 
-func (o *ExecuteMappingReq) GetTargets() []TargetConfig {
-	if o == nil {
+func (e *ExecuteMappingReq) GetTargets() []TargetConfig {
+	if e == nil {
 		return []TargetConfig{}
 	}
-	return o.Targets
+	return e.Targets
 }

@@ -6,9 +6,9 @@ type MappingHistoryResp struct {
 	Results []MappingHistoryEntry `json:"results"`
 }
 
-func (o *MappingHistoryResp) GetResults() []MappingHistoryEntry {
-	if o == nil {
+func (m *MappingHistoryResp) GetResults() []MappingHistoryEntry {
+	if m == nil {
 		return []MappingHistoryEntry{}
 	}
-	return o.Results
+	return m.Results
 }

@@ -8,23 +8,23 @@ type MappingConfigV2Input struct {
 	Targets []TargetConfig `json:"targets"`
 }
 
-func (o *MappingConfigV2Input) GetID() string {
-	if o == nil {
+func (m *MappingConfigV2Input) GetID() string {
+	if m == nil {
 		return ""
 	}
-	return o.ID
+	return m.ID
 }
 
-func (o *MappingConfigV2Input) GetSource() SourceConfig {
-	if o == nil {
+func (m *MappingConfigV2Input) GetSource() SourceConfig {
+	if m == nil {
 		return SourceConfig{}
 	}
-	return o.Source
+	return m.Source
 }
 
-func (o *MappingConfigV2Input) GetTargets() []TargetConfig {
-	if o == nil {
+func (m *MappingConfigV2Input) GetTargets() []TargetConfig {
+	if m == nil {
 		return []TargetConfig{}
 	}
-	return o.Targets
+	return m.Targets
 }

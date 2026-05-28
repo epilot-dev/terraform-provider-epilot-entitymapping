@@ -6,9 +6,9 @@ type ExecuteRelationsResp struct {
 	Relations []NewRelationItem `json:"relations,omitempty"`
 }
 
-func (o *ExecuteRelationsResp) GetRelations() []NewRelationItem {
-	if o == nil {
+func (e *ExecuteRelationsResp) GetRelations() []NewRelationItem {
+	if e == nil {
 		return nil
 	}
-	return o.Relations
+	return e.Relations
 }

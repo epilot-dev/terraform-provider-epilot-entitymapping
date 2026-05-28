@@ -3,6 +3,6 @@
 package types
 
 type Config struct {
-	EntityRef  *EntityRef  `tfsdk:"entity_ref" tfPlanOnly:"true"`
-	JourneyRef *JourneyRef `tfsdk:"journey_ref" tfPlanOnly:"true"`
+	EntityRef  *EntityRef  `queryParam:"inline" tfsdk:"entity_ref"`
+	JourneyRef *JourneyRef `queryParam:"inline" tfsdk:"journey_ref"`
 }

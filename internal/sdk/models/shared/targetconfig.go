@@ -11,34 +11,23 @@ import (
 // LoopConfig - contains config in case of running in loop mode
 type LoopConfig struct {
 	// a hard limit of how many times the loop is allowed to run.
-	Length *float64 `default:"the length of the array" json:"length"`
+	Length *float64 `json:"length,omitempty"`
 	// path to the array from the entity payload
 	SourcePath *string `json:"source_path,omitempty"`
 }
 
-func (l LoopConfig) MarshalJSON() ([]byte, error) {
-	return utils.MarshalJSON(l, "", false)
-}
-
-func (l *LoopConfig) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &l, "", false, false); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (o *LoopConfig) GetLength() *float64 {
-	if o == nil {
+func (l *LoopConfig) GetLength() *float64 {
+	if l == nil {
 		return nil
 	}
-	return o.Length
+	return l.Length
 }
 
-func (o *LoopConfig) GetSourcePath() *string {
-	if o == nil {
+func (l *LoopConfig) GetSourcePath() *string {
+	if l == nil {
 		return nil
 	}
-	return o.SourcePath
+	return l.SourcePath
 }
 
 type MappingAttributesType string
@@ -49,17 +38,17 @@ const (
 )
 
 type MappingAttributes struct {
-	Any              any
-	MappingAttribute *MappingAttribute
+	Any              any               `queryParam:"inline" union:"member"`
+	MappingAttribute *MappingAttribute `queryParam:"inline" union:"member"`
 
 	Type MappingAttributesType
 }
 
-func CreateMappingAttributesAny(any any) MappingAttributes {
+func CreateMappingAttributesAny(anyT any) MappingAttributes {
 	typ := MappingAttributesTypeAny
 
 	return MappingAttributes{
-		Any:  any,
+		Any:  anyT,
 		Type: typ,
 	}
 }
@@ -75,17 +64,43 @@ func CreateMappingAttributesMappingAttribute(mappingAttribute MappingAttribute) 
 
 func (u *MappingAttributes) UnmarshalJSON(data []byte) error {
 
-	var any any = nil
-	if err := utils.UnmarshalJSON(data, &any, "", true, true); err == nil {
-		u.Any = any
-		u.Type = MappingAttributesTypeAny
-		return nil
+	var candidates []utils.UnionCandidate
+
+	// Collect all valid candidates
+	var anyVar any = nil
+	if err := utils.UnmarshalJSON(data, &anyVar, "", true, nil); err == nil {
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  MappingAttributesTypeAny,
+			Value: anyVar,
+		})
 	}
 
 	var mappingAttribute MappingAttribute = MappingAttribute{}
-	if err := utils.UnmarshalJSON(data, &mappingAttribute, "", true, true); err == nil {
-		u.MappingAttribute = &mappingAttribute
-		u.Type = MappingAttributesTypeMappingAttribute
+	if err := utils.UnmarshalJSON(data, &mappingAttribute, "", true, nil); err == nil {
+		candidates = append(candidates, utils.UnionCandidate{
+			Type:  MappingAttributesTypeMappingAttribute,
+			Value: &mappingAttribute,
+		})
+	}
+
+	if len(candidates) == 0 {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for MappingAttributes", string(data))
+	}
+
+	// Pick the best candidate using multi-stage filtering
+	best := utils.PickBestUnionCandidate(candidates, data)
+	if best == nil {
+		return fmt.Errorf("could not unmarshal `%s` into any supported union types for MappingAttributes", string(data))
+	}
+
+	// Set the union type and value based on the best candidate
+	u.Type = best.Type.(MappingAttributesType)
+	switch best.Type {
+	case MappingAttributesTypeAny:
+		u.Any = best.Value.(any)
+		return nil
+	case MappingAttributesTypeMappingAttribute:
+		u.MappingAttribute = best.Value.(*MappingAttribute)
 		return nil
 	}
 
@@ -135,92 +150,92 @@ func (t TargetConfig) MarshalJSON() ([]byte, error) {
 }
 
 func (t *TargetConfig) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &t, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *TargetConfig) GetAllowFailure() *bool {
-	if o == nil {
+func (t *TargetConfig) GetAllowFailure() *bool {
+	if t == nil {
 		return nil
 	}
-	return o.AllowFailure
+	return t.AllowFailure
 }
 
-func (o *TargetConfig) GetConditionMode() any {
-	if o == nil {
+func (t *TargetConfig) GetConditionMode() any {
+	if t == nil {
 		return nil
 	}
-	return o.ConditionMode
+	return t.ConditionMode
 }
 
-func (o *TargetConfig) GetConditions() any {
-	if o == nil {
+func (t *TargetConfig) GetConditions() any {
+	if t == nil {
 		return nil
 	}
-	return o.Conditions
+	return t.Conditions
 }
 
-func (o *TargetConfig) GetID() *string {
-	if o == nil {
+func (t *TargetConfig) GetID() *string {
+	if t == nil {
 		return nil
 	}
-	return o.ID
+	return t.ID
 }
 
-func (o *TargetConfig) GetLinkbackRelationAttribute() *string {
-	if o == nil {
+func (t *TargetConfig) GetLinkbackRelationAttribute() *string {
+	if t == nil {
 		return nil
 	}
-	return o.LinkbackRelationAttribute
+	return t.LinkbackRelationAttribute
 }
 
-func (o *TargetConfig) GetLinkbackRelationTags() []string {
-	if o == nil {
+func (t *TargetConfig) GetLinkbackRelationTags() []string {
+	if t == nil {
 		return nil
 	}
-	return o.LinkbackRelationTags
+	return t.LinkbackRelationTags
 }
 
-func (o *TargetConfig) GetLoopConfig() *LoopConfig {
-	if o == nil {
+func (t *TargetConfig) GetLoopConfig() *LoopConfig {
+	if t == nil {
 		return nil
 	}
-	return o.LoopConfig
+	return t.LoopConfig
 }
 
-func (o *TargetConfig) GetMappingAttributes() []MappingAttributes {
-	if o == nil {
+func (t *TargetConfig) GetMappingAttributes() []MappingAttributes {
+	if t == nil {
 		return []MappingAttributes{}
 	}
-	return o.MappingAttributes
+	return t.MappingAttributes
 }
 
-func (o *TargetConfig) GetName() *string {
-	if o == nil {
+func (t *TargetConfig) GetName() *string {
+	if t == nil {
 		return nil
 	}
-	return o.Name
+	return t.Name
 }
 
-func (o *TargetConfig) GetRelationAttributes() []RelationAttribute {
-	if o == nil {
+func (t *TargetConfig) GetRelationAttributes() []RelationAttribute {
+	if t == nil {
 		return nil
 	}
-	return o.RelationAttributes
+	return t.RelationAttributes
 }
 
-func (o *TargetConfig) GetTargetSchema() string {
-	if o == nil {
+func (t *TargetConfig) GetTargetSchema() string {
+	if t == nil {
 		return ""
 	}
-	return o.TargetSchema
+	return t.TargetSchema
 }
 
-func (o *TargetConfig) GetTargetUnique() []string {
-	if o == nil {
+func (t *TargetConfig) GetTargetUnique() []string {
+	if t == nil {
 		return nil
 	}
-	return o.TargetUnique
+	return t.TargetUnique
 }

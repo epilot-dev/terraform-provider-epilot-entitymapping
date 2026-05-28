@@ -14,18 +14,18 @@ type GetConfigVersionRequest struct {
 	Version float64 `pathParam:"style=simple,explode=false,name=version"`
 }
 
-func (o *GetConfigVersionRequest) GetID() string {
-	if o == nil {
+func (g *GetConfigVersionRequest) GetID() string {
+	if g == nil {
 		return ""
 	}
-	return o.ID
+	return g.ID
 }
 
-func (o *GetConfigVersionRequest) GetVersion() float64 {
-	if o == nil {
+func (g *GetConfigVersionRequest) GetVersion() float64 {
+	if g == nil {
 		return 0.0
 	}
-	return o.Version
+	return g.Version
 }
 
 type GetConfigVersionResponse struct {
@@ -39,30 +39,30 @@ type GetConfigVersionResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *GetConfigVersionResponse) GetContentType() string {
-	if o == nil {
+func (g *GetConfigVersionResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetConfigVersionResponse) GetMappingConfig() *shared.MappingConfig {
-	if o == nil {
+func (g *GetConfigVersionResponse) GetMappingConfig() *shared.MappingConfig {
+	if g == nil {
 		return nil
 	}
-	return o.MappingConfig
+	return g.MappingConfig
 }
 
-func (o *GetConfigVersionResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetConfigVersionResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetConfigVersionResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetConfigVersionResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }

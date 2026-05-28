@@ -17,31 +17,31 @@ func (e Error) MarshalJSON() ([]byte, error) {
 }
 
 func (e *Error) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &e, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &e, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *Error) GetAdditionalProperties() any {
-	if o == nil {
+func (e *Error) GetAdditionalProperties() any {
+	if e == nil {
 		return nil
 	}
-	return o.AdditionalProperties
+	return e.AdditionalProperties
 }
 
-func (o *Error) GetIsSilent() *bool {
-	if o == nil {
+func (e *Error) GetIsSilent() *bool {
+	if e == nil {
 		return nil
 	}
-	return o.IsSilent
+	return e.IsSilent
 }
 
-func (o *Error) GetMessage() *string {
-	if o == nil {
+func (e *Error) GetMessage() *string {
+	if e == nil {
 		return nil
 	}
-	return o.Message
+	return e.Message
 }
 
 type MappingFailure struct {
@@ -49,16 +49,16 @@ type MappingFailure struct {
 	Target *TargetConfig `json:"target,omitempty"`
 }
 
-func (o *MappingFailure) GetError() *Error {
-	if o == nil {
+func (m *MappingFailure) GetError() *Error {
+	if m == nil {
 		return nil
 	}
-	return o.Error
+	return m.Error
 }
 
-func (o *MappingFailure) GetTarget() *TargetConfig {
-	if o == nil {
+func (m *MappingFailure) GetTarget() *TargetConfig {
+	if m == nil {
 		return nil
 	}
-	return o.Target
+	return m.Target
 }

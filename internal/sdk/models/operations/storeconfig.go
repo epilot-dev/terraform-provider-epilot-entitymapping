@@ -14,18 +14,18 @@ type StoreConfigRequest struct {
 	WithID *string `queryParam:"style=form,explode=true,name=with_id"`
 }
 
-func (o *StoreConfigRequest) GetMappingConfig() *shared.MappingConfig {
-	if o == nil {
+func (s *StoreConfigRequest) GetMappingConfig() *shared.MappingConfig {
+	if s == nil {
 		return nil
 	}
-	return o.MappingConfig
+	return s.MappingConfig
 }
 
-func (o *StoreConfigRequest) GetWithID() *string {
-	if o == nil {
+func (s *StoreConfigRequest) GetWithID() *string {
+	if s == nil {
 		return nil
 	}
-	return o.WithID
+	return s.WithID
 }
 
 type StoreConfigResponse struct {
@@ -39,30 +39,30 @@ type StoreConfigResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *StoreConfigResponse) GetContentType() string {
-	if o == nil {
+func (s *StoreConfigResponse) GetContentType() string {
+	if s == nil {
 		return ""
 	}
-	return o.ContentType
+	return s.ContentType
 }
 
-func (o *StoreConfigResponse) GetMappingConfig() *shared.MappingConfig {
-	if o == nil {
+func (s *StoreConfigResponse) GetMappingConfig() *shared.MappingConfig {
+	if s == nil {
 		return nil
 	}
-	return o.MappingConfig
+	return s.MappingConfig
 }
 
-func (o *StoreConfigResponse) GetStatusCode() int {
-	if o == nil {
+func (s *StoreConfigResponse) GetStatusCode() int {
+	if s == nil {
 		return 0
 	}
-	return o.StatusCode
+	return s.StatusCode
 }
 
-func (o *StoreConfigResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (s *StoreConfigResponse) GetRawResponse() *http.Response {
+	if s == nil {
 		return nil
 	}
-	return o.RawResponse
+	return s.RawResponse
 }

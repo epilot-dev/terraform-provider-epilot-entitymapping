@@ -8,23 +8,23 @@ type ExecuteMappingResp struct {
 	Warnings       []MappingWarning `json:"warnings,omitempty"`
 }
 
-func (o *ExecuteMappingResp) GetFailures() []MappingFailure {
-	if o == nil {
+func (e *ExecuteMappingResp) GetFailures() []MappingFailure {
+	if e == nil {
 		return nil
 	}
-	return o.Failures
+	return e.Failures
 }
 
-func (o *ExecuteMappingResp) GetMappedEntities() []any {
-	if o == nil {
+func (e *ExecuteMappingResp) GetMappedEntities() []any {
+	if e == nil {
 		return []any{}
 	}
-	return o.MappedEntities
+	return e.MappedEntities
 }
 
-func (o *ExecuteMappingResp) GetWarnings() []MappingWarning {
-	if o == nil {
+func (e *ExecuteMappingResp) GetWarnings() []MappingWarning {
+	if e == nil {
 		return nil
 	}
-	return o.Warnings
+	return e.Warnings
 }

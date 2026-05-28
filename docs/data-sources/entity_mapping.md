@@ -106,9 +106,9 @@ Read-Only:
 
 Read-Only:
 
-- `append_value_mapper` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper))
-- `copy_value_mapper` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--copy_value_mapper))
-- `set_value_mapper` (Attributes) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--set_value_mapper))
+- `append_value_mapper` (Attributes, Deprecated) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper))
+- `copy_value_mapper` (Attributes, Deprecated) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--copy_value_mapper))
+- `set_value_mapper` (Attributes, Deprecated) (see [below for nested schema](#nestedatt--targets--mapping_attributes--mapping_attribute--set_value_mapper))
 
 <a id="nestedatt--targets--mapping_attributes--mapping_attribute--append_value_mapper"></a>
 ### Nested Schema for `targets.mapping_attributes.mapping_attribute.append_value_mapper`

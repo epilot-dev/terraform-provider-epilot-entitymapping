@@ -57,10 +57,13 @@ Entity Mapping API: API Backend for mapping source entity into target entities
 
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
+<!-- $toc-max-depth=2 -->
+* [epilot-entitymapping](#epilot-entitymapping)
+  * [Installation](#installation)
+  * [Testing the provider locally](#testing-the-provider-locally)
+  * [Authentication](#authentication)
+  * [Available Resources and Data Sources](#available-resources-and-data-sources)
 
-* [Installation](#installation)
-* [Available Resources and Data Sources](#available-resources-and-data-sources)
-* [Testing the provider locally](#testing-the-provider-locally)
 <!-- End Table of Contents [toc] -->
 
 <!-- Start Installation [installation] -->
@@ -73,13 +76,14 @@ terraform {
   required_providers {
     epilot-entitymapping = {
       source  = "epilot-dev/epilot-entitymapping"
-      version = "0.9.1"
+      version = "0.10.0"
     }
   }
 }
 
 provider "epilot-entitymapping" {
-  # Configuration options
+  epilot_auth = "<YOUR_EPILOT_AUTH>" # Required
+  server_url = "..." # Optional
 }
 ```
 <!-- End Installation [installation] -->
@@ -125,6 +129,18 @@ provider_installation {
 }
 ```
 <!-- End Testing the provider locally [usage] -->
+
+<!-- Start Authentication [security] -->
+## Authentication
+
+This provider supports authentication configuration via provider configuration.
+
+Available configuration:
+
+| Provider Attribute | Description |
+|---|---|
+| `epilot_auth` | Epilot Bearer Token. |
+<!-- End Authentication [security] -->
 
 <!-- Start Available Resources and Data Sources [operations] -->
 ## Available Resources and Data Sources

@@ -14,8 +14,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/ericlagergren/decimal"
 )
 
 const (
@@ -40,8 +38,8 @@ func UnmarshalJsonFromResponseBody(body io.Reader, out interface{}, tag string) 
 	if err != nil {
 		return fmt.Errorf("error reading response body: %w", err)
 	}
-	if err := UnmarshalJSON(data, out, reflect.StructTag(tag), true, false); err != nil {
-		return fmt.Errorf("error unmarshalling json response body: %w", err)
+	if err := UnmarshalJSON(data, out, reflect.StructTag(tag), true, nil); err != nil {
+		return fmt.Errorf("error unmarshaling json response body: %w", err)
 	}
 
 	return nil
@@ -96,6 +94,26 @@ func AsSecuritySource(security interface{}) func(context.Context) (interface{}, 
 	}
 }
 
+func parseConstTag(field reflect.StructField) *string {
+	value := field.Tag.Get("const")
+
+	if value == "" {
+		return nil
+	}
+
+	return &value
+}
+
+func parseDefaultTag(field reflect.StructField) *string {
+	value := field.Tag.Get("default")
+
+	if value == "" {
+		return nil
+	}
+
+	return &value
+}
+
 func parseStructTag(tagKey string, field reflect.StructField) map[string]string {
 	tag := field.Tag.Get(tagKey)
 	if tag == "" {
@@ -127,6 +145,7 @@ func parseStructTag(tagKey string, field reflect.StructField) map[string]string 
 
 func parseParamTag(tagKey string, field reflect.StructField, defaultStyle string, defaultExplode bool) *paramTag {
 	// example `{tagKey}:"style=simple,explode=false,name=apiID"`
+	// example `{tagKey}:"inline"`
 	values := parseStructTag(tagKey, field)
 	if values == nil {
 		return nil
@@ -140,6 +159,8 @@ func parseParamTag(tagKey string, field reflect.StructField, defaultStyle string
 
 	for k, v := range values {
 		switch k {
+		case "inline":
+			tag.Inline = v == "true"
 		case "style":
 			tag.Style = v
 		case "explode":
@@ -159,8 +180,6 @@ func valToString(val interface{}) string {
 	case time.Time:
 		return v.Format(time.RFC3339Nano)
 	case big.Int:
-		return v.String()
-	case decimal.Big:
 		return v.String()
 	default:
 		return fmt.Sprintf("%v", v)
@@ -220,6 +239,21 @@ func isNil(typ reflect.Type, val reflect.Value) bool {
 	}
 
 	return false
+}
+
+func isEmptyContainer(typ reflect.Type, val reflect.Value) bool {
+	if isNil(typ, val) {
+		return true
+	}
+
+	switch typ.Kind() {
+	case reflect.Slice, reflect.Array:
+		return val.Len() == 0
+	case reflect.Map:
+		return val.Len() == 0
+	default:
+		return false
+	}
 }
 
 func contains(arr []string, str string) bool {
